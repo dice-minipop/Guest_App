@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, SectionList, SafeAreaView } from 'react-native';
 
 import CardComponent from '@/components/popUp/card';
@@ -10,6 +10,8 @@ import TopNavigation from '@/components/topNavigation/topNavigation';
 import FilterContainer from '@/components/common/filterContainer';
 import { StatusBar } from 'expo-status-bar';
 import { useGetSpaceLists } from '@/hooks/space/space';
+import { getSpaceLists } from '@/server/space/space';
+import { SpaceItem } from '@/types/space';
 
 const PopUpScreen = () => {
   // const [popUpData, setPopUpData] = useState<SpaceItem[]>([]);
@@ -17,6 +19,7 @@ const PopUpScreen = () => {
   // const getData = async () => {
   //   try {
   //     const response = await getSpaceLists();
+  //     console.log(response);
 
   //     setPopUpData(response);
   //   } catch (error) {
