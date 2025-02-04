@@ -1,43 +1,69 @@
+import Icon from '@/components/icon/icon';
+import SvgComponent from '@/components/icon/icon';
+import { colors } from '@/constants/Colors';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
           },
-          default: {},
+          android: {
+            height: 72,
+          },
+          default: {
+            borderWidth: 1,
+            borderColor: '#EEEEEE',
+          },
         }),
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="space"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '팝업공간',
+          tabBarIcon: ({ focused }) => <Icon.Space selected={focused} />,
+          tabBarActiveTintColor: colors.dark_gray,
+          tabBarInactiveTintColor: colors.light_gray,
+          tabBarLabelStyle: {
+            marginTop: 8,
+            fontSize: 12,
+            fontWeight: 'medium',
+          },
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="announcement"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: '지원공고',
+          tabBarIcon: ({ focused }) => <Icon.Announcement selected={focused} />,
+          tabBarActiveTintColor: colors.dark_gray,
+          tabBarInactiveTintColor: colors.light_gray,
+          tabBarLabelStyle: {
+            marginTop: 8,
+            fontSize: 12,
+            fontWeight: 'medium',
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="myPage"
+        options={{
+          title: '나의정보',
+          tabBarIcon: ({ focused }) => <Icon.MyPage selected={focused} />,
+          tabBarActiveTintColor: colors.dark_gray,
+          tabBarInactiveTintColor: colors.light_gray,
+          tabBarLabelStyle: {
+            marginTop: 8,
+            fontSize: 12,
+            fontWeight: 'medium',
+          },
         }}
       />
     </Tabs>

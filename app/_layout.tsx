@@ -3,37 +3,66 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
 import 'react-native-reanimated';
+import '../global.css';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Host } from 'react-native-portalize';
+import { useColorScheme } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+
+  const queryClient = new QueryClient();
+
+  const [fontsLoaded] = useFonts({
+    'Pretendard-Bold': require('../assets/fonts/Pretendard-Bold.otf'),
+    'Pretendard-SemiBold': require('../assets/fonts/Pretendard-SemiBold.otf'),
+    'Pretendard-Medium': require('../assets/fonts/Pretendard-Medium.otf'),
+    'Pretendard-Regular': require('../assets/fonts/Pretendard-Regular.otf'),
   });
 
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
+  if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <GestureHandlerRootView>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Host>
+          <QueryClientProvider client={queryClient}>
+            <StatusBar style="dark" />
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="login" options={{ headerShown: false }} />
+              <Stack.Screen name="register" options={{ headerShown: false }} />
+
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="popUpDetail/[id]" options={{ headerShown: false }} />
+              <Stack.Screen name="announcementDetail/[id]" options={{ headerShown: false }} />
+
+              <Stack.Screen name="like" options={{ headerShown: false }} />
+              <Stack.Screen name="chatBox" options={{ headerShown: false }} />
+
+              <Stack.Screen name="(terms)" options={{ headerShown: false }} />
+
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </QueryClientProvider>
+        </Host>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
