@@ -6,10 +6,11 @@ import UserInput from '@/components/userInput/userInput';
 import CustomButton from '@/components/common/customButton';
 import { useRouter } from 'expo-router';
 import Icon from '@/components/icon/icon';
+import { useLogin } from '@/hooks/auth/auth';
 
 interface FormData {
-  id: string;
-  passwd: string;
+  email: string;
+  password: string;
 }
 
 const LoginScreen = () => {
@@ -21,16 +22,22 @@ const LoginScreen = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (formData: FormData) => {
-    const { id, passwd } = formData;
-    Alert.alert('입력 데이터', `${id}, ${passwd}`);
+  const { mutateAsync: doLogin } = useLogin();
+
+  const onSubmit: SubmitHandler<FormData> = async (formData: FormData) => {
+    try {
+      await doLogin(formData);
+    } catch (error) {
+      console.error('로그인 요청 실패:', error);
+      Alert.alert('로그인 실패', '로그인 과정에서 오류가 발생했습니다.');
+    }
   };
 
   const onError = () => {
-    if (errors.id) {
-      Alert.alert('입력 오류', errors.id.message);
-    } else if (errors.passwd) {
-      Alert.alert('입력 오류', errors.passwd.message);
+    if (errors.email) {
+      Alert.alert('입력 오류', errors.email.message);
+    } else if (errors.password) {
+      Alert.alert('입력 오류', errors.password.message);
     }
   };
 
@@ -46,7 +53,7 @@ const LoginScreen = () => {
             <View className="mb-3">
               <UserInput
                 type="id"
-                name="id"
+                name="email"
                 control={control}
                 rules={{ required: '아이디를 입력해주세요' }}
               />
@@ -54,7 +61,7 @@ const LoginScreen = () => {
             <View className="mb-8">
               <UserInput
                 type="passwd"
-                name="passwd"
+                name="password"
                 control={control}
                 rules={{ required: '비밀번호를 입력해주세요' }}
               />

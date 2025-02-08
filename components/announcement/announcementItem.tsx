@@ -8,49 +8,65 @@ import { AnnouncementItem } from '@/types/announcement';
 
 import Icon from '@/components/icon/icon';
 import { colors } from '@/constants/Colors';
+import { translateTime } from '@/utils/time';
 
 interface AnnouncementItemComponentProps {
   recruitItem: AnnouncementItem;
+  toggleLike: (id: number) => void;
 }
 
-export default function RecruitItemComponent({ recruitItem }: AnnouncementItemComponentProps) {
+export default function RecruitItemComponent({
+  recruitItem,
+  toggleLike,
+}: AnnouncementItemComponentProps) {
   const router = useRouter();
 
-  const { id, city, source, title, isLiked, likeCount, target, startDate, endDate } = recruitItem;
+  const {
+    id,
+    title,
+    city,
+    district,
+    hostName,
+    target,
+    recruitmentStartAt,
+    recruitmentEndAt,
+    likeCount,
+    status,
+  } = recruitItem;
 
   return (
-    <CustomPressable onPress={() => router.push(`/announcementDetail/${id}`)} disabled={false}>
+    <CustomPressable onPress={() => router.push(`/announcement/${id}`)} disabled={false}>
       <View className="relative h-[108px] w-full rounded-xl border border-stroke p-4">
         <Pressable
-          // onPress={() => onLike(id)}
+          onPress={() => toggleLike(id)}
           className="absolute right-[6px] top-2 flex flex-col items-center my-2"
         >
           <View className="mx-[12px]">
-            {isLiked ? (
+            {/* {isLiked ? (
               <Icon.Like fill={colors.purple} stroke={colors.purple} />
             ) : (
               <Icon.Like fill="none" stroke={colors.light_gray} />
-            )}
+            )} */}
           </View>
-          <Text
+          {/* <Text
             className={`text-CAP2 font-CAP2 leading-CAP2 ${
               isLiked ? 'text-purple' : 'text-light_gray'
             }`}
           >
             {likeCount}
-          </Text>
+          </Text> */}
         </Pressable>
         <View className="flex flex-row items-center gap-0.5">
           <Text className="font-CAP1 text-CAP1 leading-CAP1 text-medium_gray">{city}</Text>
           <Text className="font-CAP1 text-CAP1 leading-CAP1 text-medium_gray">·</Text>
-          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-medium_gray">{source}</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-medium_gray">{hostName}</Text>
         </View>
         <Text className="mb-2 mt-0.5 font-SUB1 text-SUB1 leading-SUB1">{title}</Text>
         <View className="flex flex-row items-center gap-1">
           <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">{target} 대상</Text>
           <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">|</Text>
           <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">
-            {startDate} ~ {endDate}
+            {translateTime(recruitmentStartAt)} ~ {translateTime(recruitmentEndAt)}
           </Text>
         </View>
       </View>

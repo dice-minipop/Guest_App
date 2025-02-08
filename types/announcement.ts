@@ -1,13 +1,14 @@
 export interface AnnouncementItem {
   id: number;
-  city: string;
-  source: string;
   title: string;
-  isLiked: boolean;
-  likeCount: number;
+  city: string;
+  district: string;
+  hostName: string;
   target: string;
-  startDate: string;
-  endDate: string;
+  recruitmentStartAt: string;
+  recruitmentEndAt: string;
+  likeCount: number;
+  status: string;
 }
 
 export interface AnnouncementDetailItem {

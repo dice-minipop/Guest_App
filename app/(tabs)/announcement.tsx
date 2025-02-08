@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { View, SectionList, SafeAreaView } from 'react-native';
 
 import TopNavigation from '@/components/topNavigation/topNavigation';
-import ChipContainer from '@/components/common/chipContainer';
-import FilterContainer from '@/components/common/filterContainer';
+
 import AnnouncementItemComponent from '@/components/announcement/announcementItem';
 import AnnouncementHeaderComponent from '@/components/announcement/announcementHeader';
-import { AnnouncementItem } from '@/types/announcement';
-import { recruitItemDummy } from '@/constants/mocks/announcementDummyData';
 import { StatusBar } from 'expo-status-bar';
+import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
+import ChipContainer from '@/components/common/chipContainer';
+import { useToggleAnnouncementLike } from '@/hooks/like/like';
 
-const RecruitScreen = () => {
-  const [recruitItem, setRecruitItem] = useState<AnnouncementItem[]>(recruitItemDummy);
+const AnnouncementScreen = () => {
+  const { data: announcementList, refetch } = useGetAnnouncementLists();
+  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
+
   const [filteringType, setFilteringType] = useState<string>('');
 
   const chipList = ['지역', '지원대상', '모집상태'];
@@ -21,40 +23,42 @@ const RecruitScreen = () => {
   };
 
   return (
-    <View className="flex-1">
-      <StatusBar style="light" />
+    <Suspense>
+      <View className="flex-1">
+        <StatusBar style="light" />
 
-      <SafeAreaView className="flex-1 bg-black">
-        <TopNavigation />
-        <View className="flex-1 gap-y-4 bg-white">
-          <SectionList
-            sections={[{ title: 'chip', data: recruitItem }]}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View className="px-5">
-                <AnnouncementItemComponent recruitItem={item} />
-              </View>
-            )}
-            renderSectionHeader={({ section }) =>
-              section.title === 'chip' ? (
-                <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-              ) : null
-            }
-            ListHeaderComponent={<AnnouncementHeaderComponent />}
-            ListFooterComponent={<View className="h-16" />}
-            ItemSeparatorComponent={() => <View className="h-4" />}
-            bounces={false}
-          />
-        </View>
-      </SafeAreaView>
+        <SafeAreaView className="flex-1 bg-black">
+          <TopNavigation />
+          <View className="flex-1 gap-y-4 bg-white">
+            <SectionList
+              sections={[{ title: 'chip', data: announcementList.content }]}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View className="px-5">
+                  <AnnouncementItemComponent recruitItem={item} toggleLike={announcementLike} />
+                </View>
+              )}
+              renderSectionHeader={({ section }) =>
+                section.title === 'chip' ? (
+                  <ChipContainer chipList={chipList} openModal={handleFilteringType} />
+                ) : null
+              }
+              ListHeaderComponent={<AnnouncementHeaderComponent />}
+              ListFooterComponent={<View className="h-16" />}
+              ItemSeparatorComponent={() => <View className="h-4" />}
+              bounces={false}
+            />
+          </View>
+        </SafeAreaView>
 
-      <FilterContainer
+        {/* <FilterContainer
         isVisible={filteringType !== ''}
         type={filteringType}
         handleType={handleFilteringType}
-      />
-    </View>
+      /> */}
+      </View>
+    </Suspense>
   );
 };
 
-export default RecruitScreen;
+export default AnnouncementScreen;

@@ -32,11 +32,10 @@ const ChatRoomComponent: React.FC<ChatRoomComponentProps> = ({ chatRoomData, han
 
     return (
       <Reanimated.View style={styleAnimation}>
-        <Pressable
-          onPress={() => handleExitModal(chatRoomData.chatRoomId)}
-          className="flex h-full w-[74px] items-center justify-center bg-red"
-        >
-          <Text className="text-center font-SUB3 text-SUB3 leading-SUB3 text-white">나가기</Text>
+        <Pressable onPress={() => handleExitModal(chatRoomData.chatRoomId)}>
+          <View className="flex h-full w-[74px] items-center justify-center bg-red">
+            <Text className="text-center font-SUB3 text-SUB3 leading-SUB3 text-white">나가기</Text>
+          </View>
         </Pressable>
       </Reanimated.View>
     );
@@ -44,45 +43,44 @@ const ChatRoomComponent: React.FC<ChatRoomComponentProps> = ({ chatRoomData, han
 
   return (
     <ReanimatedSwipeable renderRightActions={RightAction} overshootRight={false}>
-      <Pressable
-        onPress={() => router.push(`/chatRoom/${chatRoomData.chatRoomId}`)}
-        className="flex flex-row justify-between px-5 py-[15.5px]"
-      >
-        <View className="flex flex-row">
-          <View className="relative mr-3">
-            <Image
-              source={{ uri: chatRoomData.storeImage }}
-              className="h-[50px] w-[50px] rounded-lg"
-            />
+      <Pressable onPress={() => router.push(`/chatRoom/${chatRoomData.chatRoomId}`)}>
+        <View className="flex flex-row justify-between px-5 py-[15.5px]">
+          <View className="flex flex-row">
+            <View className="relative mr-3">
+              <Image
+                source={{ uri: chatRoomData.storeImage }}
+                className="h-[50px] w-[50px] rounded-lg"
+              />
 
-            <Image
-              source={{ uri: chatRoomData.adminImage }}
-              className="absolute -bottom-2 -right-2 h-8 w-8"
-            />
-          </View>
+              <Image
+                source={{ uri: chatRoomData.adminImage }}
+                className="absolute -bottom-2 -right-2 h-8 w-8"
+              />
+            </View>
 
-          <View>
-            <Text className="font-SUB3 text-SUB3 leading-SUB3 text-dark_gray">
-              {chatRoomData.name}
-            </Text>
-            <Text className="font-BODY2 text-BODY2 leading-BODY2 text-medium_gray">
-              {chatRoomData.lastContent}
-            </Text>
-          </View>
-        </View>
-
-        <View className="flex flex-col items-end justify-between">
-          <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">
-            {chatRoomData.createdAt}
-          </Text>
-
-          {chatRoomData.notReadCount !== 0 && (
-            <View className="rounded-full bg-red px-1.5 py-1">
-              <Text className="font-CAP2 text-CAP2 leading-CAP2 text-white">
-                {chatRoomData.notReadCount > 999 ? '999+' : chatRoomData.notReadCount}
+            <View>
+              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-dark_gray">
+                {chatRoomData.name}
+              </Text>
+              <Text className="font-BODY2 text-BODY2 leading-BODY2 text-medium_gray">
+                {chatRoomData.lastContent}
               </Text>
             </View>
-          )}
+          </View>
+
+          <View className="flex flex-col items-end justify-between">
+            <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">
+              {chatRoomData.createdAt}
+            </Text>
+
+            {chatRoomData.notReadCount !== 0 && (
+              <View className="rounded-full bg-red px-1.5 py-1">
+                <Text className="font-CAP2 text-CAP2 leading-CAP2 text-white">
+                  {chatRoomData.notReadCount > 999 ? '999+' : chatRoomData.notReadCount}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
       </Pressable>
     </ReanimatedSwipeable>

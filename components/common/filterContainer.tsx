@@ -9,11 +9,14 @@ import PriceFilterComponent from '@/components/popUp/filter/priceFilter';
 import RegionFilterComponent from '@/components/popUp/filter/regionFilter';
 import PeopleFilterComponent from '@/components/popUp/filter/peopleFilter';
 import Icon from '../icon/icon';
+import { SpaceItem } from '@/types/space';
+import { getFilteredSpaceLists } from '@/server/space/space';
 
 interface FilterContainerProps {
   isVisible: boolean;
   type: string;
   handleType: (text: string) => void;
+  setSpaceList: React.Dispatch<React.SetStateAction<SpaceItem[]>>;
 }
 
 type FilterComponent = {
@@ -21,7 +24,12 @@ type FilterComponent = {
   component: ReactNode;
 };
 
-const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, handleType }) => {
+const FilterContainer: React.FC<FilterContainerProps> = ({
+  isVisible,
+  type,
+  handleType,
+  setSpaceList,
+}) => {
   const { filtering, setFiltering, clearFiltering } = useFilteringStore();
 
   const filterComponents: FilterComponent[] = [
@@ -56,6 +64,21 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
     const index = Math.floor(contentOffsetY / 200);
     if (index !== activeIndex) {
       setActiveIndex(index);
+    }
+  };
+
+  console.log(filtering);
+
+  const getFilteredData = async () => {
+    console.log('클릭됨');
+    try {
+      const response = await getFilteredSpaceLists(filtering);
+
+      console.log(response);
+      setSpaceList(response);
+      handleType('');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -153,7 +176,10 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                 <Text className="text-center font-BTN1 text-BTN1 text-black">초기화</Text>
               </Pressable>
 
-              <Pressable className="flex-1 rounded-lg bg-black px-4 py-[15.5px]">
+              <Pressable
+                onPress={() => getFilteredData()}
+                className="flex-1 rounded-lg bg-black px-4 py-[15.5px]"
+              >
                 <Text className="text-center font-BTN1 text-BTN1 text-white">필터 결과 보기</Text>
               </Pressable>
             </View>

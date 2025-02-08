@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { View, FlatList, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 
-// import { dummyData } from "./dummyData";
-
 import ChatComponent from '@/components/chatRoom/chat';
 import HeaderComponent from '@/components/chatRoom/header';
 import FooterComponent from '@/components/chatRoom/footer';
 
 import { useLocalSearchParams } from 'expo-router';
+import { dummyData } from '@/constants/mocks/chatDummyData';
 
 const ChatRoomScreen = () => {
   const { id } = useLocalSearchParams();
 
-  //   const [chatData] = useState(dummyData);
+  const [chatData] = useState(dummyData);
 
   return (
     <SafeAreaView className={`flex-1 bg-white`}>

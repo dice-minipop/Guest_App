@@ -100,6 +100,44 @@ const Icon = {
         </Defs>
       </Svg>
     ),
+  Reserve: ({ selected }: IconProps) =>
+    selected ? (
+      <Svg width={25} height={24} fill="none">
+        <Path
+          fill="#333"
+          fillRule="evenodd"
+          d="M4.051 7.88 2.093 16l-.188.76a1 1 0 0 0 .97 1.24h5.18l-1.792-1.804A1 1 0 0 1 6 15.732l-1.95-7.851Z"
+          clipRule="evenodd"
+        />
+        <Path
+          fill="#000"
+          fillRule="evenodd"
+          d="M5.856 6a1 1 0 0 0-.97 1.241l2.108 8.491a1 1 0 0 0 .262.464l1.5 1.509a1 1 0 0 0 .708.295h11.503a1 1 0 0 0 .802-.402l.908-1.219a1 1 0 0 0 .168-.838l-2.181-8.782a1 1 0 0 0-.97-.759H5.855Zm11.104 4.526a.703.703 0 0 0 .063-.988.692.692 0 0 0-.982-.063l-2.928 2.593-1.121-.993a.693.693 0 0 0-.982.063.703.703 0 0 0 .063.988l1.58 1.4a.692.692 0 0 0 .92 0l3.387-3Z"
+          clipRule="evenodd"
+        />
+      </Svg>
+    ) : (
+      <Svg width={25} height={24} fill="none">
+        <Path
+          fill="#CCC"
+          fillRule="evenodd"
+          d="M4.043 7.881 2.093 16l-.188.76a1 1 0 0 0 .97 1.24h5.156l-1.786-1.804a1 1 0 0 1-.15-.196H4.15l.936-3.9L4.043 7.88Z"
+          clipRule="evenodd"
+        />
+        <Path
+          stroke="#CCC"
+          strokeWidth={2}
+          d="M5.844 7h13.774l2.173 8.783L20.887 17H9.437l-1.492-1.508L5.844 7Z"
+        />
+        <Path
+          stroke="#CCC"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.4}
+          d="M11.494 11.6 13.07 13l3.374-3"
+        />
+      </Svg>
+    ),
   MyPage: ({ selected }: IconProps) =>
     selected ? (
       <Svg width={24} height={24} fill="none">
@@ -406,6 +444,70 @@ const Icon = {
       <Defs>
         <ClipPath id="a">
           <Path fill="#fff" d="M0 0h40v46H0z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  ),
+  Siren: () => (
+    <Svg width={24} height={24} fill="none">
+      <Mask id="a" fill="#fff">
+        <Path
+          fillRule="evenodd"
+          d="M6.293 10.207a1 1 0 0 0-.293.707V16.5a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5.586a1 1 0 0 0-.293-.707l-2.914-2.914A1 1 0 0 0 14.086 7H9.914a1 1 0 0 0-.707.293l-2.914 2.914ZM5 18a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1H5Z"
+          clipRule="evenodd"
+        />
+      </Mask>
+      <Path
+        fill="#AAA"
+        d="M6.293 10.207 4.879 8.793l1.414 1.414Zm11.414 0-1.414 1.414 1.414-1.414Zm-2.914-2.914-1.414 1.414 1.414-1.414Zm-5.586 0 1.414 1.414-1.414-1.414ZM8 10.914a1 1 0 0 1-.293.707L4.88 8.793A3 3 0 0 0 4 10.914h4ZM8 16.5v-5.586H4V16.5h4Zm-1-1a1 1 0 0 1 1 1H4a3 3 0 0 0 3 3v-4Zm10 0H7v4h10v-4Zm-1 1a1 1 0 0 1 1-1v4a3 3 0 0 0 3-3h-4Zm0-5.586V16.5h4v-5.586h-4Zm.293.707a1 1 0 0 1-.293-.707h4a3 3 0 0 0-.879-2.121l-2.828 2.828Zm-2.914-2.914 2.914 2.914 2.828-2.828-2.914-2.914-2.828 2.828Zm.707.293a1 1 0 0 1-.707-.293l2.828-2.828A3 3 0 0 0 14.086 5v4ZM9.914 9h4.172V5H9.914v4Zm.707-.293A1 1 0 0 1 9.914 9V5a3 3 0 0 0-2.121.879l2.828 2.828Zm-2.914 2.914 2.914-2.914L7.793 5.88 4.879 8.793l2.828 2.828ZM6 19a1 1 0 0 1-1 1v-4a3 3 0 0 0-3 3h4Zm0 1v-1H2v1h4Zm-1-1a1 1 0 0 1 1 1H2a3 3 0 0 0 3 3v-4Zm14 0H5v4h14v-4Zm-1 1a1 1 0 0 1 1-1v4a3 3 0 0 0 3-3h-4Zm0-1v1h4v-1h-4Zm1 1a1 1 0 0 1-1-1h4a3 3 0 0 0-3-3v4ZM5 20h14v-4H5v4Z"
+        mask="url(#a)"
+      />
+      <Path
+        stroke="#AAA"
+        strokeLinecap="round"
+        strokeWidth={2}
+        d="M12 5V3M17.5 7.5l2-2M6.5 7.5l-2-2"
+      />
+    </Svg>
+  ),
+  Plus: () => (
+    <Svg width={24} height={24} fill="none">
+      <G clipPath="url(#a)">
+        <Circle cx={12} cy={12} r={10} fill="#D9D9D9" />
+        <Path stroke="#fff" strokeLinecap="round" strokeWidth={2} d="M12 8v8m4-4H8" />
+      </G>
+      <Defs>
+        <ClipPath id="a">
+          <Path fill="#fff" d="M0 0h24v24H0z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  ),
+  Camera: () => (
+    <Svg width={32} height={33} fill="none">
+      <Rect width={31} height={31} x={0.5} y={1} fill="#F4F4F4" rx={15.5} />
+      <Rect width={31} height={31} x={0.5} y={1} stroke="#EEE" rx={15.5} />
+      <Circle cx={16} cy={17.5} r={3} fill="#666" />
+      <Path
+        fill="#666"
+        fillRule="evenodd"
+        d="M12.852 7.723a.5.5 0 0 1 .416-.223h5.464a.5.5 0 0 1 .416.223L20.333 9.5h3.253a1 1 0 0 1 .707.293l1.414 1.414a1 1 0 0 1 .293.707v11.172a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H8.414a1 1 0 0 1-.707-.293l-1.414-1.414A1 1 0 0 1 6 23.086V11.914a1 1 0 0 1 .293-.707l1.414-1.414a1 1 0 0 1 .707-.293h3.253l1.185-1.777ZM16 22.5a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm6-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+        clipRule="evenodd"
+      />
+    </Svg>
+  ),
+  Pencil: () => (
+    <Svg width={48} height={48} fill="none">
+      <G clipPath="url(#a)">
+        <Path
+          stroke="#fff"
+          strokeWidth={2}
+          d="m30.2 14.273-.482.876 2.046 1.128 1.128 2.046-.854 1.922-11.107 11.108-5.935 1.692 1.692-5.935 11.108-11.107 1.922-.854.483-.876Z"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="a">
+          <Path fill="#fff" d="M12 12h24v24H12z" />
         </ClipPath>
       </Defs>
     </Svg>
