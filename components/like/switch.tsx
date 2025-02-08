@@ -21,7 +21,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({ type, handleType }) =
     handleType();
 
     Animated.timing(translateX, {
-      toValue: type === 'recruit' ? 0 : 70,
+      toValue: type === 'announcement' ? 0 : 70,
       duration: 200,
       useNativeDriver: true,
     }).start();
@@ -33,7 +33,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({ type, handleType }) =
       onLayout={handleLayout}
       style={{ left: (width - switchWidth) / 2 }}
       className={`absolute flex flex-row items-center rounded-full bg-black p-1 ${
-        type === 'popUp' ? 'text-black' : 'text-white'
+        type === 'space' ? 'text-black' : 'text-white'
       }`}
     >
       <Animated.View
@@ -42,11 +42,11 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({ type, handleType }) =
         }}
         className="absolute left-1 top-1 h-full w-1/2 rounded-full bg-white"
       />
-      <Text className={`${type === 'popUp' ? 'text-black' : 'text-white'} p-3 font-BTN1 text-BTN1`}>
+      <Text className={`${type === 'space' ? 'text-black' : 'text-white'} p-3 font-BTN1 text-BTN1`}>
         찜한공간
       </Text>
       <Text
-        className={`${type === 'recruit' ? 'text-black' : 'text-white'} p-3 font-BTN1 text-BTN1`}
+        className={`${type === 'announcement' ? 'text-black' : 'text-white'} p-3 font-BTN1 text-BTN1`}
       >
         찜한공고
       </Text>

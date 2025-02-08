@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Pressable, SafeAreaView } from 'react-native';
 import { useLoggedInStore } from '@/zustands/member/store';
 
 import CustomButton from '@/components/common/customButton';
 import { useRouter } from 'expo-router';
 import Icon from '@/components/icon/icon';
+import { setAccessToken } from '@/utils/token';
 
 // import Logo from "@assets/topNavigation/logo-black.svg";
 
@@ -16,6 +17,16 @@ const HomeScreen = () => {
     router.push('/(tabs)/space');
     setIsLoggedIn(true);
   };
+
+  useEffect(() => {
+    const setAT = async () => {
+      await setAccessToken(
+        `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMDBAZW1haWwuY29tIiwiZXhwIjoxNzQyMTAyMDU2LCJpYXQiOjE3MzkwMTU2NTZ9.bpdqma5tij_sCVDiN3UUVoyM-LAG4FEdpJ00EOXKRhk`,
+      );
+    };
+
+    setAT();
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

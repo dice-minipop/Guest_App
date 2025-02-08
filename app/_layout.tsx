@@ -49,11 +49,14 @@ export default function RootLayout() {
               <Stack.Screen name="register" options={{ headerShown: false }} />
 
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="popUpDetail/[id]" options={{ headerShown: false }} />
-              <Stack.Screen name="announcementDetail/[id]" options={{ headerShown: false }} />
+              <Stack.Screen name="space/[id]" options={{ headerShown: false }} />
+              <Stack.Screen name="announcement/[id]" options={{ headerShown: false }} />
+
+              <Stack.Screen name="(myPage)" options={{ headerShown: false }} />
 
               <Stack.Screen name="like" options={{ headerShown: false }} />
               <Stack.Screen name="chatBox" options={{ headerShown: false }} />
+              <Stack.Screen name="chatRoom" options={{ headerShown: false }} />
 
               <Stack.Screen name="(terms)" options={{ headerShown: false }} />
 

@@ -53,6 +53,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="reservation"
+        options={{
+          title: '예약관리',
+          tabBarIcon: ({ focused }) => <Icon.Reserve selected={focused} />,
+          tabBarActiveTintColor: colors.dark_gray,
+          tabBarInactiveTintColor: colors.light_gray,
+          tabBarLabelStyle: {
+            marginTop: 8,
+            fontSize: 12,
+            fontWeight: 'medium',
+          },
+        }}
+      />
+      <Tabs.Screen
         name="myPage"
         options={{
           title: '나의정보',

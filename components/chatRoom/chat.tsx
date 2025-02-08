@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { ChatData } from '@screens/chatRoom/dummyData';
+import { ChatItem } from '@/constants/mocks/chatDummyData';
 
 interface ChatComponentProps {
-  chatData: ChatData;
+  chatData: ChatItem;
 }
 
 const ChatComponent: React.FC<ChatComponentProps> = ({ chatData }) => {

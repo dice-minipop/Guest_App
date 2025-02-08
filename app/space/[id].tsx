@@ -12,10 +12,10 @@ import {
 
 import DateModalComponent from '@/components/popUpDetail/dateModal';
 
-import { makeCall } from '@/utils/phoneCall';
+import { makeCall, makeMessage } from '@/utils/phoneCall';
 import { openWebSite } from '@/utils/website';
 
-import { useToggleLike } from '@/hooks/like/like';
+import { useToggleSpaceLike } from '@/hooks/like/like';
 import { router, useLocalSearchParams } from 'expo-router';
 import Icon from '@/components/icon/icon';
 import {
@@ -25,6 +25,7 @@ import {
 } from '@mj-studio/react-native-naver-map';
 import { copyText } from '@/utils/clipboard';
 import { useGetSpaceDetailData } from '@/hooks/space/space';
+import { colors } from '@/constants/Colors';
 
 const PopUpDetailScreen = () => {
   const { id } = useLocalSearchParams();
@@ -33,47 +34,7 @@ const PopUpDetailScreen = () => {
 
   const mapRef = useRef<NaverMapViewRef>(null);
 
-  // const [detailData, setDetailData] = useState<SpaceDetailItem>({
-  //   id: 0,
-  //   name: 'string',
-  //   description: 'string',
-  //   imageUrls: [],
-  //   category: 'GALLERY',
-  //   openingTime: '10:00:00',
-  //   closingTime: '10:00:00',
-  //   capacity: 0,
-  //   tags: [],
-  //   pricePerDay: 0,
-  //   discountRate: 0,
-  //   details: 'string',
-  //   latitude: 0,
-  //   longitude: 0,
-  //   city: 'string',
-  //   district: 'string',
-  //   address: 'string',
-  //   websiteUrl: 'string',
-  //   contactNumber: 'string',
-  //   facilityInfo: 'string',
-  //   notice: 'string',
-  //   likeCount: 0,
-  // });
-
-  // const getData = async () => {
-  //   try {
-  //     const response = await getSpaceDetailData(Number(id));
-  //     setDetailData(response);
-
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  const { data } = useGetSpaceDetailData(Number(id));
+  const { data, refetch } = useGetSpaceDetailData(Number(id));
 
   const [currentIndex, setCurrentIndex] = useState<number>(1);
 
@@ -86,7 +47,7 @@ const PopUpDetailScreen = () => {
   const [isFullDescription, setIsFullDescription] = useState<boolean>(true);
   const [numOfUsageInformation, setNumOfUsageInformation] = useState<number>(3);
 
-  const { mutateAsync: spaceLike } = useToggleLike();
+  const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch);
 
   const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
@@ -155,7 +116,11 @@ const PopUpDetailScreen = () => {
               </View>
 
               <Pressable onPress={() => spaceLike(data.id)} className="flex flex-col items-center">
-                {/* {data.isLiked ? <FilledLikeIcon /> : <LikeIcon />} */}
+                {true ? (
+                  <Icon.Like fill={colors.purple} stroke={colors.purple} />
+                ) : (
+                  <Icon.Like fill="none" stroke={colors.light_gray} />
+                )}
                 <Text className="font-CAP2 text-CAP2 leading-CAP2 text-semiLight_gray">
                   {data.likeCount}
                 </Text>
@@ -346,7 +311,10 @@ const PopUpDetailScreen = () => {
             <Icon.Phone />
           </Pressable>
 
-          <Pressable onPress={() => {}} className="rounded-lg border border-stroke p-3.5">
+          <Pressable
+            onPress={() => makeMessage(data.contactNumber)}
+            className="rounded-lg border border-stroke p-3.5"
+          >
             <Icon.FilledSend />
           </Pressable>
 

@@ -7,7 +7,7 @@ const HeaderComponent: React.FC = () => {
   const router = useRouter();
 
   return (
-    <View className="gap-y-8 bg-white pb-6">
+    <View className="gap-y-8 bg-white pb-6 border-b border-b-stroke mb-6">
       <Pressable onPress={() => router.back()} className="ml-[3px] flex self-start p-3">
         <Icon.BlackLeftArrow />
       </Pressable>

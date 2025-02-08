@@ -40,9 +40,7 @@ const ChatBoxScreen = () => {
           keyExtractor={(item) => item.chatRoomId.toString()}
           // 아이템들을 렌더링하는 메서드
           renderItem={({ item }) => (
-            <View className="px-5">
-              <ChatRoomComponent chatRoomData={item} handleExitModal={handleExitModal} />
-            </View>
+            <ChatRoomComponent chatRoomData={item} handleExitModal={handleExitModal} />
           )}
           // FlatList의 최상단에 렌더링되는 Header 아이템
           ListHeaderComponent={<HeaderComponent />}

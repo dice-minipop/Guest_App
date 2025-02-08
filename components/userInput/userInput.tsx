@@ -7,7 +7,7 @@ import { Path, Control, Controller, FieldValues, RegisterOptions } from 'react-h
 // import EyeOff from '@assets/input/eye-off.svg';
 
 interface UserInputProps<T extends FieldValues> extends TextInputProps {
-  type: 'id' | 'passwd' | 'passwd_check' | 'name' | 'email' | 'phone' | 'auth';
+  type: 'id' | 'passwd' | 'passwd_check' | 'name' | 'email' | 'phone' | 'auth' | 'password';
   name: Path<T>;
   control: Control<T>;
   rules?: RegisterOptions<T>;
@@ -20,6 +20,7 @@ const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserIn
   const placeholder = {
     id: '아이디를 입력해주세요',
     passwd: '비밀번호를 입력해주세요',
+    password: '비밀번호를 입력해주세요',
     passwd_check: '비밀번호를 한 번 더 입력해주세요',
     name: '이름을 입력해주세요',
     email: '예: popupdice',
