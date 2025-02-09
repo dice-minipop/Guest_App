@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
-import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 import { regionItems } from './regionData';
 
 const RegionFilterComponent = () => {
-  const { filtering, setFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering } = useAnnouncementFilteringStore();
 
   const handleCity = (newCity: string) => {
     if (filtering.city === newCity) {

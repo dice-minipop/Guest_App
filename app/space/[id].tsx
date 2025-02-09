@@ -51,6 +51,8 @@ const PopUpDetailScreen = () => {
 
   const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
+  console.log(data);
+
   return (
     <View className="flex-1">
       <SafeAreaView className="flex-1 bg-black">

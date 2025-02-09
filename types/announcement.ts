@@ -23,3 +23,10 @@ export interface AnnouncementDetailItem {
   endDate: string;
   information: string;
 }
+
+export interface AnnouncementFilterDTO {
+  city: string;
+  district: string;
+  targets: string[];
+  status: string;
+}
