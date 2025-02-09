@@ -61,12 +61,11 @@ const SpaceScreen = () => {
           </View>
         </SafeAreaView>
 
-        {/* <FilterContainer
+        <FilterContainer
           isVisible={filteringType !== ''}
           type={filteringType}
           handleType={handleFilteringType}
-          setSpaceList={setSpaceList}
-        /> */}
+        />
       </View>
     </Suspense>
   );

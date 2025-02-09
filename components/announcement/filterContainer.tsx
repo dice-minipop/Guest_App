@@ -1,14 +1,13 @@
 import { Portal } from 'react-native-portalize';
 import React, { useRef, useState, ReactNode } from 'react';
-import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 import { Text, View, FlatList, Pressable } from 'react-native';
 
-import HeaderComponent from '@/components/popUp/filter/header';
-import SortFilterComponent from '@/components/popUp/filter/sortFilter';
-import PriceFilterComponent from '@/components/popUp/filter/priceFilter';
-import RegionFilterComponent from '@/components/popUp/filter/regionFilter';
-import PeopleFilterComponent from '@/components/popUp/filter/peopleFilter';
 import Icon from '../icon/icon';
+import RegionFilterComponent from './filter/regionFilter';
+import TargetFilterComponent from './filter/targetFilter';
+import StatusFilterComponent from './filter/statusFilter';
+import HeaderComponent from './filter/header';
 
 interface FilterContainerProps {
   isVisible: boolean;
@@ -22,18 +21,13 @@ type FilterComponent = {
 };
 
 const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, handleType }) => {
-  const { filtering, setFiltering, clearFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering, clearFiltering } = useAnnouncementFilteringStore();
 
   const filterComponents: FilterComponent[] = [
     { key: 'region', component: <RegionFilterComponent /> },
-    { key: 'price', component: <PriceFilterComponent /> },
-    { key: 'people', component: <PeopleFilterComponent /> },
-    { key: 'sort', component: <SortFilterComponent /> },
+    { key: 'target', component: <TargetFilterComponent /> },
+    { key: 'status', component: <StatusFilterComponent /> },
   ];
-
-  const handlePrice = (min: number, max: number) => {
-    return min / 10000 + '~' + max / 10000 + '만원';
-  };
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const flatListRef = useRef<FlatList>(null);
@@ -108,7 +102,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                 </Pressable>
               )}
 
-              {!(filtering.minPrice === 0 && filtering.maxPrice === 300000) && (
+              {/* {filtering.targets.length !== 0 && (
                 <Pressable
                   onPress={() => setFiltering({ minPrice: 0, maxPrice: 300000 })}
                   className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
@@ -118,27 +112,15 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                   </Text>
                   <Icon.Delete />
                 </Pressable>
-              )}
+              )} */}
 
-              {filtering.maxCapacity !== 0 && (
+              {filtering.status !== '' && (
                 <Pressable
-                  onPress={() => setFiltering({ maxCapacity: 0 })}
+                  onPress={() => setFiltering({ status: '' })}
                   className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
                 >
                   <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    최대 {filtering.maxCapacity}명
-                  </Text>
-                  <Icon.Delete />
-                </Pressable>
-              )}
-
-              {filtering.sortBy !== '' && (
-                <Pressable
-                  onPress={() => setFiltering({ sortBy: '' })}
-                  className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
-                >
-                  <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    {filtering.sortBy}
+                    {filtering.status}
                   </Text>
                   <Icon.Delete />
                 </Pressable>

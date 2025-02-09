@@ -4,11 +4,11 @@ import { Text, View, Pressable } from 'react-native';
 import CustomPressable from '@/components/common/customPressable';
 
 import { useRouter } from 'expo-router';
-import { AnnouncementItem } from '@/types/announcement';
 
 import Icon from '@/components/icon/icon';
 import { colors } from '@/constants/Colors';
 import { translateTime } from '@/utils/time';
+import { AnnouncementItem } from '@/server/announcement/response';
 
 interface AnnouncementItemComponentProps {
   recruitItem: AnnouncementItem;
@@ -31,6 +31,7 @@ export default function RecruitItemComponent({
     recruitmentStartAt,
     recruitmentEndAt,
     likeCount,
+    isLiked,
     status,
   } = recruitItem;
 
@@ -42,19 +43,19 @@ export default function RecruitItemComponent({
           className="absolute right-[6px] top-2 flex flex-col items-center my-2"
         >
           <View className="mx-[12px]">
-            {/* {isLiked ? (
+            {isLiked ? (
               <Icon.Like fill={colors.purple} stroke={colors.purple} />
             ) : (
               <Icon.Like fill="none" stroke={colors.light_gray} />
-            )} */}
+            )}
           </View>
-          {/* <Text
+          <Text
             className={`text-CAP2 font-CAP2 leading-CAP2 ${
               isLiked ? 'text-purple' : 'text-light_gray'
             }`}
           >
             {likeCount}
-          </Text> */}
+          </Text>
         </Pressable>
         <View className="flex flex-row items-center gap-0.5">
           <Text className="font-CAP1 text-CAP1 leading-CAP1 text-medium_gray">{city}</Text>

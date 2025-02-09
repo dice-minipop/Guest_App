@@ -1,12 +1,12 @@
 import RangeSlider from 'rn-range-slider';
 import { Text, View } from 'react-native';
 import React, { useCallback } from 'react';
-import { useFilteringStore } from '@/zustands/filter/store';
+import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 import Icon from '@/components/icon/icon';
 
 const PeopleFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useFilteringStore();
+  const { filtering, setFiltering } = useSpaceFilteringStore();
 
   const handleValue = useCallback((num: number) => {
     setFiltering({ maxCapacity: num });

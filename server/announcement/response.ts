@@ -10,6 +10,7 @@ export interface AnnouncementItem {
   recruitmentStartAt: string;
   recruitmentEndAt: string;
   likeCount: number;
+  isLiked: boolean;
   status: string;
 }
 

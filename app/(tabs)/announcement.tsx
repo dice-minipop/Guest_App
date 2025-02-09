@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { View, SectionList, SafeAreaView } from 'react-native';
 
 import TopNavigation from '@/components/topNavigation/topNavigation';
@@ -9,8 +9,11 @@ import { StatusBar } from 'expo-status-bar';
 import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
 import ChipContainer from '@/components/common/chipContainer';
 import { useToggleAnnouncementLike } from '@/hooks/like/like';
+import FilterContainer from '@/components/announcement/filterContainer';
+import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 const AnnouncementScreen = () => {
+  const { filtering } = useAnnouncementFilteringStore();
   const { data: announcementList, refetch } = useGetAnnouncementLists();
   const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
 
@@ -21,6 +24,11 @@ const AnnouncementScreen = () => {
   const handleFilteringType = (type: string) => {
     setFilteringType(type);
   };
+
+  useEffect(() => {
+    refetch();
+    console.log(announcementList);
+  }, [filtering, refetch]);
 
   return (
     <Suspense>
@@ -51,11 +59,11 @@ const AnnouncementScreen = () => {
           </View>
         </SafeAreaView>
 
-        {/* <FilterContainer
-        isVisible={filteringType !== ''}
-        type={filteringType}
-        handleType={handleFilteringType}
-      /> */}
+        <FilterContainer
+          isVisible={filteringType !== ''}
+          type={filteringType}
+          handleType={handleFilteringType}
+        />
       </View>
     </Suspense>
   );

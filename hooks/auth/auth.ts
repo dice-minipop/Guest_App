@@ -49,6 +49,8 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
     onSuccess: async (response: LoginResponse) => {
+      console.log(response.token.accessToken);
+
       await setAccessToken(response.token.accessToken);
       await setRefreshToken(response.token.refreshToken);
 
