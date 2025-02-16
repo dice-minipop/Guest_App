@@ -1,13 +1,13 @@
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View, Pressable, SafeAreaView } from 'react-native';
-import { useLoggedInStore } from '@/zustands/member/store';
 
-import { deleteToken } from '@/utils/token';
-import { useRouter } from 'expo-router';
 import Icon from '@/components/icon/icon';
 import { useGetGuestInfo } from '@/hooks/guest/guest';
 import { logout } from '@/server/auth/auth';
-import { StatusBar } from 'expo-status-bar';
+import { deleteToken } from '@/utils/token';
+import { useLoggedInStore } from '@/zustands/member/store';
 
 const MyPageScreen = () => {
   const router = useRouter();
@@ -91,9 +91,6 @@ const MyPageScreen = () => {
         <View className="bg-white flex-1 gap-y-6 pt-6">
           <View className="px-5">
             <Pressable onPress={() => router.push('/like')} className="py-3">
-              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">예약한 공간</Text>
-            </Pressable>
-            <Pressable onPress={() => router.push('/like')} className="py-3">
               <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">찜한 목록</Text>
             </Pressable>
             {/* <Pressable onPress={() => router.push('/chatBox')} className="py-3">
@@ -122,8 +119,16 @@ const MyPageScreen = () => {
           <View className="mx-5 h-[1px] bg-stroke" />
 
           <View className="px-5">
-            <Pressable onPress={handleLogout} className="py-2.5">
+            <Pressable onPress={handleLogout} className="py-3">
               <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">로그아웃</Text>
+            </Pressable>
+          </View>
+
+          <View className="h-2 bg-back_gray" />
+
+          <View className="px-5">
+            <Pressable onPress={() => router.push('/(myPage)/withdraw')} className="py-3">
+              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">탈퇴하기</Text>
             </Pressable>
           </View>
         </View>

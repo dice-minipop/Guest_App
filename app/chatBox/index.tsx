@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { View, FlatList, SafeAreaView } from 'react-native';
 
-import { dummyData } from '@/constants/mocks/chatBoxDummyData';
-
-import HeaderComponent from '@/components/chatBox/header';
 import ChatRoomComponent from '@/components/chatBox/chatRoom';
+import HeaderComponent from '@/components/chatBox/header';
 import CustomTwoBtnModal from '@/components/common/customTwoBtnModal';
+import { dummyData } from '@/constants/mocks/chatBoxDummyData';
 
 const ChatBoxScreen = () => {
   const [chatRoomData, setChatRoomData] = useState(dummyData);

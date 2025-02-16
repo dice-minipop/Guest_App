@@ -4,6 +4,7 @@
  */
 
 export const colors = {
+  white: '#FFFFFF',
   // Primary Color
   DEFAULT: '#000000',
 

@@ -1,6 +1,5 @@
-import Icon from '@/components/icon/icon';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -11,14 +10,33 @@ import {
   View,
 } from 'react-native';
 
+import CustomModal from '@/components/common/customModal';
+import Icon from '@/components/icon/icon';
+import PasswordInputComponent from '@/components/myPage/passwordInput';
+
 const ResetPasswordScreen = () => {
   const router = useRouter();
 
-  const [brandData, setBrandData] = useState({
-    brandName: '',
-    brandDescription: '',
-    brandImageList: [],
-  });
+  const [currentPassword, setCurrentPassword] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [newPasswordCheck, setNewPasswordCheck] = useState<string>('');
+
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      currentPassword !== '' &&
+      newPassword !== '' &&
+      newPasswordCheck !== '' &&
+      newPassword === newPasswordCheck
+    ) {
+      setIsComplete(true);
+    } else {
+      setIsComplete(false);
+    }
+  }, [currentPassword, newPassword, newPasswordCheck]);
+
+  const [isCompleteModalVisible, setIsCompleteModalVisible] = useState<boolean>(false);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -28,66 +46,53 @@ const ResetPasswordScreen = () => {
         </Pressable>
 
         <Text className="absolute left-1/2 -translate-x-1/2 text-SUB3 font-SUB3 leading-SUB3">
-          나의 브랜드 프로필 편집
+          비밀번호 재설정
         </Text>
-
-        <Pressable className="px-5 py-3.5">
-          <Text className="text-BTN1 font-BTN1 leading-BTN1">완료</Text>
-        </Pressable>
       </View>
 
       <View onTouchEnd={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView className="gap-y-8" onTouchEnd={(e) => e.stopPropagation()}>
-          <View className="w-screen h-[291px] bg-black flex justify-center items-center">
-            <Pressable className="p-4">
-              <Icon.Camera />
-            </Pressable>
+          <View className="gap-y-6 pt-8">
+            <PasswordInputComponent
+              title="현재 비밀번호"
+              value={currentPassword}
+              handleValue={(text: string) => setCurrentPassword(text)}
+              placeholder="비밀번호를 입력해주세요"
+            />
+
+            <PasswordInputComponent
+              title="새 비밀번호"
+              value={newPassword}
+              handleValue={(text: string) => setNewPassword(text)}
+              placeholder="새 비밀번호를 입력해주세요"
+              warningMessage="비밀번호는 8자 이상 / 영문, 숫자, 특수문자를 포함해야 합니다."
+              successMessage="사용 가능한 비밀번호입니다."
+            />
+
+            <PasswordInputComponent
+              title="현재 비밀번호"
+              value={newPasswordCheck}
+              handleValue={(text: string) => setNewPasswordCheck(text)}
+              placeholder="새 비밀번호를 한번 더 입력해주세요"
+            />
           </View>
 
-          <View className="gap-y-6">
-            <View className="flex flex-col gap-y-2 px-5">
-              <Text className="text-CAP1 font-CAP1 leading-CAP1 text-dark_gray">
-                내 브랜드 이름
-              </Text>
-              <TextInput
-                value={brandData.brandName}
-                onChangeText={(text: string) => setBrandData({ ...brandData, brandName: text })}
-                placeholder="브랜드 이름을 입력해주세요"
-                className="p-4 border border-light_gray rounded-lg"
-              />
-            </View>
-
-            <View className="flex flex-col gap-y-2 px-5">
-              <Text className="text-CAP1 font-CAP1 leading-CAP1 text-dark_gray">
-                짧은 브랜드 소개
-              </Text>
-              <TextInput
-                value={brandData.brandDescription}
-                onChangeText={(text: string) =>
-                  setBrandData({ ...brandData, brandDescription: text })
-                }
-                multiline
-                placeholder="팝업 공간을 대여해주는 호스트와 신뢰할 수 있는 거래를 위해 브랜드를 1~2문장으로 짧게 설명해주세요"
-                className="p-4 border border-light_gray rounded-lg min-h-[98px]"
-              />
-            </View>
-
-            <View className="flex flex-col gap-y-2 px-5">
-              <Text className="text-CAP1 font-CAP1 leading-CAP1 text-dark_gray">
-                브랜드, 상품 관련 이미지 (최대 10장)
-              </Text>
-              <View className="flex flex-row items-center">
-                <Pressable className="flex flex-col justify-center items-center gap-y-0.5 border border-light_gray rounded-xl w-20 h-20">
-                  <Icon.Plus />
-                  <Text className="text-CAP2 font-CAP2 leading-CAP2 text-medium_gray">
-                    <Text className="text-purple">{brandData.brandImageList.length}</Text> / 10
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
-          </View>
+          <Pressable
+            onPress={() => router.push('/(myPage)/resetPassword')}
+            disabled={false}
+            className={`mx-5 px-4 py-[15.5px] rounded-lg border border-stroke ${isComplete ? 'bg-black' : 'bg-light_gray'}`}
+          >
+            <Text className="text-BTN1 font-BTN1 leading-BTN1 text-white text-center">확인</Text>
+          </Pressable>
         </KeyboardAvoidingView>
       </View>
+
+      <CustomModal
+        isVisible={isCompleteModalVisible}
+        closeModal={() => setIsCompleteModalVisible(false)}
+        title="비밀번호 변경이 완료되었습니다."
+        buttonText="확인"
+      />
     </SafeAreaView>
   );
 };

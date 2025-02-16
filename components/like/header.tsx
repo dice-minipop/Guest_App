@@ -1,9 +1,10 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Pressable } from 'react-native';
 
-import SwitchComponent from './switch';
-import { useRouter } from 'expo-router';
 import Icon from '../icon/icon';
+
+import SwitchComponent from './switch';
 
 interface HeaderComponentProps {
   type: string;

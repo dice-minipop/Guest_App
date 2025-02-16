@@ -1,5 +1,5 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   View,
   Text,
@@ -12,11 +12,11 @@ import {
   NativeSyntheticEvent,
   Linking,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useLocalSearchParams, useRouter } from 'expo-router';
 import Icon from '@/components/icon/icon';
-import { colors } from '@/constants/Colors';
 import { useGetAnnouncementDetailData } from '@/hooks/announcement/announcement';
+import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { translateTime } from '@/utils/time';
 
 export default function RecruitDetailScreen() {
@@ -24,7 +24,9 @@ export default function RecruitDetailScreen() {
 
   const router = useRouter();
 
-  const { data } = useGetAnnouncementDetailData(Number(id));
+  const { data, refetch } = useGetAnnouncementDetailData(Number(id));
+
+  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
 
   const width = Dimensions.get('screen').width;
 
@@ -35,6 +37,8 @@ export default function RecruitDetailScreen() {
     const index = Math.floor(offsetX / width);
     setCurrentIndex(index + 1);
   };
+
+  console.log(data);
 
   return (
     <View className="flex-1">
@@ -83,20 +87,16 @@ export default function RecruitDetailScreen() {
             <View className="flex flex-row items-center justify-between">
               <Text className="mr-[22px] font-H2 text-H2 leading-H2">{data.title}</Text>
               <View className="flex flex-col items-center">
-                {/* <Pressable onPress={handleLike}>
-                  {recruitItem.isLiked ? (
-                    <Icon.Like fill={colors.purple} stroke={colors.purple} />
-                  ) : (
-                    <Icon.Like fill="none" stroke={colors.light_gray} />
-                  )}
-                </Pressable> */}
-                {/* <Text
+                <Pressable onPress={() => announcementLike(data.id)}>
+                  {data.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
+                </Pressable>
+                <Text
                   className={`font-CAP2 text-CAP2 leading-CAP2 ${
-                    recruitItem.isLiked ? 'text-purple' : 'text-semiLight_gray'
+                    data.isLiked ? 'text-purple' : 'text-semiLight_gray'
                   }`}
                 >
                   {data.likeCount}
-                </Text> */}
+                </Text>
               </View>
             </View>
 

@@ -1,10 +1,11 @@
-import { Portal } from 'react-native-portalize';
-import { DateData } from 'react-native-calendars';
 import React, { useState, useEffect } from 'react';
 import { Text, View, Pressable } from 'react-native';
+import { DateData } from 'react-native-calendars';
+import { Portal } from 'react-native-portalize';
+
+import Icon from '../icon/icon';
 
 import CalendarListComponent from './calendarList';
-import Icon from '../icon/icon';
 
 interface DateModalComponentProps {
   isVisible: boolean;

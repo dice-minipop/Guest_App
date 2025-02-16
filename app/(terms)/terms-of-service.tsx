@@ -1,7 +1,8 @@
-import Icon from '@/components/icon/icon';
 import { useRouter } from 'expo-router';
 import { SafeAreaView, Pressable } from 'react-native';
 import WebView from 'react-native-webview';
+
+import Icon from '@/components/icon/icon';
 
 const TermsOfServiceScreen = () => {
   const router = useRouter();

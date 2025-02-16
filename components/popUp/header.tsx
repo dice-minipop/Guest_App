@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, Dimensions, Image } from 'react-native';
+
 import Icon from '../icon/icon';
 
 const HeaderComponent: React.FC = () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, View, Text, Image } from 'react-native';
+
 import Icon from '../icon/icon';
 
 interface CardComponentProps {
