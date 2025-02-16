@@ -1,5 +1,6 @@
-import { toggleLikeAnnouncement, toggleLikeSpace } from '@/server/like/like';
 import { useMutation } from '@tanstack/react-query';
+
+import { toggleLikeAnnouncement, toggleLikeSpace } from '@/server/like/like';
 
 // 공간 좋아요
 export const useToggleSpaceLike = (refetch: any) => {

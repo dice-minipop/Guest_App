@@ -1,6 +1,6 @@
-import { SendMessageRequest } from './request';
-
 import { GetAxiosInstance, PostAxiosInstance } from '@/axios/axios.method';
+
+import { SendMessageRequest } from './request';
 
 // 메시지 상세 조회
 export const getMessageDetailData = async (roomId: number, page?: number, size?: number) => {

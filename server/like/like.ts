@@ -1,4 +1,5 @@
 import { PostAxiosInstance } from '@/axios/axios.method';
+
 import { ToggleLikeResponse } from './response';
 
 // 공간 좋아요
