@@ -1,9 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
-import Constants from 'expo-constants';
 
 // 로그인 하지 않은 유저가 사용하는 axios
 const guestAxiosInstance: AxiosInstance = axios.create({
-  baseURL: Constants.expoConfig?.extra?.serverUrl,
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   // withCredentials: true,
 });
 
