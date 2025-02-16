@@ -1,4 +1,3 @@
-import Icon from '@/components/icon/icon';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -10,6 +9,8 @@ import {
   TextInput,
   View,
 } from 'react-native';
+
+import Icon from '@/components/icon/icon';
 
 const MyBrandUpdateScreen = () => {
   const router = useRouter();

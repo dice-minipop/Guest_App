@@ -1,15 +1,12 @@
 import { ExpoConfig, ConfigContext } from '@expo/config';
-
 import { config } from 'dotenv';
 
 config();
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 const projectId = process.env.EXPO_PUBLIC_PROJECT_ID;
-const serverUrl = process.env.EXPO_PUBLIC_SERVER_URL;
-const clientId = process.env.EXPO_PUBLIC_NMFClientId;
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
-  ...config,
+const defineConfig = (_: ConfigContext): ExpoConfig => ({
   owner: 'nunkkocht',
   name: 'dice - 팝업 운영 올인원 솔루션',
   slug: 'dice',
@@ -20,13 +17,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   userInterfaceStyle: 'automatic',
   newArchEnabled: true,
   extra: {
-    serverUrl,
     router: {
       origin: false,
     },
     eas: {
-      projectId,
+      projectId: projectId,
     },
+    apiUrl: apiUrl,
   },
   updates: {
     url: `https://u.expo.dev/${projectId}`,
@@ -39,6 +36,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     infoPlist: {
       NSPhotoLibraryUsageDescription:
         'The app accesses the photo library to upload your profile when you are signing up or updating profile image.',
+      NSAppTransportSecurity: {
+        NSAllowsArbitraryLoads: true,
+      },
     },
   },
   android: {
@@ -69,7 +69,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       '@mj-studio/react-native-naver-map',
       {
-        client_id: clientId,
+        client_id: 'pk2penm8t7',
       },
     ],
     [
@@ -85,3 +85,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
 });
+
+export default defineConfig;

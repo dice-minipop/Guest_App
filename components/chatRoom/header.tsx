@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Pressable } from 'react-native';
+
 import Icon from '../icon/icon';
 
 const HeaderComponent: React.FC = () => {

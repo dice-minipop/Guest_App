@@ -1,3 +1,6 @@
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
+
 import {
   getGuestInfo,
   getLikedAnnounceMentLists,
@@ -5,12 +8,17 @@ import {
   updateGuestInfo,
 } from '@/server/guest/guest';
 import { UpdateInfoRequest } from '@/server/guest/request';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 
 // 게스트 정보 수정
-export const useUpdateGuestInfo = () => {
+export const useUpdateGuestInfo = (refetch: any) => {
+  const router = useRouter();
+
   return useMutation({
     mutationFn: (data: UpdateInfoRequest) => updateGuestInfo(data),
+    onSuccess: () => {
+      refetch();
+      router.back();
+    },
   });
 };
 

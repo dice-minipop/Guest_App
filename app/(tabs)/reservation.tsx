@@ -1,3 +1,7 @@
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { SafeAreaView, SectionList, View } from 'react-native';
+
 import ChipContainer from '@/components/common/chipContainer';
 import CardComponent from '@/components/reservation/cardComponent';
 import HeaderComponent from '@/components/reservation/header';
@@ -7,9 +11,6 @@ import {
   completeDummyData,
   waitingDummyData,
 } from '@/constants/mocks/reservationListDummyData';
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { SafeAreaView, SectionList, View } from 'react-native';
 
 const ReservationScreen = () => {
   const chipList = ['최신순'];

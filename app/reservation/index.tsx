@@ -1,10 +1,9 @@
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, View, Pressable, SafeAreaView } from 'react-native';
 
-import { dummyData } from '@/constants/mocks/reservationDummyData';
-
 import Icon from '@/components/icon/icon';
-import { useRouter } from 'expo-router';
+import { dummyData } from '@/constants/mocks/reservationDummyData';
 
 const ReservationCompleteScreen = () => {
   const router = useRouter();

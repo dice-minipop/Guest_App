@@ -1,12 +1,12 @@
-import React from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Text, View, Pressable } from 'react-native';
 
 import CustomPressable from '@/components/common/customPressable';
-import { useRouter } from 'expo-router';
-import Icon from '../icon/icon';
-import { colors } from '@/constants/Colors';
 import { SpaceItem } from '@/server/space/response';
+
+import Icon from '../icon/icon';
 
 interface CardComponentProps {
   spaceData: SpaceItem;
@@ -18,7 +18,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ spaceData, toggleLike }) 
 
   return (
     <CustomPressable onPress={() => router.push(`/space/${spaceData.id}`)} disabled={false}>
-      <View style={styles.container}>
+      <View className="border border-stroke rounded-lg bg-white">
         <Image
           source={spaceData.imageUrl}
           style={{ width: 335, height: 188 }}
@@ -57,11 +57,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ spaceData, toggleLike }) 
             onPress={() => toggleLike(spaceData.id)}
             className="flex flex-col items-center p-3"
           >
-            {spaceData.liked ? (
-              <Icon.Like fill={colors.purple} stroke={colors.purple} />
-            ) : (
-              <Icon.Like fill="none" stroke={colors.light_gray} />
-            )}
+            {spaceData.liked ? <Icon.FilledLike /> : <Icon.Like />}
             <Text className="font-CAP2 text-CAP2 leading-CAP2 text-semiLight_gray">
               {spaceData.likeCount}
             </Text>
@@ -73,12 +69,3 @@ const CardComponent: React.FC<CardComponentProps> = ({ spaceData, toggleLike }) 
 };
 
 export default CardComponent;
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#eeeeee',
-    backgroundColor: 'white',
-  },
-});

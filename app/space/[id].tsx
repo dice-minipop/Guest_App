@@ -1,6 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { View, Dimensions, SafeAreaView } from 'react-native';
 import {
+  NaverMapMarkerOverlay,
+  NaverMapView,
+  NaverMapViewRef,
+} from '@mj-studio/react-native-naver-map';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  Dimensions,
+  SafeAreaView,
   Text,
   Image,
   FlatList,
@@ -10,22 +18,13 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
-import DateModalComponent from '@/components/popUpDetail/dateModal';
-
+import Icon from '@/components/icon/icon';
+import DateModalComponent from '@/components/spaceDetail/dateModal';
+import { useToggleSpaceLike } from '@/hooks/like/like';
+import { useGetSpaceDetailData } from '@/hooks/space/space';
+import { copyText } from '@/utils/clipboard';
 import { makeCall, makeMessage } from '@/utils/phoneCall';
 import { openWebSite } from '@/utils/website';
-
-import { useToggleSpaceLike } from '@/hooks/like/like';
-import { router, useLocalSearchParams } from 'expo-router';
-import Icon from '@/components/icon/icon';
-import {
-  NaverMapMarkerOverlay,
-  NaverMapView,
-  NaverMapViewRef,
-} from '@mj-studio/react-native-naver-map';
-import { copyText } from '@/utils/clipboard';
-import { useGetSpaceDetailData } from '@/hooks/space/space';
-import { colors } from '@/constants/Colors';
 
 const PopUpDetailScreen = () => {
   const { id } = useLocalSearchParams();
@@ -51,7 +50,7 @@ const PopUpDetailScreen = () => {
 
   const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
-  console.log(data);
+  console.log(data.isLiked);
 
   return (
     <View className="flex-1">
@@ -118,12 +117,12 @@ const PopUpDetailScreen = () => {
               </View>
 
               <Pressable onPress={() => spaceLike(data.id)} className="flex flex-col items-center">
-                {true ? (
-                  <Icon.Like fill={colors.purple} stroke={colors.purple} />
-                ) : (
-                  <Icon.Like fill="none" stroke={colors.light_gray} />
-                )}
-                <Text className="font-CAP2 text-CAP2 leading-CAP2 text-semiLight_gray">
+                {data.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
+                <Text
+                  className={`font-CAP2 text-CAP2 leading-CAP2 ${
+                    data.isLiked ? 'text-purple' : 'text-semiLight_gray'
+                  }`}
+                >
                   {data.likeCount}
                 </Text>
               </Pressable>

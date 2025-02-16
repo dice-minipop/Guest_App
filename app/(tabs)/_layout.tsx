@@ -1,9 +1,9 @@
-import Icon from '@/components/icon/icon';
-import SvgComponent from '@/components/icon/icon';
-import { colors } from '@/constants/Colors';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
+
+import Icon from '@/components/icon/icon';
+import { colors } from '@/constants/Colors';
 
 export default function TabLayout() {
   return (

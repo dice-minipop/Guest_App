@@ -1,16 +1,18 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { View, Text, Alert, Pressable, ScrollView, SafeAreaView } from 'react-native';
 
-import UserInput from '@/components/userInput/userInput';
 import CustomButton from '@/components/common/customButton';
-import { useRouter } from 'expo-router';
+import EmailInputComponent from '@/components/common/emailInput';
 import Icon from '@/components/icon/icon';
+import UserInput from '@/components/userInput/userInput';
+import { useSignUp } from '@/hooks/auth/auth';
 
 interface FormData {
   id: string;
-  passwd: string;
-  passwd_check: string;
+  password: string;
+  password_check: string;
   name: string;
   email: string;
   phone: string;
@@ -25,17 +27,30 @@ const RegisterScreen = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const { mutateAsync: signUp } = useSignUp();
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(JSON.stringify(data));
+
+    try {
+      await signUp({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        phone: data.phone,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onError = () => {
     if (errors.id) {
       Alert.alert('입력 오류', errors.id.message);
-    } else if (errors.passwd) {
-      Alert.alert('입력 오류', errors.passwd.message);
-    } else if (errors.passwd_check) {
-      Alert.alert('입력 오류', errors.passwd_check.message);
+    } else if (errors.password) {
+      Alert.alert('입력 오류', errors.password.message);
+    } else if (errors.password_check) {
+      Alert.alert('입력 오류', errors.password_check.message);
     } else if (errors.name) {
       Alert.alert('입력 오류', errors.name.message);
     } else if (errors.email) {
@@ -53,49 +68,13 @@ const RegisterScreen = () => {
         </Pressable>
         <View className="mt-8 flex-1 flex-col justify-center">
           <ScrollView>
-            <View className="flex flex-col">
-              <Text className="my-6 w-[335px] font-H1 text-H1">회원가입</Text>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">아이디</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
-                <UserInput
-                  type="id"
-                  name="id"
-                  control={control}
-                  rules={{ required: '아이디를 입력해주세요' }}
-                />
-              </View>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">비밀번호</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
-                <UserInput
-                  type="passwd"
-                  name="passwd"
-                  control={control}
-                  rules={{ required: '비밀번호를 입력해주세요' }}
-                />
-              </View>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">비밀번호 확인</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
-                <UserInput
-                  type="passwd_check"
-                  name="passwd_check"
-                  control={control}
-                  rules={{ required: '비밀번호를 한 번 더 입력해주세요' }}
-                />
-              </View>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">이름</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
+            <Text className="my-6 w-[335px] font-H1 text-H1">회원가입</Text>
+
+            <View className="flex flex-col gap-y-6">
+              <View className="gap-y-2">
+                <Text className="text-CAP1 font-CAP1 leading-CAP1">
+                  이름<Text className="text-red">*</Text>
+                </Text>
                 <UserInput
                   type="name"
                   name="name"
@@ -103,23 +82,54 @@ const RegisterScreen = () => {
                   rules={{ required: '이름을 입력해주세요' }}
                 />
               </View>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">이메일</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
-                <UserInput
+
+              <View className="gap-y-2">
+                <Text className="text-CAP1 font-CAP1 leading-CAP1">
+                  이메일 아이디<Text className="text-red">*</Text>
+                </Text>
+                <EmailInputComponent
                   type="email"
                   name="email"
                   control={control}
                   rules={{ required: '이메일을 입력해주세요' }}
                 />
+                {/* <UserInput
+                  type="email"
+                  name="email"
+                  control={control}
+                  rules={{ required: '이메일을 입력해주세요' }}
+                /> */}
               </View>
-              <View className="mb-6">
-                <View className="mb-2 flex flex-row">
-                  <Text className="font-CAP1 text-CAP1">휴대폰</Text>
-                  <Text className="font-CAP1 text-CAP1 text-red">*</Text>
-                </View>
+
+              <View className="gap-y-2">
+                <Text className="text-CAP1 font-CAP1 leading-CAP1">
+                  비밀번호<Text className="text-red">*</Text>
+                </Text>
+                <UserInput
+                  type="password"
+                  name="password"
+                  control={control}
+                  rules={{ required: '비밀번호를 입력해주세요' }}
+                />
+              </View>
+
+              <View className="gap-y-2">
+                <Text className="text-CAP1 font-CAP1 leading-CAP1">
+                  비밀번호 확인<Text className="text-red">*</Text>
+                </Text>
+                <UserInput
+                  type="password_check"
+                  name="password_check"
+                  control={control}
+                  rules={{ required: '비밀번호를 한 번 더 입력해주세요' }}
+                />
+              </View>
+
+              <View className="gap-y-2">
+                <Text className="text-CAP1 font-CAP1 leading-CAP1">
+                  휴대폰<Text className="text-red">*</Text>
+                </Text>
+
                 <UserInput
                   type="phone"
                   name="phone"

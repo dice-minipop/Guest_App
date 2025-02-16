@@ -1,11 +1,10 @@
+import { useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { View, FlatList, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 
 import ChatComponent from '@/components/chatRoom/chat';
-import HeaderComponent from '@/components/chatRoom/header';
 import FooterComponent from '@/components/chatRoom/footer';
-
-import { useLocalSearchParams } from 'expo-router';
+import HeaderComponent from '@/components/chatRoom/header';
 import { dummyData } from '@/constants/mocks/chatDummyData';
 
 const ChatRoomScreen = () => {

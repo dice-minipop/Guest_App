@@ -1,7 +1,8 @@
-import Icon from '@/components/icon/icon';
 import { useRouter } from 'expo-router';
 import { Pressable, SafeAreaView } from 'react-native';
 import WebView from 'react-native-webview';
+
+import Icon from '@/components/icon/icon';
 
 const PrivacyPolicyScreen = () => {
   const router = useRouter();

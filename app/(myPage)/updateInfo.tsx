@@ -1,6 +1,3 @@
-import Icon from '@/components/icon/icon';
-import { useCheckEmail, useCheckPhoneNumber } from '@/hooks/auth/auth';
-import { useGetGuestInfo, useUpdateGuestInfo } from '@/hooks/guest/guest';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
@@ -14,10 +11,14 @@ import {
   View,
 } from 'react-native';
 
+import Icon from '@/components/icon/icon';
+import { useCheckPhoneNumber } from '@/hooks/auth/auth';
+import { useGetGuestInfo, useUpdateGuestInfo } from '@/hooks/guest/guest';
+
 const UpdateInfoScreen = () => {
   const router = useRouter();
 
-  const { data } = useGetGuestInfo();
+  const { data, refetch } = useGetGuestInfo();
 
   const [profile, setProfile] = useState({
     name: data.name,
@@ -25,9 +26,8 @@ const UpdateInfoScreen = () => {
     phone: data.phone,
   });
 
-  const { mutateAsync: updateInfo } = useUpdateGuestInfo();
+  const { mutateAsync: updateInfo } = useUpdateGuestInfo(refetch);
   const { mutateAsync: checkPhone } = useCheckPhoneNumber();
-  const { mutateAsync: checkEmail } = useCheckEmail();
 
   return (
     <SafeAreaView className="flex-1 bg-white" onTouchEnd={() => Keyboard.dismiss()}>
@@ -54,7 +54,7 @@ const UpdateInfoScreen = () => {
               <TextInput
                 value={profile.name}
                 onChangeText={(text: string) => setProfile({ ...profile, name: text })}
-                placeholder="브랜드 이름을 입력해주세요"
+                placeholder="이름을 입력해주세요"
                 className="p-4 border border-light_gray rounded-lg text-BODY2 font-BODY2 text-dark_gray"
               />
             </View>
@@ -62,21 +62,17 @@ const UpdateInfoScreen = () => {
             <View className="flex flex-col gap-y-2 px-5">
               <Text className="text-CAP1 font-CAP1 leading-CAP1 text-dark_gray">이메일</Text>
               <View className="flex flex-row items-center gap-x-2">
-                <TextInput
+                <View className="bg-back_gray p-4 border border-light_gray rounded-lg flex-1">
+                  <Text className="text-BODY2 font-BODY2 text-light_gray">{profile.email}</Text>
+                </View>
+                {/* 이메일 수정 불가 */}
+                {/* <TextInput
                   value={profile.email}
                   onChangeText={(text: string) => setProfile({ ...profile, email: text })}
-                  placeholder="브랜드 이름을 입력해주세요"
-                  className="p-4 border border-light_gray rounded-lg flex-1 text-BODY2 font-BODY2 text-dark_gray"
-                />
-                <Pressable
-                  onPress={() => checkEmail({ email: profile.email })}
-                  disabled={profile.email === data.email || !profile.email}
-                  className="px-10 py-3.5 border border-light_gray rounded-lg"
-                >
-                  <Text className="text-BTN1 font-BTN1 leading-BTN1 text-light_gray">
-                    중복 확인
-                  </Text>
-                </Pressable>
+                  editable={false}
+                  placeholder="이메일을 입력해주세요"
+                  className={`${false && 'bg-back_gray'} p-4 border border-light_gray rounded-lg flex-1 text-BODY2 font-BODY2 text-dark_gray`}
+                /> */}
               </View>
             </View>
 
@@ -86,7 +82,9 @@ const UpdateInfoScreen = () => {
                 <TextInput
                   value={profile.phone}
                   onChangeText={(text: string) => setProfile({ ...profile, phone: text })}
-                  placeholder="브랜드 이름을 입력해주세요"
+                  placeholder="숫자만 입력해주세요"
+                  keyboardType="numeric"
+                  maxLength={11}
                   className="p-4 border border-light_gray rounded-lg flex-1 text-BODY2 font-BODY2 text-dark_gray"
                 />
                 <Pressable
@@ -101,6 +99,15 @@ const UpdateInfoScreen = () => {
               </View>
             </View>
           </View>
+
+          <Pressable
+            onPress={() => router.push('/(myPage)/resetPassword')}
+            className="mx-5 px-4 py-[15.5px] rounded-lg border border-stroke"
+          >
+            <Text className="text-BTN1 font-BTN1 leading-BTN1 text-medium_gray text-center">
+              비밀번호 재설정
+            </Text>
+          </Pressable>
         </KeyboardAvoidingView>
       </View>
     </SafeAreaView>

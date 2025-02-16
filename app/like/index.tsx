@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, FlatList, SafeAreaView } from 'react-native';
 
-import CardComponent from '@/components/popUp/card';
-import HeaderComponent from '@/components/like/header';
-import { useGetLikedAnnouncementLists, useGetLikedSpaceLists } from '@/hooks/guest/guest';
 import RecruitItemComponent from '@/components/announcement/announcementItem';
+import HeaderComponent from '@/components/like/header';
+import CardComponent from '@/components/popUp/card';
+import { useGetLikedAnnouncementLists, useGetLikedSpaceLists } from '@/hooks/guest/guest';
 import { useToggleSpaceLike, useToggleAnnouncementLike } from '@/hooks/like/like';
 
 const LikeScreen = () => {
