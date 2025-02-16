@@ -1,15 +1,16 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
+
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 const SortFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useSpaceFilteringStore();
 
-  const handleSortType = (newSortType: string) => {
-    if (newSortType === filtering.sortBy) {
-      setFiltering({ sortBy: '' });
+  const handleSortType = (newStatus: string) => {
+    if (newStatus === filtering.sortBy) {
+      deleteFiltering('sortBy');
     } else {
-      setFiltering({ sortBy: newSortType });
+      setFiltering('sortBy', newStatus);
     }
   };
 

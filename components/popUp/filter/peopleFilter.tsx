@@ -1,32 +1,54 @@
-import RangeSlider from 'rn-range-slider';
-import { Text, View } from 'react-native';
 import React, { useCallback } from 'react';
-import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { Text, View } from 'react-native';
+import RangeSlider from 'rn-range-slider';
 
 import Icon from '@/components/icon/icon';
+import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 const PeopleFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useSpaceFilteringStore();
 
   const handleValue = useCallback((num: number) => {
-    setFiltering({ maxCapacity: num });
+    if (num === 100) {
+      setFiltering('minCapacity', 100);
+      deleteFiltering('maxCapacity'); // maxCapacity 초기화
+    } else if (num >= 5 && num <= 95) {
+      setFiltering('maxCapacity', num);
+      deleteFiltering('minCapacity'); // minCapacity 초기화
+    } else {
+      deleteFiltering('maxCapacity');
+      deleteFiltering('minCapacity');
+    }
   }, []);
 
   return (
     <View className="gap-y-6">
       <Text className="font-CAP1 text-CAP1 text-dark_gray">수용인원</Text>
       <View className="gap-y-8">
-        <View>
-          <Text className="font-SUB1 text-SUB1 leading-SUB1">
-            최대{' '}
-            <Text
-              className={`${filtering.maxCapacity === 0 ? 'text-semiLight_gray' : 'text-purple'}`}
-            >
-              {filtering.maxCapacity}
-            </Text>{' '}
-            명 수용 가능
-          </Text>
-        </View>
+        {filtering.minCapacity ? (
+          <View>
+            <Text className="font-SUB1 text-SUB1 leading-SUB1">
+              <Text
+                className={`${filtering.maxCapacity === 0 ? 'text-semiLight_gray' : 'text-purple'}`}
+              >
+                {filtering.minCapacity}
+              </Text>{' '}
+              명 이상 수용 가능
+            </Text>
+          </View>
+        ) : (
+          <View>
+            <Text className="font-SUB1 text-SUB1 leading-SUB1">
+              최대{' '}
+              <Text
+                className={`${filtering.maxCapacity === 0 ? 'text-semiLight_gray' : 'text-purple'}`}
+              >
+                {filtering.maxCapacity}
+              </Text>{' '}
+              명 수용 가능
+            </Text>
+          </View>
+        )}
       </View>
 
       <View className="gap-y-0.5">
