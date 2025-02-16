@@ -26,7 +26,7 @@ export interface AnnouncementDetailItem {
 
 export interface AnnouncementFilterDTO {
   city: string;
-  district: string;
+  district: string | null;
   targets: string[];
   status: string;
 }

@@ -33,13 +33,15 @@ export interface SpaceDetailItem {
   facilityInfo: string;
   notice: string;
   likeCount: number;
+  isLiked: boolean;
 }
 
 export interface SpaceFilterDTO {
   city: string;
-  district: string;
+  district: string | null;
   minPrice: number;
   maxPrice: number;
+  minCapacity: number;
   maxCapacity: number;
   sortBy: string;
 }

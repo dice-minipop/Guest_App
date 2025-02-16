@@ -1,84 +1,67 @@
 import { create } from 'zustand';
 
-import { SpaceFilterDTO } from '@/types/space';
 import { AnnouncementFilterDTO } from '@/types/announcement';
+import { SpaceFilterDTO } from '@/types/space';
 
 // 공간 필터링 상태 관리 store
 export const useSpaceFilteringStore = create<{
-  initialFiltering: SpaceFilterDTO;
-  filtering: SpaceFilterDTO;
-  setFiltering: (newFilter: Partial<SpaceFilterDTO>) => void;
+  filtering: Partial<SpaceFilterDTO>;
+  setFiltering: <K extends keyof SpaceFilterDTO>(key: K, value: SpaceFilterDTO[K]) => void;
+  deleteFiltering: (key: keyof SpaceFilterDTO) => void;
   clearFiltering: () => void;
 }>((set) => ({
-  initialFiltering: {
-    city: '',
-    district: '',
-    minPrice: 0,
-    maxPrice: 300000,
-    maxCapacity: 0,
-    sortBy: '',
-  },
-  filtering: {
-    city: '',
-    district: '',
-    minPrice: 0,
-    maxPrice: 300000,
-    maxCapacity: 0,
-    sortBy: '',
-  },
-  setFiltering: (newFilter) =>
+  filtering: {},
+
+  setFiltering: (key, value) =>
     set((state) => ({
       filtering: {
         ...state.filtering,
-        ...newFilter,
+        [key]: value,
       },
     })),
+
+  deleteFiltering: (key) =>
+    set((state) => {
+      const newFiltering = { ...state.filtering };
+      delete newFiltering[key];
+      return { filtering: newFiltering };
+    }),
+
   clearFiltering: () =>
     set({
-      filtering: {
-        city: '',
-        district: '',
-        minPrice: 0,
-        maxPrice: 300000,
-        maxCapacity: 0,
-        sortBy: '',
-      },
+      filtering: {},
     }),
 }));
 
-// 공간 필터링 상태 관리 store
+// 공고 필터링 상태 관리 store
 export const useAnnouncementFilteringStore = create<{
-  initialFiltering: AnnouncementFilterDTO;
-  filtering: AnnouncementFilterDTO;
-  setFiltering: (newFilter: Partial<AnnouncementFilterDTO>) => void;
+  filtering: Partial<AnnouncementFilterDTO>;
+  setFiltering: <K extends keyof AnnouncementFilterDTO>(
+    key: K,
+    value: AnnouncementFilterDTO[K],
+  ) => void;
+  deleteFiltering: (key: keyof AnnouncementFilterDTO) => void;
   clearFiltering: () => void;
 }>((set) => ({
-  initialFiltering: {
-    city: '',
-    district: '',
-    targets: [],
-    status: '',
-  },
-  filtering: {
-    city: '',
-    district: '',
-    targets: [],
-    status: '',
-  },
-  setFiltering: (newFilter) =>
+  filtering: {},
+
+  setFiltering: (key, value) =>
     set((state) => ({
       filtering: {
         ...state.filtering,
-        ...newFilter,
+        [key]: value,
       },
     })),
+
+  deleteFiltering: (key) =>
+    set((state) => {
+      const newFiltering = { ...state.filtering };
+      delete newFiltering[key];
+      return { filtering: newFiltering };
+    }),
+
   clearFiltering: () =>
     set({
-      filtering: {
-        city: '',
-        district: '',
-        targets: [],
-        status: '',
-      },
+      filtering: {},
     }),
 }));
