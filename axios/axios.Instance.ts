@@ -1,10 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
-import Constants from 'expo-constants';
 
 import { deleteToken, getAccessToken } from '@/utils/token';
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: Constants.expoConfig?.extra?.serverUrl,
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   // withCredentials: true,
 });
 
