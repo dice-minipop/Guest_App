@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import FilterChip from '@/components/common/filterChip';
 
@@ -10,12 +10,23 @@ interface ChipContainerProps {
 
 const ChipContainer: React.FC<ChipContainerProps> = ({ chipList, openModal }) => {
   return (
-    <View className="flex flex-row justify-between bg-white px-5">
-      <View className="flex flex-row py-4">
-        {chipList.map((chip, index) => (
-          <FilterChip title={chip} key={index} openModal={() => openModal(chip)} />
-        ))}
-      </View>
+    <View className="bg-white flex-1">
+      <ScrollView
+        horizontal={true}
+        contentContainerStyle={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          backgroundColor: 'white',
+          paddingHorizontal: 20,
+        }}
+      >
+        <View className="flex flex-row py-4">
+          {chipList.map((chip, index) => (
+            <FilterChip title={chip} key={index} openModal={() => openModal(chip)} />
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
