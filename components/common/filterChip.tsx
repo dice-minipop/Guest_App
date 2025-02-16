@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, Pressable } from 'react-native';
+
 import Icon from '../icon/icon';
 
 interface FilterChipProps {

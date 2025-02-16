@@ -1,15 +1,27 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
+
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 const TargetFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useAnnouncementFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useAnnouncementFilteringStore();
 
-  const handleSortType = (target: string) => {
-    if (filtering.targets.includes(target)) {
-      setFiltering({ targets: filtering.targets.filter((t) => t !== target) });
+  const handleSortType = (newTarget: string) => {
+    const currentTargets = filtering.targets || [];
+
+    if (currentTargets.includes(newTarget)) {
+      // 3. 이미 존재하면 제거
+      const updatedTargets = currentTargets.filter((t) => t !== newTarget);
+
+      // 4. 제거 후 빈 배열이면 키 삭제
+      if (updatedTargets.length === 0) {
+        deleteFiltering('targets');
+      } else {
+        setFiltering('targets', updatedTargets);
+      }
     } else {
-      setFiltering({ targets: [...filtering.targets, target] });
+      // 1, 2. 존재하지 않으면 추가
+      setFiltering('targets', [...currentTargets, newTarget]);
     }
   };
 
@@ -21,11 +33,11 @@ const TargetFilterComponent: React.FC = () => {
           <Pressable
             key={index}
             onPress={() => handleSortType(item)}
-            className={`rounded-lg p-4 ${filtering.targets.includes(item) ? 'bg-back_gray' : 'bg-white'}`}
+            className={`rounded-lg p-4 ${filtering.targets?.includes(item) ? 'bg-back_gray' : 'bg-white'}`}
           >
             <Text
               className={`font-SUB2 text-SUB2 ${
-                filtering.targets.includes(item) ? 'text-black' : 'text-medium_gray'
+                filtering.targets?.includes(item) ? 'text-black' : 'text-medium_gray'
               }`}
             >
               {item}

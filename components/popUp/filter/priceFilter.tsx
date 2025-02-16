@@ -1,32 +1,69 @@
-import RangeSlider from 'rn-range-slider';
-import { Text, View } from 'react-native';
 import React, { useCallback } from 'react';
-import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { Text, View } from 'react-native';
+import RangeSlider from 'rn-range-slider';
+
 import Icon from '@/components/icon/icon';
+import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 const PriceFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useSpaceFilteringStore();
 
   const handleValue = useCallback(
     (low: number, high: number) => {
-      setFiltering({ minPrice: low, maxPrice: high });
+      if (low === 0 && high === 300000) {
+        deleteFiltering('minPrice');
+        deleteFiltering('maxPrice');
+      } else if (low >= 50000 && high === 300000) {
+        setFiltering('minPrice', low);
+        setFiltering('maxPrice', 300000);
+      } else if (low === 300000) {
+        setFiltering('minPrice', 300000);
+        deleteFiltering('maxPrice');
+      } else {
+        setFiltering('minPrice', low);
+        setFiltering('maxPrice', high);
+      }
     },
-    [setFiltering],
+    [setFiltering, deleteFiltering],
   );
 
-  const formatPrice = (value: number) => {
-    if (value >= 10000) {
+  console.log(filtering.minPrice);
+  console.log(filtering.maxPrice);
+
+  const formatPrice = (minPrice: number | undefined, maxPrice: number | undefined) => {
+    if (minPrice === undefined && maxPrice === undefined) {
       return (
-        <Text className="font-SUB1 text-SUB1 text-black">
-          <Text className="text-purple">{value / 10000}</Text>만원
+        <Text className="flex flex-row items-center font-SUB1 text-SUB1">
+          <Text className="font-SUB1 text-SUB1 text-black">
+            <Text className="text-purple">0</Text>원
+          </Text>
+          {' ~ '}
+          <Text className="font-SUB1 text-SUB1 text-black">
+            <Text className="text-purple">30</Text>만원
+          </Text>
+        </Text>
+      );
+    } else if (minPrice !== undefined && maxPrice === undefined) {
+      return (
+        <Text className="flex flex-row items-center font-SUB1 text-SUB1">
+          <Text className="font-SUB1 text-SUB1 text-black">
+            <Text className="text-purple">{minPrice / 10000}</Text>만원 이상
+          </Text>
+        </Text>
+      );
+    } else {
+      return (
+        <Text className="flex flex-row items-center font-SUB1 text-SUB1">
+          <Text className="font-SUB1 text-SUB1 text-black">
+            <Text className="text-purple">{minPrice! / 10000}</Text>만원
+          </Text>
+          {' ~ '}
+          <Text className="font-SUB1 text-SUB1 text-black">
+            <Text className="text-purple">{maxPrice! / 10000}</Text>만원
+          </Text>
         </Text>
       );
     }
-    return (
-      <Text className="font-SUB1 text-SUB1 text-black">
-        <Text className="text-purple">{value}</Text>원
-      </Text>
-    );
   };
 
   return (
@@ -37,9 +74,7 @@ const PriceFilterComponent: React.FC = () => {
           <Text className="rounded-full border border-stroke bg-back_gray px-3 py-[5.5px] font-BTN1 text-BTN1 text-deep_gray">
             1일 대여
           </Text>
-          <Text className="flex flex-row items-center font-SUB1 text-SUB1">
-            {formatPrice(filtering.minPrice)} ~ {formatPrice(filtering.maxPrice)}
-          </Text>
+          {formatPrice(filtering.minPrice, filtering.maxPrice)}
         </View>
       </View>
 

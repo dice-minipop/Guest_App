@@ -1,25 +1,38 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
+
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 import { regionItems } from './regionData';
 
 const RegionFilterComponent = () => {
-  const { filtering, setFiltering } = useSpaceFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useSpaceFilteringStore();
 
   const handleCity = (newCity: string) => {
     if (filtering.city === newCity) {
-      setFiltering({ city: '', district: '' });
+      deleteFiltering('city');
     } else {
-      setFiltering({ city: newCity });
+      setFiltering('city', newCity);
     }
   };
 
   const handleDistrict = (newDistrict: string) => {
     if (filtering.district === newDistrict) {
-      setFiltering({ district: '' });
-    } else {
-      setFiltering({ district: newDistrict });
+      // 1. newDistrict가 filtering.district와 같으면 district 키 제거
+      deleteFiltering('district');
+    } else if (newDistrict === '전체') {
+      // 2. newDistrict가 "전체"이면 filtering.district가 null일 때는 district 키 제거
+      if (filtering.district === null) {
+        deleteFiltering('district');
+      } else {
+        setFiltering('district', null);
+      }
+    } else if (!filtering.district) {
+      // 3. filtering.district 키가 없으면 district 키 추가
+      setFiltering('district', newDistrict);
+    } else if (filtering.district && filtering.district !== newDistrict) {
+      // 4. filtering.district 키가 존재하지만 값이 다르면 newDistrict로 값 변경
+      setFiltering('district', newDistrict);
     }
   };
 

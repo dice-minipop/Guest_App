@@ -1,8 +1,8 @@
-import { SpaceDetailItem } from '@/types/space';
-import { GetFilteredSpaceListsRequest } from './request';
+import { PostAxiosInstance } from '@/axios/axios.method';
+import { GuestGetAxiosInstance } from '@/axios/guest.axios.method';
+import { SpaceDetailItem, SpaceFilterDTO } from '@/types/space';
 
-import { GuestGetAxiosInstance, GuestPostAxiosInstance } from '@/axios/guest.axios.method';
-import { GetSpaceListsResponse, SpaceItem } from './response';
+import { GetSpaceListsResponse } from './response';
 
 // 공간 상세 조회
 export const getSpaceDetailData = async (id: number): Promise<SpaceDetailItem> => {
@@ -13,26 +13,11 @@ export const getSpaceDetailData = async (id: number): Promise<SpaceDetailItem> =
 
 // 공간 필터링 조회
 export const getFilteredSpaceLists = async (
-  data: GetFilteredSpaceListsRequest,
-  page?: number,
-  size?: number,
-) => {
-  const response = await GuestPostAxiosInstance(`/space/list`, data, {
-    params: {
-      page: page,
-      size: size,
-    },
-  });
-
-  return response.data.content;
-};
-
-// 최신 공간 조회
-export const getSpaceLists = async (
+  data?: Partial<SpaceFilterDTO>,
   page?: number,
   size?: number,
 ): Promise<GetSpaceListsResponse> => {
-  const response = await GuestGetAxiosInstance<GetSpaceListsResponse>(`/space/latest`, {
+  const response = await PostAxiosInstance<GetSpaceListsResponse>(`/space/list`, data, {
     params: {
       page: page,
       size: size,
@@ -41,3 +26,18 @@ export const getSpaceLists = async (
 
   return response.data;
 };
+
+// 최신 공간 조회
+// export const getSpaceLists = async (
+//   page?: number,
+//   size?: number,
+// ): Promise<GetSpaceListsResponse> => {
+//   const response = await GuestGetAxiosInstance<GetSpaceListsResponse>(`/space/latest`, {
+//     params: {
+//       page: page,
+//       size: size,
+//     },
+//   });
+
+//   return response.data;
+// };
