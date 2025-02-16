@@ -1,14 +1,25 @@
+import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+
 import {
   getAnnouncementDetailData,
   getAnnouncementLists,
 } from '@/server/announcement/announcement';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { AnnouncementFilterDTO } from '@/types/announcement';
 
 // 모집 공고 리스트 조회
-export const useGetAnnouncementLists = () => {
-  return useSuspenseQuery({
+export const useGetAnnouncementLists = (data: Partial<AnnouncementFilterDTO>) => {
+  return useSuspenseInfiniteQuery({
     queryKey: [`/announcement/list`],
-    queryFn: () => getAnnouncementLists(),
+    queryFn: async ({ pageParam }) => {
+      const response = getAnnouncementLists(data, pageParam, 5);
+      return response;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.last) {
+        return lastPage.number + 1;
+      }
+    },
   });
 };
 
