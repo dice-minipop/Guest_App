@@ -30,6 +30,7 @@ export interface GetAnnouncementDetailDataResponse {
   details: string;
   contactNumber: string;
   websiteUrl: string;
+  isLiked: boolean;
   likeCount: number;
   status: string;
 }
