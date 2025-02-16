@@ -17,7 +17,7 @@ export interface ReissueTokenRequest {
   refreshToken: string;
 }
 
-export interface ResetPasswordRequest {
+export interface ChangePasswordRequest {
   email: string;
   password: string;
   newPassword: string;

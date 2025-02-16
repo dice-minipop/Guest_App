@@ -1,12 +1,13 @@
 import { PostAxiosInstance } from '@/axios/axios.method';
 import { GuestPostAxiosInstance } from '@/axios/guest.axios.method';
+
 import {
   CheckEmailRequest,
   CheckPhoneNumberRequest,
   LoginRequest,
   ReissueTokenRequest,
   RequestResetPasswordRequest,
-  ResetPasswordRequest,
+  ChangePasswordRequest,
   SignUpRequest,
 } from './request';
 import { LoginResponse, SignUpResponse } from './response';
@@ -27,7 +28,7 @@ export const checkEmail = async (data: CheckEmailRequest) => {
 
 // 회원가입
 export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
-  const response = await GuestPostAxiosInstance<SignUpResponse>(`/auth/sigup`, data);
+  const response = await GuestPostAxiosInstance<SignUpResponse>(`/auth/signup`, data);
 
   return response.data;
 };
@@ -40,7 +41,7 @@ export const reissueToken = async (data: ReissueTokenRequest) => {
 };
 
 // 비밀번호 재설정
-export const resetPassword = async (data: ResetPasswordRequest) => {
+export const changePassword = async (data: ChangePasswordRequest) => {
   const response = await PostAxiosInstance(`/auth/password-reset/reset`, data);
 
   return response.data;
@@ -48,7 +49,7 @@ export const resetPassword = async (data: ResetPasswordRequest) => {
 
 // 비밀번호 재설정 이메일 전송
 export const requestResetPassword = async (data: RequestResetPasswordRequest) => {
-  const response = await PostAxiosInstance(`/auth/password-reset/request`, data);
+  const response = await GuestPostAxiosInstance(`/auth/password-reset/request`, data);
 
   return response.data;
 };

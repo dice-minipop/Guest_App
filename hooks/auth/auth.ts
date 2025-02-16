@@ -1,15 +1,25 @@
-import { checkEmail, checkPhoneNumber, login, signUp } from '@/server/auth/auth';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
+import { Alert } from 'react-native';
+
 import {
+  changePassword,
+  checkEmail,
+  checkPhoneNumber,
+  login,
+  requestResetPassword,
+  signUp,
+} from '@/server/auth/auth';
+import {
+  ChangePasswordRequest,
   CheckEmailRequest,
   CheckPhoneNumberRequest,
   LoginRequest,
+  RequestResetPasswordRequest,
   SignUpRequest,
 } from '@/server/auth/request';
 import { LoginResponse } from '@/server/auth/response';
 import { setAccessToken, setRefreshToken } from '@/utils/token';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'expo-router';
-import { Alert } from 'react-native';
 
 // 휴대폰 번호 중복 확인
 export const useCheckPhoneNumber = () => {
@@ -37,8 +47,31 @@ export const useCheckEmail = () => {
 
 // 회원가입
 export const useSignUp = () => {
+  const router = useRouter();
+
   return useMutation({
     mutationFn: (data: SignUpRequest) => signUp(data),
+    onSuccess: () => {
+      Alert.alert('회원가입이 완료되었습니다!');
+      router.back();
+    },
+  });
+};
+
+// 비밀번호 재설정
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (data: ChangePasswordRequest) => changePassword(data),
+  });
+};
+
+// 비밀번호 재설정 이메일 전송
+export const useRequestResetPassword = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: (data: RequestResetPasswordRequest) => requestResetPassword(data),
+    onSuccess: () => router.push('/(findPassword)/success'),
   });
 };
 
