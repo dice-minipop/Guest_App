@@ -1,5 +1,5 @@
 export interface UpdateInfoRequest {
   name: string;
-  password: string;
+  email: string;
   phone: string;
 }
