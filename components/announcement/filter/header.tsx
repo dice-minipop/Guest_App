@@ -1,30 +1,31 @@
-import Icon from '@/components/icon/icon';
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
 
-// import XButton from '@assets/x.svg';
+import Icon from '@/components/icon/icon';
 
 interface HeaderComponentProps {
-  activeIndex: number;
-  onScroll: (type: string) => void;
+  type: string;
+  handleType: (text: string) => void;
   onClose: () => void;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ activeIndex, onScroll, onClose }) => {
+const HeaderComponent: React.FC<HeaderComponentProps> = ({ type, handleType, onClose }) => {
   return (
     <View className="bg-white">
       <View className="flex flex-row items-center justify-between">
         <View className="flex flex-row gap-x-3 px-5 pb-0.5">
-          {['region', 'target', 'status'].map((filterType, index) => (
-            <Pressable key={filterType} onPress={() => onScroll(filterType)} className="py-[8.5px]">
+          {['지역', '지원대상', '모집상태'].map((filterType) => (
+            <Pressable
+              key={filterType}
+              onPress={() => handleType(filterType)}
+              className="py-[8.5px]"
+            >
               <Text
                 className={`font-H2 text-H2 leading-H2 ${
-                  activeIndex === index ? 'text-black' : 'text-light_gray'
+                  filterType === type ? 'text-black' : 'text-light_gray'
                 }`}
               >
-                {filterType === 'region' && '지역'}
-                {filterType === 'target' && '지원대상'}
-                {filterType === 'status' && '모집상태'}
+                {filterType}
               </Text>
             </Pressable>
           ))}

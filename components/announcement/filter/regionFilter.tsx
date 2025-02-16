@@ -1,25 +1,38 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
+
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 import { regionItems } from './regionData';
 
 const RegionFilterComponent = () => {
-  const { filtering, setFiltering } = useAnnouncementFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useAnnouncementFilteringStore();
 
   const handleCity = (newCity: string) => {
     if (filtering.city === newCity) {
-      setFiltering({ city: '', district: '' });
+      deleteFiltering('city');
     } else {
-      setFiltering({ city: newCity });
+      setFiltering('city', newCity);
     }
   };
 
   const handleDistrict = (newDistrict: string) => {
     if (filtering.district === newDistrict) {
-      setFiltering({ district: '' });
-    } else {
-      setFiltering({ district: newDistrict });
+      // 1. newDistrict가 filtering.district와 같으면 district 키 제거
+      deleteFiltering('district');
+    } else if (newDistrict === '전체') {
+      // 2. newDistrict가 "전체"이면 filtering.district가 null일 때는 district 키 제거
+      if (filtering.district === null) {
+        deleteFiltering('district');
+      } else {
+        setFiltering('district', null);
+      }
+    } else if (!filtering.district) {
+      // 3. filtering.district 키가 없으면 district 키 추가
+      setFiltering('district', newDistrict);
+    } else if (filtering.district && filtering.district !== newDistrict) {
+      // 4. filtering.district 키가 존재하지만 값이 다르면 newDistrict로 값 변경
+      setFiltering('district', newDistrict);
     }
   };
 
@@ -56,12 +69,18 @@ const RegionFilterComponent = () => {
                   key={index}
                   onPress={() => handleDistrict(subItem)}
                   className={`rounded border bg-white px-2.5 py-[9px] ${
-                    filtering.district === subItem ? 'border-purple' : 'border-stroke'
+                    filtering.district === subItem ||
+                    (subItem === '전체' && filtering.district === null)
+                      ? 'border-purple'
+                      : 'border-stroke'
                   }`}
                 >
                   <Text
                     className={`font-BTN2 text-BTN2 ${
-                      filtering.district === subItem ? 'text-purple' : 'text-deep_gray'
+                      filtering.district === subItem ||
+                      (subItem === '전체' && filtering.district === null)
+                        ? 'text-purple'
+                        : 'text-deep_gray'
                     }`}
                   >
                     {subItem}

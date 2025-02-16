@@ -1,21 +1,22 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
+
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 const StatusFilterComponent: React.FC = () => {
-  const { filtering, setFiltering } = useAnnouncementFilteringStore();
+  const { filtering, setFiltering, deleteFiltering } = useAnnouncementFilteringStore();
 
   const items = [
     { title: '모집 중', value: 'RECRUITING' },
-    { title: '모잡 예정', value: '모집 예정' },
+    { title: '모집 예정', value: '모집 예정' },
     { title: '모집 마감', value: 'CLOSED' },
   ];
 
   const handleSortType = (newStatus: string) => {
     if (newStatus === filtering.status) {
-      setFiltering({ status: '' });
+      deleteFiltering('status');
     } else {
-      setFiltering({ status: newStatus });
+      setFiltering('status', newStatus);
     }
   };
 

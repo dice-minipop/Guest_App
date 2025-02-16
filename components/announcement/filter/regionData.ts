@@ -3,9 +3,9 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '서울',
     item: [
-      '서울 전체',
-      '강남',
-      '서초',
+      '전체',
+      '강남구',
+      '서초구',
       '잠실/송파/강동',
       '영등포/여의도/강서',
       '건대/성수/왕십리',
@@ -19,7 +19,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '부산',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -35,7 +35,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '제주',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -51,7 +51,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '울산',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -67,7 +67,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '경남',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -83,7 +83,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '대구',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -99,7 +99,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '강원',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -115,7 +115,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '대전',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -131,7 +131,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '충남',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -147,7 +147,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '충북',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -163,7 +163,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '세종',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -179,7 +179,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '광주',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
@@ -195,7 +195,7 @@ export const regionItems: { title: string; item?: string[] }[] = [
   {
     title: '전북',
     item: [
-      '서울 전체',
+      '전체',
       '강남',
       '서초',
       '잠실/송파/강동',
