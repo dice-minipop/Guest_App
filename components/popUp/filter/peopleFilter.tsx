@@ -43,7 +43,7 @@ const PeopleFilterComponent: React.FC = () => {
               <Text
                 className={`${filtering.maxCapacity === 0 ? 'text-semiLight_gray' : 'text-purple'}`}
               >
-                {filtering.maxCapacity}
+                {filtering.maxCapacity || 0}
               </Text>{' '}
               명 수용 가능
             </Text>
@@ -65,16 +65,16 @@ const PeopleFilterComponent: React.FC = () => {
           // 슬라이더의 버튼
           renderThumb={() => <Icon.SliderThumb />}
           // 슬라이더의 줄 (선택 X)
-          renderRail={() => <View className="h-1 bg-back_gray" />}
+          renderRail={() => <View className="h-1 bg-[#F4F4F4]" />}
           // 슬라이더의 줄 (선택 O)
           renderRailSelected={() => <View className="h-1 bg-black" />}
           // 값 변경 메서드
           onValueChanged={handleValue}
         />
         <View className="flex flex-row items-center justify-between">
-          <Text className="font-CAP1 text-CAP1 text-light_gray">0명</Text>
-          <Text className="font-CAP1 text-CAP1 text-light_gray">50명</Text>
-          <Text className="font-CAP1 text-CAP1 text-light_gray">100명</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-light_gray ml-1.5">0명</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-light_gray ml-2">50명</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-light_gray">100명</Text>
         </View>
       </View>
     </View>

@@ -1,9 +1,12 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View, Pressable, Dimensions, Image } from 'react-native';
 
 import Icon from '../icon/icon';
 
 export default function AnnouncementHeaderComponent() {
+  const router = useRouter();
+
   const width = Dimensions.get('screen').width;
 
   return (
@@ -17,10 +20,16 @@ export default function AnnouncementHeaderComponent() {
         <Text className="font-H1 text-H1 text-[#FFFFFF]">
           모든 지원 공고는{'\n'}여기 다이스에서.
         </Text>
-        <Pressable className="flex flex-row items-center gap-x-1 rounded-lg bg-white pb-3.5 pl-[13px] pr-2 pt-[13px]">
+
+        <View className="h-[49.3px]" />
+
+        {/* <Pressable
+          onPress={() => router.push('/search/announcemnet')}
+          className="flex flex-row items-center gap-x-1 rounded-lg bg-white pb-3.5 pl-[13px] pr-2 pt-[13px]"
+        >
           <Icon.Magnifier />
           <Text className="text-medium_gray">원하시는 지역, 모집처, 지원 내용을 검색해보세요</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

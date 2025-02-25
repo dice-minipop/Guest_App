@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, Pressable } from 'react-native';
 
+import Icon from '@/components/icon/icon';
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 const TargetFilterComponent: React.FC = () => {
@@ -29,7 +30,7 @@ const TargetFilterComponent: React.FC = () => {
     <View className="gap-y-6">
       <Text className="font-CAP1 text-CAP1 text-dark_gray">지원대상</Text>
       <View className="gap-y-1">
-        {['전체', '자영업자', '소상공인'].map((item, index) => (
+        {['자영업자', '소상공인'].map((item, index) => (
           <Pressable
             key={index}
             onPress={() => handleSortType(item)}
@@ -44,6 +45,23 @@ const TargetFilterComponent: React.FC = () => {
             </Text>
           </Pressable>
         ))}
+      </View>
+
+      <View className="border border-stroke p-4 rounded-xl flex flex-row gap-x-1">
+        <Icon.Information />
+        <View className="flex flex-col gap-y-2">
+          <Text className="text-CAP1 font-CAP1 leading-CAP1 text-semiLight_gray">
+            자영업자와 소상공인은 이렇게 달라요
+          </Text>
+          <View>
+            <Text className="text-CAP1 font-CAP1 leading-CAP1 text-semiLight_gray">
+              · 자영업자 : 혼자 운영하는 1인 사업자
+            </Text>
+            <Text className="text-CAP1 font-CAP1 leading-CAP1 text-semiLight_gray">
+              · 소상공인 : 직원 10인 미만의 소규모 사업자
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
   );

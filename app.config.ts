@@ -5,16 +5,17 @@ config();
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 const projectId = process.env.EXPO_PUBLIC_PROJECT_ID;
+const apiKey = process.env.EXPO_PUBLIC_GOOGLEMAP_API_KEY;
 
 const defineConfig = (_: ConfigContext): ExpoConfig => ({
-  owner: 'nunkkocht',
+  owner: 'minipop',
   name: 'dice - 팝업 운영 올인원 솔루션',
   slug: 'dice',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'myapp',
-  userInterfaceStyle: 'automatic',
+  userInterfaceStyle: 'light',
   newArchEnabled: true,
   extra: {
     router: {
@@ -31,7 +32,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   runtimeVersion: '1.0.0',
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'com.minipop.dice',
+    bundleIdentifier: 'com.cmc.dice.minipop.expo',
     buildNumber: '1.0.0',
     infoPlist: {
       NSPhotoLibraryUsageDescription:
@@ -40,15 +41,23 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
         NSAllowsArbitraryLoads: true,
       },
     },
+    config: {
+      googleMapsApiKey: apiKey,
+    },
   },
   android: {
-    package: 'com.minipop.dice',
+    package: 'com.cmc.dice.minipop.expo',
     versionCode: 1,
     adaptiveIcon: {
-      foregroundImage: './assets/images/icon.png',
-      backgroundColor: '#ffffff',
+      foregroundImage: './assets/images/adaptive_icon.png',
+      backgroundColor: '#000000',
     },
     permissions: [],
+    config: {
+      googleMaps: {
+        apiKey: apiKey,
+      },
+    },
   },
   web: {
     bundler: 'metro',
@@ -77,6 +86,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
       {
         android: {
           extraMavenRepos: ['https://repository.map.naver.com/archive/maven'],
+          enableProguardInReleaseBuilds: true,
         },
       },
     ],

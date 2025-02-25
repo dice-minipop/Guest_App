@@ -21,8 +21,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ spaceData, toggleLike }) 
       <View className="border border-stroke rounded-lg bg-white">
         <Image
           source={spaceData.imageUrl}
-          style={{ width: 335, height: 188 }}
-          className="aspect-[2/1] rounded-t-lg"
+          style={{ width: '100%', aspectRatio: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
         />
 
         <View className="flex flex-row items-start justify-between p-4 pr-0 pt-2">

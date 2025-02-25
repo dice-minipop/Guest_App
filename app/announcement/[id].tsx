@@ -1,4 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   View,
@@ -11,22 +12,30 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Linking,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Icon from '@/components/icon/icon';
-import { useGetAnnouncementDetailData } from '@/hooks/announcement/announcement';
+import {
+  useGetAnnouncementDetailData,
+  useGetAnnouncementLists,
+} from '@/hooks/announcement/announcement';
 import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { translateTime } from '@/utils/time';
+import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 export default function RecruitDetailScreen() {
   const { id } = useLocalSearchParams();
 
+  const { filtering } = useAnnouncementFilteringStore();
+
   const router = useRouter();
 
   const { data, refetch } = useGetAnnouncementDetailData(Number(id));
+  const { refetch: refetchList } = useGetAnnouncementLists(filtering);
 
-  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
+  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch, refetchList);
 
   const width = Dimensions.get('screen').width;
 
@@ -38,10 +47,9 @@ export default function RecruitDetailScreen() {
     setCurrentIndex(index + 1);
   };
 
-  console.log(data);
-
   return (
     <View className="flex-1">
+      <StatusBar style="light" />
       <SafeAreaView className="flex-1 bg-black">
         <View className="ml-[3px] flex flex-row items-start justify-start">
           <Pressable onPress={() => router.back()} className="p-3">
@@ -115,7 +123,7 @@ export default function RecruitDetailScreen() {
                   공간 위치
                 </Text>
                 <Text className="max-w-[290px] font-CAP1 text-CAP1 leading-CAP1 text-deep_gray ">
-                  {data.district} + {data.address}
+                  {data.district}, {data.address}
                 </Text>
               </View>
               <View className="flex flex-row">
@@ -155,7 +163,9 @@ export default function RecruitDetailScreen() {
           </View>
         </ScrollView>
 
-        <View className="fixed bottom-0 flex flex-row gap-x-3 border-t border-t-stroke bg-white px-5 py-4">
+        <View
+          className={`fixed bottom-0 flex flex-row gap-x-3 border-t border-t-stroke bg-white px-5 py-4`}
+        >
           <Pressable
             onPress={() => Linking.openURL(data.websiteUrl)}
             className="flex flex-1 flex-row gap-x-2 items-center justify-center rounded-lg border border-stroke bg-black px-4 py-3.5"

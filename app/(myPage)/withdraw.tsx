@@ -1,16 +1,38 @@
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Pressable, SafeAreaView, View, Text } from 'react-native';
+import { Pressable, SafeAreaView, View, Text, Platform } from 'react-native';
 
+import CustomTwoBtnModal from '@/components/common/customTwoBtnModal';
+import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
+import WithdrawModalComponent from '@/components/myPage/withdrawModal';
+import { useWithdraw } from '@/hooks/auth/auth';
 
 const WithdrawScreen = () => {
   const router = useRouter();
 
   const [reason, setReason] = useState<string>('');
 
+  const { mutateAsync: withdraw, isPending } = useWithdraw();
+
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isWithdrawModalVisible, setIsWithdrawModalVisible] = useState<boolean>(false);
+
+  const items: string[] = [
+    '앱/웹 방문을 잘 하지 않아요',
+    '원하는 팝업 공간을 찾기 어려웠어요',
+    '지원 공고가 부족하거나 활용하기 어려웠어요',
+    '예약 및 일정 관리 기능이 불편했어요',
+    '호스트(게스트)와의 소통이 원활하지 않았어요',
+    '찜하기 기능이 불편했어요',
+    '기타',
+  ];
+
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
+      <StatusBar style="dark" />
+      {isPending && <LoadingComponent />}
       <View className="flex flex-row justify-between items-center px-1 relative">
         <Pressable onPress={() => router.back()} className="p-3">
           <Icon.BlackLeftArrow />
@@ -20,7 +42,6 @@ const WithdrawScreen = () => {
           탈퇴하기
         </Text>
       </View>
-
       <View className="px-5 pt-8 gap-y-8">
         <View className="gap-y-2">
           <Text className="text-SUB2 font-SUB2 leading-SUB2">
@@ -44,7 +65,10 @@ const WithdrawScreen = () => {
           <Text className="text-SUB3 font-SUB3 leading-SUB3">
             더 나은 다이스가 될 수 있도록{'\n'}탈퇴하시는 이유를 알려주시면 감사하겠습니다
           </Text>
-          <Pressable className="rounded-lg border border-light_gray pl-4 flex flex-row justify-between items-center">
+          <Pressable
+            onPress={() => setIsModalVisible(true)}
+            className="rounded-lg border border-light_gray pl-4 flex flex-row justify-between items-center"
+          >
             <Text
               className={`text-BODY2 font-BODY2 leading-BODY2 ${reason !== '' ? 'text-black' : 'text-dark_gray'}`}
             >
@@ -56,17 +80,37 @@ const WithdrawScreen = () => {
           </Pressable>
         </View>
       </View>
-
       <View className="absolute bottom-[50px] flex flex-row px-5 gap-x-3">
         <Pressable className="rounded-lg bg-white border border-stroke px-4 py-[15.5px] flex-1">
           <Text className="text-BTN1 font-BTN1 leading-BTN1 text-medium_gray text-center">
             취소
           </Text>
         </Pressable>
-        <Pressable className="rounded-lg bg-black border border-stroke px-4 py-[15.5px] flex-1">
+        <Pressable
+          onPress={() => setIsWithdrawModalVisible(true)}
+          className="rounded-lg bg-black border border-stroke px-4 py-[15.5px] flex-1"
+        >
           <Text className="text-BTN1 font-BTN1 leading-BTN1 text-white text-center">제출</Text>
         </Pressable>
       </View>
+
+      <WithdrawModalComponent
+        isVisible={isModalVisible}
+        items={items}
+        closeModal={() => setIsModalVisible(false)}
+        value={reason}
+        handleValue={(text) => setReason(text)}
+      />
+
+      <CustomTwoBtnModal
+        isVisible={isWithdrawModalVisible}
+        closeModal={() => setIsWithdrawModalVisible(false)}
+        title="회원 탈퇴 시 회원님의 모든 데이터(개인 정보, 활동 내역 등)가 삭제됩니다. 그래도 회원을 탈퇴하시겠습니까?"
+        leftBtnText="취소"
+        leftBtnFunc={() => setIsWithdrawModalVisible(false)}
+        rightBtnText="확인"
+        rightBtnFunc={() => withdraw()}
+      />
     </SafeAreaView>
   );
 };

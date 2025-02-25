@@ -29,7 +29,7 @@ const CustomTwoBtnModal: React.FC<CustomTwoBtnModalProps> = ({
         >
           <View
             onTouchEnd={(e) => e.stopPropagation()}
-            className="w-full flex-col gap-y-[17px] rounded-xl bg-white pt-5"
+            className="w-full flex-col gap-y-[18px] rounded-xl bg-white pt-6 px-4 pb-[3px]"
           >
             <Text className="text-center font-SUB2 text-SUB2 leading-SUB2 text-dark_gray">
               {title}
@@ -37,17 +37,17 @@ const CustomTwoBtnModal: React.FC<CustomTwoBtnModalProps> = ({
 
             <View className="flex flex-row">
               <Pressable
-                onPress={leftBtnFunc}
-                className="flex-1 rounded-bl-[14px] border-[0.33px] py-2"
+                onPress={() => leftBtnFunc()}
+                className="flex-1 rounded-bl-[14px] py-[13px]"
               >
-                <Text className="text-center font-SUB2 text-SUB2 leading-SUB2 text-purple">
+                <Text className="text-center font-SUB2 text-SUB2 leading-SUB2 text-medium_gray">
                   {leftBtnText}
                 </Text>
               </Pressable>
 
               <Pressable
                 onPress={() => rightBtnFunc()}
-                className="flex-1 rounded-br-[14px] border-[0.33px] py-2"
+                className="flex-1 rounded-br-[14px] py-[13px]"
               >
                 <Text className="text-center font-SUB2 text-SUB2 leading-SUB2 text-purple">
                   {rightBtnText}

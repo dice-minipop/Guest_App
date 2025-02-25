@@ -1,8 +1,10 @@
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   SafeAreaView,
   Text,
@@ -13,6 +15,7 @@ import {
 import CustomModal from '@/components/common/customModal';
 import Icon from '@/components/icon/icon';
 import PasswordInputComponent from '@/components/myPage/passwordInput';
+import { useSendResetEmail, useUpdatePassword } from '@/hooks/auth/auth';
 
 const ResetPasswordScreen = () => {
   const router = useRouter();
@@ -38,8 +41,11 @@ const ResetPasswordScreen = () => {
 
   const [isCompleteModalVisible, setIsCompleteModalVisible] = useState<boolean>(false);
 
+  const { mutateAsync: updatePassword } = useUpdatePassword();
+
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
+      <StatusBar style="dark" />
       <View className="flex flex-row justify-between items-center px-1 relative">
         <Pressable onPress={() => router.back()} className="p-3">
           <Icon.BlackLeftArrow />
@@ -78,7 +84,7 @@ const ResetPasswordScreen = () => {
           </View>
 
           <Pressable
-            onPress={() => router.push('/(myPage)/resetPassword')}
+            onPress={() => updatePassword({ password: currentPassword, newPassword })}
             disabled={false}
             className={`mx-5 px-4 py-[15.5px] rounded-lg border border-stroke ${isComplete ? 'bg-black' : 'bg-light_gray'}`}
           >

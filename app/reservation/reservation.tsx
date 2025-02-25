@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { SafeAreaView, SectionList, View } from 'react-native';
+import { Platform, SafeAreaView, SectionList, View } from 'react-native';
 
-import ChipContainer from '@/components/common/chipContainer';
+import ChipContainer from '@/components/popUp/chipContainer';
 import CardComponent from '@/components/reservation/cardComponent';
 import HeaderComponent from '@/components/reservation/header';
 import TopNavigation from '@/components/topNavigation/topNavigation';
@@ -30,7 +30,7 @@ const ReservationScreen = () => {
   return (
     <View className="flex-1">
       <StatusBar style="light" />
-      <SafeAreaView className="flex-1 bg-black">
+      <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
         <TopNavigation />
 
         <View className="flex-1 bg-white">

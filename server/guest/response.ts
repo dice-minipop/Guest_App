@@ -37,6 +37,7 @@ export interface LikedAnnouncement {
   target: string;
   recruitmentStartAt: string;
   recruitmentEndAt: string;
+  isLiked: boolean;
   likeCount: number;
   status: string;
 }
@@ -50,6 +51,8 @@ export interface GetGuestInfoResponse {
   brandList: {
     id: number;
     name: string;
+    description: string;
     logoUrl: string;
+    imageUrls: string[];
   }[];
 }

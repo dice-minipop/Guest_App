@@ -1,25 +1,31 @@
 import { useMutation } from '@tanstack/react-query';
+import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import { Alert } from 'react-native';
 
 import {
-  changePassword,
   checkEmail,
   checkPhoneNumber,
   login,
-  requestResetPassword,
+  logout,
+  resetPassword,
+  sendResetEmail,
   signUp,
+  updatePassword,
+  withdraw,
 } from '@/server/auth/auth';
 import {
-  ChangePasswordRequest,
   CheckEmailRequest,
   CheckPhoneNumberRequest,
   LoginRequest,
-  RequestResetPasswordRequest,
+  ResetPasswordRequest,
+  SendResetEmailRequest,
   SignUpRequest,
+  UpdatePasswordRequest,
 } from '@/server/auth/request';
-import { LoginResponse } from '@/server/auth/response';
-import { setAccessToken, setRefreshToken } from '@/utils/token';
+import { LoginResponse, ResetPasswordResponse } from '@/server/auth/response';
+import { deleteToken, setAccessToken, setRefreshToken } from '@/utils/token';
+import { useLoggedInStore } from '@/zustands/member/store';
 
 // 휴대폰 번호 중복 확인
 export const useCheckPhoneNumber = () => {
@@ -55,23 +61,73 @@ export const useSignUp = () => {
       Alert.alert('회원가입이 완료되었습니다!');
       router.back();
     },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+};
+
+// 비밀번호 변경
+export const useUpdatePassword = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: (data: UpdatePasswordRequest) => updatePassword(data),
+    onSuccess: () => {
+      Alert.alert('비밀번호 변경이 완료되었습니다.');
+      router.back();
+    },
+  });
+};
+
+// 비밀번호 재설정 이메일 전송
+export const useSendResetEmail = (handleSend: () => void) => {
+  return useMutation({
+    mutationFn: (data: SendResetEmailRequest) => sendResetEmail(data),
+    onSuccess: () => {
+      handleSend();
+      Alert.alert('이메일이 전송되었습니다.');
+    },
+    onError: (error: any) => {
+      console.log(error);
+      console.log(error.message);
+    },
   });
 };
 
 // 비밀번호 재설정
 export const useResetPassword = () => {
-  return useMutation({
-    mutationFn: (data: ChangePasswordRequest) => changePassword(data),
-  });
-};
-
-// 비밀번호 재설정 이메일 전송
-export const useRequestResetPassword = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (data: RequestResetPasswordRequest) => requestResetPassword(data),
-    onSuccess: () => router.push('/(findPassword)/success'),
+    mutationFn: (data: ResetPasswordRequest) => resetPassword(data),
+    onSuccess: async (response: ResetPasswordResponse) => {
+      Alert.alert(`임시 비밀번호는 ${response.tempPassword}입니다. 클립보드에 복사되었습니다.`);
+      await Clipboard.setStringAsync(response.tempPassword);
+
+      router.replace('/');
+    },
+    onError: (error) => {
+      console.log(error);
+      console.log(error.message);
+    },
+  });
+};
+
+export const useLogout = () => {
+  const router = useRouter();
+  const { setIsLoggedIn } = useLoggedInStore();
+
+  return useMutation({
+    mutationFn: () => logout(),
+    onSuccess: async () => {
+      router.replace('/');
+      setIsLoggedIn(false);
+      await deleteToken();
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 };
 
@@ -89,6 +145,21 @@ export const useLogin = () => {
 
       console.log(response.token.accessToken);
       router.push('/(tabs)/space');
+    },
+  });
+};
+
+// 회원 탈퇴
+export const useWithdraw = () => {
+  const router = useRouter();
+  const { setIsLoggedIn } = useLoggedInStore();
+
+  return useMutation({
+    mutationFn: () => withdraw(),
+    onSuccess: async () => {
+      await deleteToken();
+      setIsLoggedIn(false);
+      router.replace('/');
     },
   });
 };

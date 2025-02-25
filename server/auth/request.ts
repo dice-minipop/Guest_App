@@ -1,3 +1,12 @@
+export interface SendEmailVerifyRequest {
+  email: string;
+}
+
+export interface VerifyEmailRequest {
+  code: string;
+  email: string;
+}
+
 export interface CheckPhoneNumberRequest {
   phone: string;
 }
@@ -17,16 +26,14 @@ export interface ReissueTokenRequest {
   refreshToken: string;
 }
 
-export interface ChangePasswordRequest {
-  email: string;
+export interface UpdatePasswordRequest {
   password: string;
   newPassword: string;
-  token: string;
 }
 
-export interface RequestResetPasswordRequest {
+export interface ResetPasswordRequest {
+  code: string;
   email: string;
-  name: string;
 }
 
 export interface LoginRequest {

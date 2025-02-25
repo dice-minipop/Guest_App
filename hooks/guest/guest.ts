@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useMutation, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 
 import {
@@ -24,17 +24,35 @@ export const useUpdateGuestInfo = (refetch: any) => {
 
 // 공간 좋아요 목록 조회
 export const useGetLikedSpaceLists = () => {
-  return useSuspenseQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: [`/guest/like/space`],
-    queryFn: () => getLikedSpaceLists(),
+    queryFn: async ({ pageParam }) => {
+      const response = getLikedSpaceLists(pageParam, 5);
+      return response;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.last) {
+        return lastPage.number + 1;
+      }
+    },
   });
 };
 
 // 공고 좋아요 목록 조회
 export const useGetLikedAnnouncementLists = () => {
-  return useSuspenseQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: [`/guest/like/announcement`],
-    queryFn: () => getLikedAnnounceMentLists(),
+    queryFn: async ({ pageParam }) => {
+      const response = getLikedAnnounceMentLists(pageParam, 5);
+      return response;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.last) {
+        return lastPage.number + 1;
+      }
+    },
   });
 };
 
