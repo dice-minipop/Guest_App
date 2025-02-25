@@ -3,5 +3,5 @@ export interface UploadImageListResponse {
 }
 
 export interface UploadImageResponse {
-  imageUrls: string;
+  imageUrl: string;
 }

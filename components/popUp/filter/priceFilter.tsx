@@ -27,9 +27,6 @@ const PriceFilterComponent: React.FC = () => {
     [setFiltering, deleteFiltering],
   );
 
-  console.log(filtering.minPrice);
-  console.log(filtering.maxPrice);
-
   const formatPrice = (minPrice: number | undefined, maxPrice: number | undefined) => {
     if (minPrice === undefined && maxPrice === undefined) {
       return (
@@ -100,8 +97,8 @@ const PriceFilterComponent: React.FC = () => {
           onValueChanged={handleValue}
         />
         <View className="flex flex-row justify-between">
-          <Text className="font-CAP1 text-CAP1 text-light_gray">0원</Text>
-          <Text className="font-CAP1 text-CAP1 text-light_gray">15만원</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-light_gray ml-1.5">0원</Text>
+          <Text className="font-CAP1 text-CAP1 leading-CAP1 text-light_gray ml-3">15만원</Text>
           <Text className="font-CAP1 text-CAP1 text-light_gray">30만원</Text>
         </View>
       </View>

@@ -5,11 +5,17 @@ import { SpaceFilterDTO } from '@/types/space';
 
 // 공간 필터링 상태 관리 store
 export const useSpaceFilteringStore = create<{
+  isRefetched: boolean;
+  setIsRefetched: (status: boolean) => void;
   filtering: Partial<SpaceFilterDTO>;
   setFiltering: <K extends keyof SpaceFilterDTO>(key: K, value: SpaceFilterDTO[K]) => void;
   deleteFiltering: (key: keyof SpaceFilterDTO) => void;
   clearFiltering: () => void;
 }>((set) => ({
+  isRefetched: false,
+
+  setIsRefetched: (status) => set({ isRefetched: status }),
+
   filtering: {},
 
   setFiltering: (key, value) =>
@@ -35,6 +41,8 @@ export const useSpaceFilteringStore = create<{
 
 // 공고 필터링 상태 관리 store
 export const useAnnouncementFilteringStore = create<{
+  isRefetched: boolean;
+  setIsRefetched: (status: boolean) => void;
   filtering: Partial<AnnouncementFilterDTO>;
   setFiltering: <K extends keyof AnnouncementFilterDTO>(
     key: K,
@@ -43,6 +51,10 @@ export const useAnnouncementFilteringStore = create<{
   deleteFiltering: (key: keyof AnnouncementFilterDTO) => void;
   clearFiltering: () => void;
 }>((set) => ({
+  isRefetched: false,
+
+  setIsRefetched: (status) => set({ isRefetched: status }),
+
   filtering: {},
 
   setFiltering: (key, value) =>

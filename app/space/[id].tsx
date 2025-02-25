@@ -1,10 +1,11 @@
-import {
-  NaverMapMarkerOverlay,
-  NaverMapView,
-  NaverMapViewRef,
-} from '@mj-studio/react-native-naver-map';
+// import {
+//   NaverMapMarkerOverlay,
+//   NaverMapView,
+//   NaverMapViewRef,
+// } from '@mj-studio/react-native-naver-map';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
 import {
   View,
   Dimensions,
@@ -16,24 +17,33 @@ import {
   ScrollView,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
+  Linking,
 } from 'react-native';
+// import MapView, { Marker } from 'react-native-maps';
 
+import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
-import DateModalComponent from '@/components/spaceDetail/dateModal';
+// import DateModalComponent from '@/components/spaceDetail/dateModal';
 import { useToggleSpaceLike } from '@/hooks/like/like';
-import { useGetSpaceDetailData } from '@/hooks/space/space';
+import { useGetFilteredSpaceLists, useGetSpaceDetailData } from '@/hooks/space/space';
 import { copyText } from '@/utils/clipboard';
 import { makeCall, makeMessage } from '@/utils/phoneCall';
 import { openWebSite } from '@/utils/website';
+import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 const PopUpDetailScreen = () => {
   const { id } = useLocalSearchParams();
 
+  const { filtering } = useSpaceFilteringStore();
+
   const width = Dimensions.get('screen').width;
 
-  const mapRef = useRef<NaverMapViewRef>(null);
+  // const mapRef = useRef<NaverMapViewRef>(null);
+  // const mapRef = useRef<MapView>(null);
 
-  const { data, refetch } = useGetSpaceDetailData(Number(id));
+  const { data, refetch, isPending: isGetDataPending } = useGetSpaceDetailData(Number(id));
+  const { refetch: refetchList } = useGetFilteredSpaceLists(filtering);
 
   const [currentIndex, setCurrentIndex] = useState<number>(1);
 
@@ -43,18 +53,20 @@ const PopUpDetailScreen = () => {
     setCurrentIndex(index + 1);
   };
 
-  const [isFullDescription, setIsFullDescription] = useState<boolean>(true);
-  const [numOfUsageInformation, setNumOfUsageInformation] = useState<number>(3);
+  // const [isFullDescription, setIsFullDescription] = useState<boolean>(true);
+  // const [numOfUsageInformation, setNumOfUsageInformation] = useState<number>(3);
 
-  const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch);
+  const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch, refetchList);
 
-  const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
+  // const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
-  console.log(data.isLiked);
+  console.log(data.websiteUrl);
 
   return (
     <View className="flex-1">
-      <SafeAreaView className="flex-1 bg-black">
+      <StatusBar style="light" />
+      {isGetDataPending && <LoadingComponent />}
+      <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
         <View className="ml-[3px] flex flex-row items-start justify-start">
           <Pressable onPress={() => router.back()} className="p-3">
             <Icon.WhiteLeftArrow />
@@ -167,10 +179,11 @@ const PopUpDetailScreen = () => {
           <View className="gap-y-4 px-5">
             <Text className="font-SUB2 text-SUB2 leading-SUB2">팝업공간 소개</Text>
             <Text className="font-BODY1 text-BODY1 leading-BODY1 text-deep_gray">
-              {isFullDescription ? data.description : data.description.slice(0, 90) + '...'}
+              {/* {isFullDescription ? data.description : data.description.slice(0, 90) + '...'} */}
+              {data.description}
             </Text>
-            <Pressable
-              // onPress={() => setIsFullDescription(!isFullDescription)}
+            {/* <Pressable
+              onPress={() => setIsFullDescription(!isFullDescription)}
               className="relative flex flex-row items-center justify-center rounded-lg border border-stroke p-4"
             >
               <Text className="text-center font-BTN1 text-BTN1 leading-BTN1 text-medium_gray text-">
@@ -179,7 +192,7 @@ const PopUpDetailScreen = () => {
               <View className={`absolute right-4 ${isFullDescription && 'rotate-180'}`}>
                 <Icon.DownArrow />
               </View>
-            </Pressable>
+            </Pressable> */}
           </View>
 
           <View className="my-6 h-2 bg-back_gray" />
@@ -187,7 +200,7 @@ const PopUpDetailScreen = () => {
           <View className="gap-y-4 px-5">
             <Text className="font-SUB2 text-SUB2 leading-SUB2">위치 및 정보 안내</Text>
             <View className="gap-y-1">
-              <View className="flex flex-row items-center justify-between">
+              <View className="flex flex-row items-center justify-between flex-wrap">
                 <View className="flex flex-row items-center gap-x-0.5">
                   <Icon.Place />
                   <Text className="font-BODY1 text-BODY1 leading-BODY1 text-dark_gray">
@@ -196,6 +209,7 @@ const PopUpDetailScreen = () => {
                 </View>
                 <Pressable
                   onPress={() => copyText(data.city + ' ' + data.district + ' ' + data.address)}
+                  className="ml-auto"
                 >
                   <Text className="underline text-CAP2 font-CAP2 leading-CAP2 text-medium_gray">
                     주소 복사
@@ -206,7 +220,30 @@ const PopUpDetailScreen = () => {
                 · {data.}
               </Text> */}
             </View>
-            <NaverMapView
+            {/* <MapView
+              ref={mapRef}
+              zoomEnabled={false}
+              style={{ width: '100%', height: 160, borderRadius: 12, flex: 1 }}
+              initialRegion={{
+                latitude: 37.5665,
+                longitude: 126.978,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.0421,
+              }}
+              onMapReady={() => {
+                mapRef.current?.animateToRegion({
+                  latitude: data.latitude,
+                  longitude: data.longitude,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
+                });
+              }}
+            >
+              <Marker coordinate={{ latitude: data.latitude, longitude: data.longitude }}>
+                <Icon.Marker />
+              </Marker>
+            </MapView> */}
+            {/* <NaverMapView
               ref={mapRef}
               style={{ width: '100%', height: 160, borderRadius: 12, flex: 1 }}
               mapType="Basic"
@@ -233,10 +270,10 @@ const PopUpDetailScreen = () => {
                   <Icon.Marker />
                 </View>
               </NaverMapMarkerOverlay>
-            </NaverMapView>
+            </NaverMapView> */}
 
             <Pressable
-              onPress={() => openWebSite(data.address)}
+              onPress={() => Linking.openURL(data.websiteUrl)}
               className="flex flex-row justify-center items-center gap-x-1 rounded-lg border border-stroke p-4"
             >
               <Icon.WebSite />
@@ -312,28 +349,28 @@ const PopUpDetailScreen = () => {
             <Icon.Phone />
           </Pressable>
 
-          <Pressable
+          {/* <Pressable
             onPress={() => makeMessage(data.contactNumber)}
             className="rounded-lg border border-stroke p-3.5"
           >
             <Icon.FilledSend />
-          </Pressable>
+          </Pressable> */}
 
           <Pressable
-            onPress={() => setIsReservationModalVisible(true)}
+            onPress={() => makeMessage(data.contactNumber)}
             className="flex flex-1 flex-row items-center justify-center gap-x-2 rounded-lg border border-stroke bg-black px-4 py-3.5"
           >
-            <Icon.Reservation />
-            <Text className="font-BTN1 text-BTN1 leading-BTN1 text-white">공간 예약하기</Text>
+            <Icon.Message />
+            <Text className="font-BTN1 text-BTN1 leading-BTN1 text-white">메시지 보내기</Text>
           </Pressable>
         </View>
       </SafeAreaView>
       <SafeAreaView className="bg-white" />
 
-      <DateModalComponent
+      {/* <DateModalComponent
         isVisible={isReservationModalVisible}
         closeModal={() => setIsReservationModalVisible(false)}
-      />
+      /> */}
     </View>
   );
 };

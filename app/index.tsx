@@ -1,22 +1,13 @@
-import axios from 'axios';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, SafeAreaView } from 'react-native';
 
-import { GuestGetAxiosInstance } from '@/axios/guest.axios.method';
 import Icon from '@/components/icon/icon';
-import { useLoggedInStore } from '@/zustands/member/store';
 
 const HomeScreen = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useLoggedInStore();
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
-
-  const handleLoggedIn = () => {
-    router.push('/(tabs)/space');
-    setIsLoggedIn(true);
-  };
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -86,12 +77,12 @@ const HomeScreen = () => {
                 회원으로 가입하기
               </Text>
             </Pressable>
-            <Text className="text-medium_gray">|</Text>
+            {/* <Text className="text-medium_gray">|</Text>
             <Pressable onPress={handleLoggedIn}>
               <Text className="font-BTN1 text-BTN1 text-medium_gray underline">
                 비회원으로 둘러보기
               </Text>
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
       </View>

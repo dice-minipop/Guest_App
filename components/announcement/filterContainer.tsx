@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Platform } from 'react-native';
 import { Portal } from 'react-native-portalize';
 
 import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
@@ -19,7 +19,8 @@ interface FilterContainerProps {
 }
 
 const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, handleType }) => {
-  const { filtering, deleteFiltering, clearFiltering } = useAnnouncementFilteringStore();
+  const { filtering, setFiltering, deleteFiltering, clearFiltering } =
+    useAnnouncementFilteringStore();
 
   const { refetch } = useGetAnnouncementLists(filtering);
 
@@ -33,19 +34,31 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
           <View className="rounded-t-xl bg-white pt-6" onTouchEnd={(e) => e.stopPropagation()}>
             <HeaderComponent type={type} handleType={handleType} onClose={() => handleType('')} />
 
-            <View className="px-5 pt-6 h-[600px]">
-              {type === '지역' && <RegionFilterComponent />}
-              {type === '지원대상' && <TargetFilterComponent />}
-              {type === '모집상태' && <StatusFilterComponent />}
-            </View>
+            {type === '지역' && (
+              <View className="px-5 pt-6 min-h-[488px] max-h-[540px]">
+                <RegionFilterComponent />
+              </View>
+            )}
+
+            {type === '지원대상' && (
+              <View className="px-5 pt-6 h-[442px]">
+                <TargetFilterComponent />
+              </View>
+            )}
+
+            {type === '모집상태' && (
+              <View className="px-5 pt-6 h-[374px]">
+                <StatusFilterComponent />
+              </View>
+            )}
           </View>
 
           <View
             onTouchEnd={(e) => e.stopPropagation()}
-            className="absolute bottom-0 z-10 flex w-screen flex-col gap-y-3 bg-white px-5 pb-[34px] pt-4 drop-shadow-basicShadow"
+            className={`absolute z-10 flex w-screen flex-col gap-y-3 bg-white px-5 pt-4 drop-shadow-basicShadow ${Platform.OS === 'ios' ? 'pb-[34px]' : 'bottom-[-34px]'}`}
           >
             <View className="flex flex-row gap-x-1.5">
-              {'district' in filtering && (
+              {'city' in filtering && (
                 <Pressable
                   onPress={() => {
                     deleteFiltering('city');
@@ -54,23 +67,32 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                   className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
                 >
                   <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    {filtering.district !== null ? filtering.district : '서울 전체'}
+                    {filtering.city === '전국'
+                      ? '전국'
+                      : filtering.district !== undefined
+                        ? `${filtering.city} ${filtering.district}`
+                        : `${filtering.city}`}
                   </Text>
                   <Icon.Delete />
                 </Pressable>
               )}
 
-              {/* {filtering.targets.length !== 0 && (
-                <Pressable
-                  onPress={() => setFiltering({ minPrice: 0, maxPrice: 300000 })}
-                  className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
-                >
-                  <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    {handlePrice(filtering.minPrice, filtering.maxPrice)}
-                  </Text>
-                  <Icon.Delete />
-                </Pressable>
-              )} */}
+              {'targets' in filtering &&
+                filtering.targets?.map((target) => (
+                  <Pressable
+                    key={target}
+                    onPress={() =>
+                      setFiltering('targets', filtering.targets?.filter((t) => t !== target) || [])
+                    }
+                    className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
+                  >
+                    <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
+                      {target}
+                    </Text>
+
+                    <Icon.Delete />
+                  </Pressable>
+                ))}
 
               {'status' in filtering && (
                 <Pressable

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Platform } from 'react-native';
 import { Portal } from 'react-native-portalize';
 
 import HeaderComponent from '@/components/popUp/filter/header';
@@ -23,8 +23,13 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
 
   const { refetch } = useGetFilteredSpaceLists(filtering);
 
-  const handlePrice = (min: number, max: number) => {
-    return min / 10000 + '~' + max / 10000 + '만원';
+  const handlePrice = (min: number | undefined, max: number | undefined) => {
+    if (min === 300000 && max === 300000) {
+      return min / 10000 + '만원 이상';
+    } else if (min !== undefined && max !== undefined) {
+      return min / 10000 + '~' + max / 10000 + '만원';
+    }
+    return '';
   };
 
   return (
@@ -36,20 +41,37 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
         >
           <View className="rounded-t-xl bg-white pt-6" onTouchEnd={(e) => e.stopPropagation()}>
             <HeaderComponent type={type} handleType={handleType} onClose={() => handleType('')} />
-            <View className="px-5 pt-6 h-[600px]">
-              {type === '지역' && <RegionFilterComponent />}
-              {type === '가격' && <PriceFilterComponent />}
-              {type === '수용인원' && <PeopleFilterComponent />}
-              {type === '정렬' && <SortFilterComponent />}
-            </View>
+            {type === '지역' && (
+              <View className="px-5 pt-6 min-h-[488px]">
+                <RegionFilterComponent />
+              </View>
+            )}
+
+            {type === '가격' && (
+              <View className="px-5 pt-6 h-[320px]">
+                <PriceFilterComponent />
+              </View>
+            )}
+
+            {type === '수용인원' && (
+              <View className="px-5 pt-6 h-[316px]">
+                <PeopleFilterComponent />
+              </View>
+            )}
+
+            {type === '정렬' && (
+              <View className="px-5 pt-6 h-[430px]">
+                <SortFilterComponent />
+              </View>
+            )}
           </View>
 
           <View
             onTouchEnd={(e) => e.stopPropagation()}
-            className="absolute bottom-0 z-10 flex w-screen flex-col gap-y-3 bg-white px-5 pb-[34px] pt-4 drop-shadow-basicShadow"
+            className={`absolute z-10 flex w-screen flex-col gap-y-3 bg-white px-5 pt-4 drop-shadow-basicShadow ${Platform.OS === 'ios' ? 'pb-[34px]' : 'bottom-[-34px]'}`}
           >
-            <View className="flex flex-row gap-x-1.5">
-              {'district' in filtering && (
+            <View className="flex flex-row gap-x-1.5 bg-white">
+              {'city' in filtering && (
                 <Pressable
                   onPress={() => {
                     deleteFiltering('city');
@@ -58,27 +80,30 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                   className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
                 >
                   <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    {filtering.district}
+                    {filtering.city === '전국'
+                      ? '전국'
+                      : filtering.district !== undefined
+                        ? `${filtering.city} ${filtering.district}`
+                        : `${filtering.city}`}
                   </Text>
                   <Icon.Delete />
                 </Pressable>
               )}
 
-              {'minPrice' in filtering ||
-                ('maxPrice' in filtering && (
-                  <Pressable
-                    onPress={() => {
-                      deleteFiltering('minPrice');
-                      deleteFiltering('maxPrice');
-                    }}
-                    className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
-                  >
-                    <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                      {handlePrice(filtering.minPrice, filtering.maxPrice)}
-                    </Text>
-                    <Icon.Delete />
-                  </Pressable>
-                ))}
+              {('minPrice' in filtering || 'maxPrice' in filtering) && (
+                <Pressable
+                  onPress={() => {
+                    deleteFiltering('minPrice');
+                    deleteFiltering('maxPrice');
+                  }}
+                  className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
+                >
+                  <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
+                    {handlePrice(filtering.minPrice, filtering.maxPrice)}
+                  </Text>
+                  <Icon.Delete />
+                </Pressable>
+              )}
 
               {(filtering.maxCapacity || filtering.minCapacity) && (
                 <Pressable
@@ -110,7 +135,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
               )}
             </View>
 
-            <View className="flex-row items-center gap-x-3">
+            <View className="flex-row items-center gap-x-3 bg-white">
               <Pressable
                 onPress={clearFiltering}
                 className="rounded-lg border border-stroke px-4 py-[15.5px]"

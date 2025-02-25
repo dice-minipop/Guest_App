@@ -1,7 +1,16 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { View, Text, Alert, Pressable, ScrollView, SafeAreaView } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  Pressable,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 import CustomButton from '@/components/common/customButton';
 import EmailInputComponent from '@/components/common/emailInput';
@@ -32,16 +41,12 @@ const RegisterScreen = () => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(JSON.stringify(data));
 
-    try {
-      await signUp({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        phone: data.phone,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await signUp({
+      email: data.email,
+      name: data.name,
+      password: data.password,
+      phone: data.phone,
+    });
   };
 
   const onError = () => {
@@ -61,12 +66,16 @@ const RegisterScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
       <View className="relative h-full w-full p-5">
         <Pressable className="absolute m-5" onPress={() => router.back()}>
           <Icon.X />
         </Pressable>
-        <View className="mt-8 flex-1 flex-col justify-center">
+        <KeyboardAvoidingView
+          className="mt-8 flex-1 flex-col justify-center"
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+        >
           <ScrollView>
             <Text className="my-6 w-[335px] font-H1 text-H1">회원가입</Text>
 
@@ -139,7 +148,7 @@ const RegisterScreen = () => {
               </View>
             </View>
           </ScrollView>
-        </View>
+        </KeyboardAvoidingView>
         <CustomButton
           type="normal"
           onPress={handleSubmit(onSubmit, onError)}

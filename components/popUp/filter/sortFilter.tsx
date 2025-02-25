@@ -18,7 +18,7 @@ const SortFilterComponent: React.FC = () => {
     <View className="gap-y-6">
       <Text className="font-CAP1 text-CAP1 text-dark_gray">정렬</Text>
       <View className="gap-y-1">
-        {['인기 순', '가까운 순', '낮은 가격 순', '높은 가격 순'].map((item, index) => (
+        {['인기 순', '낮은 가격 순', '높은 가격 순'].map((item, index) => (
           <Pressable
             key={index}
             onPress={() => handleSortType(item)}

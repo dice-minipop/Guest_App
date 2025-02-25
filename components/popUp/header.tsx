@@ -1,9 +1,12 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, Pressable, Dimensions, Image } from 'react-native';
 
 import Icon from '../icon/icon';
 
 const HeaderComponent: React.FC = () => {
+  const router = useRouter();
+
   const width = Dimensions.get('screen').width;
 
   return (
@@ -17,10 +20,15 @@ const HeaderComponent: React.FC = () => {
           저렴한 팝업 공간은{'\n'}쉽게 다이스에서.
         </Text>
 
-        <Pressable className="flex flex-row items-center gap-x-1 rounded-lg bg-white pb-3.5 pl-[13px] pr-2 pt-[13px]">
+        <View className="h-[49.3px]" />
+
+        {/* <Pressable
+          onPress={() => router.push('/search/space')}
+          className="flex flex-row items-center gap-x-1 rounded-lg bg-white pb-3.5 pl-[13px] pr-2 pt-[13px]"
+        >
           <Icon.Magnifier />
           <Text className="text-medium_gray">찾는 지역이나 지하철역으로 검색해보세요</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
     </View>
   );

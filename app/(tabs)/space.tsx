@@ -1,17 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useState } from 'react';
-import { View, SectionList, SafeAreaView } from 'react-native';
+import { View, SectionList, SafeAreaView, Platform } from 'react-native';
 
-import ChipContainer from '@/components/common/chipContainer';
-import FilterContainer from '@/components/common/filterContainer';
+import LoadingComponent from '@/components/common/loadingComponent';
 import CardComponent from '@/components/popUp/card';
+import ChipContainer from '@/components/popUp/chipContainer';
+import FilterContainer from '@/components/popUp/filterContainer';
 import HeaderComponent from '@/components/popUp/header';
 import TopNavigation from '@/components/topNavigation/topNavigation';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { useGetFilteredSpaceLists } from '@/hooks/space/space';
+import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
 const SpaceScreen = () => {
-  const { data: spaceList, fetchNextPage, hasNextPage, refetch } = useGetFilteredSpaceLists();
+  const { setIsRefetched, filtering } = useSpaceFilteringStore();
+
+  const {
+    data: spaceList,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+    isPending,
+  } = useGetFilteredSpaceLists(filtering);
   const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch);
 
   const chipList = ['지역', '가격', '수용인원', '정렬'];
@@ -20,13 +30,20 @@ const SpaceScreen = () => {
 
   const handleFilteringType = (type: string) => {
     setFilteringType(type);
+
+    if (filteringType === '') {
+      setIsRefetched(false);
+    } else {
+      setIsRefetched(true);
+    }
   };
 
   return (
     <Suspense>
       <View className="flex-1">
         <StatusBar style="light" />
-        <SafeAreaView className="flex-1 bg-black">
+        {isPending && <LoadingComponent />}
+        <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
           <TopNavigation />
 
           <View className="flex-1 gap-y-4 bg-white pb-16">

@@ -1,23 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useState } from 'react';
-import { View, SectionList, SafeAreaView } from 'react-native';
+import { View, SectionList, SafeAreaView, Platform } from 'react-native';
 
 import AnnouncementHeaderComponent from '@/components/announcement/announcementHeader';
 import AnnouncementItemComponent from '@/components/announcement/announcementItem';
+import ChipContainer from '@/components/announcement/chipContainer';
 import FilterContainer from '@/components/announcement/filterContainer';
-import ChipContainer from '@/components/common/chipContainer';
+import LoadingComponent from '@/components/common/loadingComponent';
 import TopNavigation from '@/components/topNavigation/topNavigation';
 import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
 import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
 
 const AnnouncementScreen = () => {
-  const { filtering } = useAnnouncementFilteringStore();
+  const { setIsRefetched, filtering } = useAnnouncementFilteringStore();
   const {
     data: announcementList,
     fetchNextPage,
     hasNextPage,
     refetch,
+    isPending,
   } = useGetAnnouncementLists(filtering);
 
   const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
@@ -28,16 +30,22 @@ const AnnouncementScreen = () => {
 
   const handleFilteringType = (type: string) => {
     setFilteringType(type);
+
+    if (filteringType === '') {
+      setIsRefetched(false);
+    } else {
+      setIsRefetched(true);
+    }
   };
 
   return (
     <Suspense>
       <View className="flex-1">
         <StatusBar style="light" />
-
-        <SafeAreaView className="flex-1 bg-black">
+        {isPending && <LoadingComponent />}
+        <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
           <TopNavigation />
-          <View className="flex-1 gap-y-4 bg-white">
+          <View className="flex-1 gap-y-4 bg-white pb-16">
             <SectionList
               sections={[
                 { title: 'chip', data: announcementList.pages.flatMap((page) => page.content) },

@@ -6,11 +6,39 @@ import {
   CheckPhoneNumberRequest,
   LoginRequest,
   ReissueTokenRequest,
-  RequestResetPasswordRequest,
-  ChangePasswordRequest,
   SignUpRequest,
+  UpdatePasswordRequest,
+  ResetPasswordRequest,
+  SendEmailVerifyRequest,
+  VerifyEmailRequest,
 } from './request';
-import { LoginResponse, SignUpResponse } from './response';
+import {
+  LoginResponse,
+  ReissueTokenResponse,
+  ResetPasswordResponse,
+  SignUpResponse,
+} from './response';
+
+// 회원 탈퇴
+export const withdraw = async () => {
+  const response = await PostAxiosInstance(`/auth/withdraw`);
+
+  return response.data;
+};
+
+// 이메일 인증 전송
+export const sendEmailVerify = async (data: SendEmailVerifyRequest) => {
+  const response = await GuestPostAxiosInstance(`/auth/verify`, data);
+
+  return response.data;
+};
+
+// 이메일 인증 확인
+export const verifyEmail = async (data: VerifyEmailRequest) => {
+  const response = await GuestPostAxiosInstance(`/auth/verify/code`, data);
+
+  return response.data;
+};
 
 // 휴대폰 번호 중복 확인
 export const checkPhoneNumber = async (data: CheckPhoneNumberRequest) => {
@@ -34,29 +62,32 @@ export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
 };
 
 // 토큰 재발급
-export const reissueToken = async (data: ReissueTokenRequest) => {
-  const response = await PostAxiosInstance(`/auth/reissue`, data);
+export const reissueToken = async (data: ReissueTokenRequest): Promise<ReissueTokenResponse> => {
+  const response = await PostAxiosInstance<ReissueTokenResponse>(`/auth/reissue`, data);
+
+  return response.data;
+};
+
+// 비밀번호 변경
+export const updatePassword = async (data: UpdatePasswordRequest) => {
+  const response = await PostAxiosInstance(`/auth/password-update`, data);
 
   return response.data;
 };
 
 // 비밀번호 재설정
-export const changePassword = async (data: ChangePasswordRequest) => {
-  const response = await PostAxiosInstance(`/auth/password-reset/reset`, data);
-
-  return response.data;
-};
-
-// 비밀번호 재설정 이메일 전송
-export const requestResetPassword = async (data: RequestResetPasswordRequest) => {
-  const response = await GuestPostAxiosInstance(`/auth/password-reset/request`, data);
+export const resetPassword = async (data: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
+  const response = await GuestPostAxiosInstance<ResetPasswordResponse>(
+    `/auth/password-reset`,
+    data,
+  );
 
   return response.data;
 };
 
 // 로그아웃
 export const logout = async () => {
-  const response = await PostAxiosInstance(`/auth/login`);
+  const response = await PostAxiosInstance(`/auth/logout`);
 
   return response.data;
 };

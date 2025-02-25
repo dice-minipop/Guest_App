@@ -28,12 +28,14 @@ export interface SpaceDetailItem {
   city: string;
   district: string;
   address: string;
+  detailAddress: string | null;
   websiteUrl: string;
   contactNumber: string;
   facilityInfo: string;
   notice: string;
   likeCount: number;
   isLiked: boolean;
+  messageRoomId: number | null;
 }
 
 export interface SpaceFilterDTO {

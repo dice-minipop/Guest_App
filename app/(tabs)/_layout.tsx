@@ -52,7 +52,7 @@ export default function TabLayout() {
           },
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="reservation"
         options={{
           title: '예약관리',
@@ -65,7 +65,7 @@ export default function TabLayout() {
             fontWeight: 'medium',
           },
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="myPage"
         options={{

@@ -4,6 +4,16 @@ export interface SignUpResponse {
   userRole: string;
 }
 
+export interface ReissueTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface ResetPasswordResponse {
+  email: string;
+  tempPassword: string;
+}
+
 export interface LoginResponse {
   user: {
     email: string;

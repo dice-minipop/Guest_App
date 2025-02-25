@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   Pressable,
   SafeAreaView,
   Text,
@@ -11,6 +12,7 @@ import {
   View,
 } from 'react-native';
 
+import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
 import { useCheckPhoneNumber } from '@/hooks/auth/auth';
 import { useGetGuestInfo, useUpdateGuestInfo } from '@/hooks/guest/guest';
@@ -26,12 +28,16 @@ const UpdateInfoScreen = () => {
     phone: data.phone,
   });
 
-  const { mutateAsync: updateInfo } = useUpdateGuestInfo(refetch);
-  const { mutateAsync: checkPhone } = useCheckPhoneNumber();
+  const { mutateAsync: updateInfo, isPending: isUpdateInfoPending } = useUpdateGuestInfo(refetch);
+  const { mutateAsync: checkPhone, isPending: isCheckPhonePeding } = useCheckPhoneNumber();
 
   return (
-    <SafeAreaView className="flex-1 bg-white" onTouchEnd={() => Keyboard.dismiss()}>
+    <SafeAreaView
+      className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}
+      onTouchEnd={() => Keyboard.dismiss()}
+    >
       <StatusBar style="dark" />
+      {(isUpdateInfoPending || isCheckPhonePeding) && <LoadingComponent />}
       <View className="flex flex-row justify-between items-center px-1 relative">
         <Pressable onPress={() => router.back()} className="p-3">
           <Icon.BlackLeftArrow />

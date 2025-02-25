@@ -21,7 +21,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({ type, handleType }) =
     handleType();
 
     Animated.timing(translateX, {
-      toValue: type === 'announcement' ? 0 : 70,
+      toValue: type === 'announcement' ? 0 : 69,
       duration: 200,
       useNativeDriver: true,
     }).start();

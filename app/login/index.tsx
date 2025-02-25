@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import {
@@ -59,7 +60,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
+      <StatusBar style="dark" />
       <View className="relative h-full w-full p-5">
         <Pressable className="absolute m-5 z-10" onPress={() => router.back()}>
           <Icon.X />

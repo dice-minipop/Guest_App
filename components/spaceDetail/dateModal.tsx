@@ -32,10 +32,10 @@ const DateModalComponent: React.FC<DateModalComponentProps> = ({ isVisible, clos
     setEndDate('');
   };
 
-  useEffect(() => {
-    console.log('시작일: ', startDate);
-    console.log('종료일: ', endDate);
-  }, [startDate, endDate]);
+  // useEffect(() => {
+  //   console.log('시작일: ', startDate);
+  //   console.log('종료일: ', endDate);
+  // }, [startDate, endDate]);
 
   return (
     isVisible && (
