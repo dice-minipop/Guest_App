@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Path, Control, Controller, FieldValues, RegisterOptions } from 'react-hook-form';
 import { View, TextInput, Pressable, TextInputProps, Text } from 'react-native';
 
@@ -10,12 +10,14 @@ interface UserInputProps<T extends FieldValues> extends TextInputProps {
   type: 'password' | 'password_check' | 'name' | 'email' | 'phone' | 'auth';
   name: Path<T>;
   control: Control<T>;
-  rules?: RegisterOptions<T>;
+  rules?: RegisterOptions<T, Path<T>>;
 }
 
 const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserInputProps<T>) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswdVissible, setIsPasswdVissible] = useState<boolean>(false);
+
+  const { mutate: checkPhoneNumber, isError: isPhoneError } = useCheckPhoneNumber();
 
   const placeholder = {
     password: '비밀번호를 입력해주세요',
@@ -31,29 +33,44 @@ const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserIn
     return passwordRegex.test(password);
   };
 
-  // const email_message = '이미 가입된 이메일입니다.' || '사용 가능한 이메일입니다.';
+  const passwordRules: RegisterOptions<T, Path<T>> = {
+    required: '비밀번호를 입력해주세요',
+    minLength: { value: 8, message: '최소 8자 이상 입력해야 합니다.' },
+    pattern: {
+      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
+      message: '영문, 숫자, 특수문자만 허용되며, 3개 모두 사용해야 합니다.',
+    },
+    validate: (value) =>
+      isValidPassword(value) || '비밀번호는 8자 이상 / 영문, 숫자, 특수문자를 포함해야 합니다.',
+  };
 
-  //   const password_message =
-  //     '비밀번호는 8자 이상 / 영문, 숫자, 특수문자를 포함해야 합니다.' ||
-  //     '사용 가능한 비밀번호입니다.';
+  const phoneRules: RegisterOptions<T, Path<T>> = {
+    required: '전화번호를 입력해주세요.',
+    pattern: {
+      value: /^010\d{8}$/,
+      message: '올바른 휴대폰 번호를 입력해주세요.',
+    },
+    validate: (value) => {
+      checkPhoneNumber({ phone: value });
 
-  // const password_check_message = '동일한 비밀번호를 입력해야 합니다.' || '동일한 비밀번호입니다.';
-
-  // const phone_message = '중복된 휴대폰 번호입니다.' || '사용 가능한 휴대폰 번호입니다.';
-
-  const { mutateAsync: checkPhone } = useCheckPhoneNumber();
+      if (isPhoneError) {
+        return '중복된 휴대폰 번호입니다.';
+      }
+      return true;
+    },
+  };
 
   return (
     <View className="relative w-full">
       <Controller
         name={name}
         control={control}
-        rules={rules}
-        render={({ field: { onChange, onBlur, value } }) => (
+        rules={type === 'password' ? passwordRules : type === 'phone' ? phoneRules : rules}
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
           <View>
             <View className="flex min-h-11 flex-row items-center gap-x-2">
               <View
-                className={`flex-1 border rounded-lg relative ${isFocused ? 'border-black' : 'border-light_gray'}`}
+                className={`flex-1 border rounded-lg relative ${error ? 'border-red' : isFocused ? 'border-black' : 'border-light_gray'}`}
               >
                 <TextInput
                   className={`flex-1 p-4 text-BODY2 font-BODY2 min-h-11`}
@@ -70,7 +87,10 @@ const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserIn
                     onBlur();
                   }}
                   value={value}
-                  onChangeText={onChange}
+                  onChangeText={(text) => {
+                    onChange(text);
+                  }}
+                  maxLength={type === 'phone' ? 11 : undefined}
                 />
                 {value ? (
                   <Pressable
@@ -91,24 +111,12 @@ const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserIn
                   </Pressable>
                 ) : null}
               </View>
-              {type === 'phone' && (
-                <Pressable
-                  onPress={() => checkPhone({ phone: value })}
-                  disabled={!value}
-                  className={`px-7 py-3.5 border rounded-lg ${value ? 'border-black' : 'border-light_gray'}`}
-                >
-                  <Text
-                    className={`text-BTN1 font-BTN1 leading-BTN1 ${value ? 'text-black' : 'text-light_gray'}`}
-                  >
-                    중복 확인
-                  </Text>
-                </Pressable>
-              )}
             </View>
-            {/* {type === 'email' && <Text className="mt-1">이메일</Text>}
-            {type === 'password' && <Text className="mt-1">비밀번호</Text>}
-            {type === 'password_check' && <Text className="mt-1">비밀번호 확인</Text>}
-            {type === 'phone' && <Text className="mt-1">휴대폰</Text>} */}
+            {(type === 'password' || type === 'phone' || type === 'password_check') && error && (
+              <Text className="text-CAP2 font-CAP2 leading-CAP2 text-red mt-1 ml-2">
+                {error.message}
+              </Text>
+            )}
           </View>
         )}
       />

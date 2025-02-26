@@ -13,7 +13,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   slug: 'dice',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/images/icon.png',
+  icon: './assets/images/app_icon.png',
   scheme: 'myapp',
   userInterfaceStyle: 'light',
   newArchEnabled: true,
@@ -49,7 +49,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
     package: 'com.cmc.dice.minipop.expo',
     versionCode: 1,
     adaptiveIcon: {
-      foregroundImage: './assets/images/adaptive_icon.png',
+      foregroundImage: './assets/images/android_logo.png',
       backgroundColor: '#000000',
     },
     permissions: [],

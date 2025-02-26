@@ -48,8 +48,10 @@ const MyBrandUpdateScreen = () => {
       setIsUploading(true);
       const response = await uploadImage(imageList);
       setBrandData((prev) => ({ ...prev, logoUrl: response.imageUrl }));
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.status === 413) {
+        Alert.alert('최대 업로드 크기를 초과했습니다.');
+      }
     } finally {
       setIsUploading(false);
     }
@@ -63,8 +65,10 @@ const MyBrandUpdateScreen = () => {
         ...prev,
         imageUrls: [...prev.imageUrls, ...response.imageUrls],
       }));
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.status === 413) {
+        Alert.alert('최대 업로드 크기를 초과했습니다.');
+      }
     } finally {
       setIsUploading(false);
     }

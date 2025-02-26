@@ -34,7 +34,8 @@ const RegisterScreen = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+    getValues,
+  } = useForm<FormData>({ mode: 'onChange' });
 
   const { mutateAsync: signUp } = useSignUp();
 
@@ -102,12 +103,6 @@ const RegisterScreen = () => {
                   control={control}
                   rules={{ required: '이메일을 입력해주세요' }}
                 />
-                {/* <UserInput
-                  type="email"
-                  name="email"
-                  control={control}
-                  rules={{ required: '이메일을 입력해주세요' }}
-                /> */}
               </View>
 
               <View className="gap-y-2">
@@ -130,7 +125,11 @@ const RegisterScreen = () => {
                   type="password_check"
                   name="password_check"
                   control={control}
-                  rules={{ required: '비밀번호를 한 번 더 입력해주세요' }}
+                  rules={{
+                    required: '비밀번호를 한 번 더 입력해주세요',
+                    validate: (value) =>
+                      value === getValues('password') || '동일한 비밀번호를 입력해야 합니다.',
+                  }}
                 />
               </View>
 
