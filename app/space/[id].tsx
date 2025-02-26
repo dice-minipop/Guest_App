@@ -29,10 +29,9 @@ import { useToggleSpaceLike } from '@/hooks/like/like';
 import { useGetFilteredSpaceLists, useGetSpaceDetailData } from '@/hooks/space/space';
 import { copyText } from '@/utils/clipboard';
 import { makeCall, makeMessage } from '@/utils/phoneCall';
-import { openWebSite } from '@/utils/website';
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
-const PopUpDetailScreen = () => {
+const SpaceDetailScreen = () => {
   const { id } = useLocalSearchParams();
 
   const { filtering } = useSpaceFilteringStore();
@@ -375,4 +374,4 @@ const PopUpDetailScreen = () => {
   );
 };
 
-export default PopUpDetailScreen;
+export default SpaceDetailScreen;
