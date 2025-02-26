@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View, Pressable, Platform } from 'react-native';
 import { Portal } from 'react-native-portalize';
 
-import HeaderComponent from '@/components/popUp/filter/header';
-import PeopleFilterComponent from '@/components/popUp/filter/peopleFilter';
-import PriceFilterComponent from '@/components/popUp/filter/priceFilter';
-import RegionFilterComponent from '@/components/popUp/filter/regionFilter';
-import SortFilterComponent from '@/components/popUp/filter/sortFilter';
+import HeaderComponent from '@/components/space/filter/header';
+import PeopleFilterComponent from '@/components/space/filter/peopleFilter';
+import PriceFilterComponent from '@/components/space/filter/priceFilter';
+import RegionFilterComponent from '@/components/space/filter/regionFilter';
+import SortFilterComponent from '@/components/space/filter/sortFilter';
 import { useGetFilteredSpaceLists } from '@/hooks/space/space';
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
 
@@ -30,6 +30,18 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
       return min / 10000 + '~' + max / 10000 + '만원';
     }
     return '';
+  };
+
+  const handleSortType = (type: string | undefined) => {
+    if (type === 'likeCount') {
+      return '인기 순';
+    } else if (type === 'latest') {
+      return '최신 순';
+    } else if (type === 'priceAsc') {
+      return '낮은 가격 순';
+    } else if (type === 'priceDesc') {
+      return '높은 가격 순';
+    }
   };
 
   return (
@@ -128,7 +140,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                   className="flex flex-row items-center gap-x-0.5 rounded-full border border-black py-1 pl-2.5 pr-1.5"
                 >
                   <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                    {filtering.sortBy}
+                    {handleSortType(filtering.sortBy)}
                   </Text>
                   <Icon.Delete />
                 </Pressable>

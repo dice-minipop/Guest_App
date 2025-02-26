@@ -22,6 +22,18 @@ const ChipContainer: React.FC<ChipContainerProps> = ({ chipList, openModal }) =>
     return '';
   };
 
+  const handleSortType = (type: string | undefined) => {
+    if (type === 'likeCount') {
+      return '인기 순';
+    } else if (type === 'latest') {
+      return '최신 순';
+    } else if (type === 'priceAsc') {
+      return '낮은 가격 순';
+    } else if (type === 'priceDesc') {
+      return '높은 가격 순';
+    }
+  };
+
   const handleChip = (chip: string, key: number) => {
     if (chip === '지역') {
       return (
@@ -92,7 +104,7 @@ const ChipContainer: React.FC<ChipContainerProps> = ({ chipList, openModal }) =>
           <Text
             className={`font-BTN1 text-BTN1 leading-BTN1 ${isRefetched && 'sortBy' in filtering ? 'text-white' : 'text-deep_gray'} `}
           >
-            {isRefetched && 'sortBy' in filtering ? filtering.sortBy : chip}
+            {isRefetched && 'sortBy' in filtering ? handleSortType(filtering.sortBy) : chip}
           </Text>
           <Icon.ChipDownArrow size={16} />
         </Pressable>

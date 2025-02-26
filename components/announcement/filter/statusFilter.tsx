@@ -8,7 +8,7 @@ const StatusFilterComponent: React.FC = () => {
 
   const items = [
     { title: '모집 중', value: 'RECRUITING' },
-    { title: '모집 예정', value: '모집 예정' },
+    { title: '모집 예정', value: 'COMPLETED' },
     { title: '모집 마감', value: 'CLOSED' },
   ];
 

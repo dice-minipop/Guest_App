@@ -16,7 +16,7 @@ const ChipContainer: React.FC<ChipContainerProps> = ({ chipList, openModal }) =>
   const handleStatus = (status: string) => {
     if (status === 'RECRUITING') {
       return '모집 중';
-    } else if (status === 'RECRUITING') {
+    } else if (status === 'COMPLETED') {
       return '모집 예정';
     } else {
       return '모집 마감';

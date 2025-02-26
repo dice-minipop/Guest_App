@@ -3,10 +3,10 @@ import React, { Suspense, useState } from 'react';
 import { View, SectionList, SafeAreaView, Platform } from 'react-native';
 
 import LoadingComponent from '@/components/common/loadingComponent';
-import CardComponent from '@/components/popUp/card';
-import ChipContainer from '@/components/popUp/chipContainer';
-import FilterContainer from '@/components/popUp/filterContainer';
-import HeaderComponent from '@/components/popUp/header';
+import CardComponent from '@/components/space/card';
+import ChipContainer from '@/components/space/chipContainer';
+import FilterContainer from '@/components/space/filterContainer';
+import HeaderComponent from '@/components/space/header';
 import TopNavigation from '@/components/topNavigation/topNavigation';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { useGetFilteredSpaceLists } from '@/hooks/space/space';
