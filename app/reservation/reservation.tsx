@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Platform, SafeAreaView, SectionList, View } from 'react-native';
 
-import ChipContainer from '@/components/popUp/chipContainer';
 import CardComponent from '@/components/reservation/cardComponent';
 import HeaderComponent from '@/components/reservation/header';
+import ChipContainer from '@/components/space/chipContainer';
 import TopNavigation from '@/components/topNavigation/topNavigation';
 import {
   cancelDummyData,

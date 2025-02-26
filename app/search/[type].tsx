@@ -12,7 +12,7 @@ import {
 
 import RecruitItemComponent from '@/components/announcement/announcementItem';
 import Icon from '@/components/icon/icon';
-import CardComponent from '@/components/popUp/card';
+import CardComponent from '@/components/space/card';
 import { useGetSearchedAnnouncementLists } from '@/hooks/announcement/announcement';
 import { useToggleAnnouncementLike, useToggleSpaceLike } from '@/hooks/like/like';
 import { useGetSearchedSpaceLists } from '@/hooks/space/space';

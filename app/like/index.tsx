@@ -5,7 +5,7 @@ import { View, FlatList, SafeAreaView, Platform } from 'react-native';
 import RecruitItemComponent from '@/components/announcement/announcementItem';
 import LoadingComponent from '@/components/common/loadingComponent';
 import HeaderComponent from '@/components/like/header';
-import CardComponent from '@/components/popUp/card';
+import CardComponent from '@/components/space/card';
 import { useGetLikedAnnouncementLists, useGetLikedSpaceLists } from '@/hooks/guest/guest';
 import { useToggleSpaceLike, useToggleAnnouncementLike } from '@/hooks/like/like';
 
