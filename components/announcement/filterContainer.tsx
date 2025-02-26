@@ -101,7 +101,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({ isVisible, type, hand
                 >
                   <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
                     {filtering.status === 'RECRUITING' && '모집 중'}
-                    {filtering.status === '모집 예정' && '모집 예정'}
+                    {filtering.status === 'COMPLETED' && '모집 예정'}
                     {filtering.status === 'CLOSED' && '모집 마감'}
                   </Text>
                   <Icon.Delete />
