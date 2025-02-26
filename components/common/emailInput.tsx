@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Control, Controller, FieldValues, Path, RegisterOptions } from 'react-hook-form';
 import { Pressable, Text, TextInput, TextInputProps, View } from 'react-native';
 
+import { useCheckEmail } from '@/hooks/auth/auth';
+
 import Icon from '../icon/icon';
 
 const items = [
@@ -31,18 +33,31 @@ const EmailInputComponent = <T extends FieldValues>({
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isSelectDomainOpen, setIsSelectDomainOpen] = useState<boolean>(false);
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
-  const [customDomain, setCustomDomain] = useState('');
-  const [emailId, setEmailId] = useState('');
+  const [customDomain, setCustomDomain] = useState<string>('');
+  const [emailId, setEmailId] = useState<string>('');
+
+  const { mutateAsync: checkEmail } = useCheckEmail();
 
   return (
     <Controller
       control={control}
       name={name}
-      rules={{ required: '이메일을 입력해주세요' }}
-      render={({ field: { onChange, onBlur, value } }) => (
+      rules={{
+        ...rules,
+        validate: async (value) => {
+          if (!value) return '이메일을 입력해주세요.';
+          try {
+            await checkEmail({ email: value });
+            return true;
+          } catch {
+            return '이미 가입된 이메일입니다.';
+          }
+        },
+      }}
+      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
         <View className="relative">
           <View
-            className={`flex flex-row gap-x-2 items-center border rounded-lg px-4 py-2.5 ${isFocused ? 'border-black' : 'border-light_gray'}`}
+            className={`flex flex-row gap-x-2 items-center border rounded-lg px-4 py-2.5 ${error ? 'border-red' : isFocused ? 'border-black' : 'border-light_gray'}`}
           >
             <TextInput
               autoCapitalize="none"
@@ -54,10 +69,7 @@ const EmailInputComponent = <T extends FieldValues>({
                 setIsFocused(false);
                 onBlur();
               }}
-              onChangeText={(text) => {
-                setEmailId(text);
-                onChange(selectedDomain ? `${text}@${selectedDomain}` : text);
-              }}
+              onChangeText={setEmailId}
             />
             <Text className="text-BODY2 font-BODY2 text-dark_gray">@</Text>
             {selectedDomain === '직접 입력' ? (
@@ -76,7 +88,9 @@ const EmailInputComponent = <T extends FieldValues>({
               </View>
             ) : (
               <Pressable
-                onPress={() => setIsSelectDomainOpen(!isSelectDomainOpen)}
+                onPress={() => {
+                  if (emailId !== '') setIsSelectDomainOpen(!isSelectDomainOpen);
+                }}
                 className="flex-1 flex flex-row justify-between items-center"
               >
                 <Text
@@ -88,6 +102,11 @@ const EmailInputComponent = <T extends FieldValues>({
               </Pressable>
             )}
           </View>
+          {type === 'email' && error && (
+            <Text className="text-CAP2 font-CAP2 leading-CAP2 text-red mt-1 ml-2">
+              {error.message}
+            </Text>
+          )}
 
           {isSelectDomainOpen && (
             <View className="absolute top-full right-0 mt-1 bg-white z-10 rounded-xl p-1 border border-light_gray">
@@ -96,11 +115,10 @@ const EmailInputComponent = <T extends FieldValues>({
                   key={index}
                   className="min-w-36 pl-2 py-3"
                   onPress={() => {
+                    const fullEmail = `${emailId}@${item}`;
                     setSelectedDomain(item);
                     setIsSelectDomainOpen(false);
-                    onChange(
-                      emailId ? `${emailId}@${item === '직접 입력' ? customDomain : item}` : '',
-                    );
+                    onChange(fullEmail);
                   }}
                 >
                   <Text className="text-BTN1 font-BTN1 text-medium_gray">{item}</Text>

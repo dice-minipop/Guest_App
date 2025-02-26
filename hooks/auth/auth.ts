@@ -31,11 +31,11 @@ import { useLoggedInStore } from '@/zustands/member/store';
 export const useCheckPhoneNumber = () => {
   return useMutation({
     mutationFn: (data: CheckPhoneNumberRequest) => checkPhoneNumber(data),
-    onError: (error: any) => {
-      if (error.message === 'Request failed with status code 409') {
-        Alert.alert('이미 사용중인 휴대폰 번호입니다!');
-      }
-    },
+    // onError: (error: any) => {
+    //   if (error.message === 'Request failed with status code 409') {
+    //     Alert.alert('이미 사용중인 휴대폰 번호입니다!');
+    //   }
+    // },
   });
 };
 
@@ -43,11 +43,11 @@ export const useCheckPhoneNumber = () => {
 export const useCheckEmail = () => {
   return useMutation({
     mutationFn: (data: CheckEmailRequest) => checkEmail(data),
-    onError: (error: any) => {
-      if (error.message === 'Request failed with status code 409') {
-        Alert.alert('이미 사용중인 이메일입니다!');
-      }
-    },
+    // onError: (error: any) => {
+    //   if (error.message === 'Request failed with status code 409') {
+    //     Alert.alert('이미 사용중인 이메일입니다!');
+    //   }
+    // },
   });
 };
 
