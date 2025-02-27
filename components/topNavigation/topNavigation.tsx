@@ -1,12 +1,24 @@
 import { usePathname, useRouter } from 'expo-router';
 import React from 'react';
-import { View, Pressable, Text } from 'react-native';
+import { View, Pressable, Text, Alert } from 'react-native';
+
+import { useGuestStateStore } from '@/zustands/member/store';
 
 import Icon from '../icon/icon';
 
 const TopNavigation: React.FC = () => {
   const router = useRouter();
   const pathName = usePathname();
+
+  const { isGuestMode } = useGuestStateStore();
+
+  const handleGuestMode = (path: '/myBrand' | '/like' | '/(myPage)/updateInfo') => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      router.push(path);
+    }
+  };
 
   return (
     <View className="fixed z-10 flex h-14 w-full flex-row items-center justify-between bg-black p-1 pl-5">
@@ -17,7 +29,7 @@ const TopNavigation: React.FC = () => {
       </Text>
 
       <View className="flex flex-row">
-        <Pressable onPress={() => router.push('/like')} className="p-3">
+        <Pressable onPress={() => handleGuestMode('/like')} className="p-3">
           <Icon.Like />
         </Pressable>
 
