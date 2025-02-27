@@ -13,7 +13,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   slug: 'dice',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/images/app_icon.png',
+  icon: './assets/images/icon.png',
   scheme: 'myapp',
   userInterfaceStyle: 'light',
   newArchEnabled: true,
