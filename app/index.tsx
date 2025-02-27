@@ -1,14 +1,28 @@
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, SafeAreaView, Image } from 'react-native';
+import { View, Text, Pressable, SafeAreaView } from 'react-native';
 
 import Icon from '@/components/icon/icon';
+import { useLogin } from '@/hooks/auth/auth';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 const HomeScreen = () => {
   const router = useRouter();
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
+  const { setIsGuestMode } = useGuestStateStore();
+
+  const { mutateAsync: guestLogin } = useLogin();
+
+  const handleGuestMode = async () => {
+    setIsGuestMode(true);
+    guestLogin({
+      email: process.env.EXPO_PUBLIC_GUEST_ID as string,
+      password: process.env.EXPO_PUBLIC_GUEST_PASSWORD as string,
+    });
+    router.push('/(tabs)/space');
+  };
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -93,12 +107,12 @@ const HomeScreen = () => {
                 회원으로 가입하기
               </Text>
             </Pressable>
-            {/* <Text className="text-medium_gray">|</Text>
-            <Pressable onPress={handleLoggedIn}>
+            <Text className="text-medium_gray">|</Text>
+            <Pressable onPress={handleGuestMode}>
               <Text className="font-BTN1 text-BTN1 text-medium_gray underline">
-                비회원으로 둘러보기
+                게스트로 둘러보기
               </Text>
-            </Pressable> */}
+            </Pressable>
           </View>
         </View>
       </View>
