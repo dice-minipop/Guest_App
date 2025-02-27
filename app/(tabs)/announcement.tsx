@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useState } from 'react';
-import { View, SectionList, SafeAreaView, Platform } from 'react-native';
+import { View, SectionList, SafeAreaView, Platform, Alert } from 'react-native';
 
 import AnnouncementHeaderComponent from '@/components/announcement/announcementHeader';
 import AnnouncementItemComponent from '@/components/announcement/announcementItem';
@@ -11,9 +11,12 @@ import TopNavigation from '@/components/topNavigation/topNavigation';
 import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
 import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 const AnnouncementScreen = () => {
   const { setIsRefetched, filtering } = useAnnouncementFilteringStore();
+  const { isGuestMode } = useGuestStateStore();
+
   const {
     data: announcementList,
     fetchNextPage,
@@ -23,6 +26,14 @@ const AnnouncementScreen = () => {
   } = useGetAnnouncementLists(filtering);
 
   const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch);
+
+  const handleGuestMode = (id: number) => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      announcementLike(id);
+    }
+  };
 
   const [filteringType, setFilteringType] = useState<string>('');
 
@@ -53,7 +64,7 @@ const AnnouncementScreen = () => {
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View className="px-5">
-                  <AnnouncementItemComponent recruitItem={item} toggleLike={announcementLike} />
+                  <AnnouncementItemComponent recruitItem={item} toggleLike={handleGuestMode} />
                 </View>
               )}
               renderSectionHeader={({ section }) =>

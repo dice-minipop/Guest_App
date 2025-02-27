@@ -19,6 +19,7 @@ import {
   NativeSyntheticEvent,
   Platform,
   Linking,
+  Alert,
 } from 'react-native';
 // import MapView, { Marker } from 'react-native-maps';
 
@@ -30,11 +31,13 @@ import { useGetFilteredSpaceLists, useGetSpaceDetailData } from '@/hooks/space/s
 import { copyText } from '@/utils/clipboard';
 import { makeCall, makeMessage } from '@/utils/phoneCall';
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 const SpaceDetailScreen = () => {
   const { id } = useLocalSearchParams();
 
   const { filtering } = useSpaceFilteringStore();
+  const { isGuestMode } = useGuestStateStore();
 
   const width = Dimensions.get('screen').width;
 
@@ -57,9 +60,15 @@ const SpaceDetailScreen = () => {
 
   const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch, refetchList);
 
-  // const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
+  const handleGuestMode = (id: number) => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      spaceLike(id);
+    }
+  };
 
-  console.log(data.websiteUrl);
+  // const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
   return (
     <View className="flex-1">
@@ -127,7 +136,10 @@ const SpaceDetailScreen = () => {
                 </View>
               </View>
 
-              <Pressable onPress={() => spaceLike(data.id)} className="flex flex-col items-center">
+              <Pressable
+                onPress={() => handleGuestMode(data.id)}
+                className="flex flex-col items-center"
+              >
                 {data.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
                 <Text
                   className={`font-CAP2 text-CAP2 leading-CAP2 ${

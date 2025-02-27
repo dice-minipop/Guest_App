@@ -10,19 +10,31 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
 import { useLogout } from '@/hooks/auth/auth';
 import { useGetGuestInfo } from '@/hooks/guest/guest';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 const MyPageScreen = () => {
   const router = useRouter();
 
+  const { isGuestMode } = useGuestStateStore();
+
   const { data: guestInfo, isPending } = useGetGuestInfo();
 
   const { mutateAsync: logout } = useLogout();
+
+  const handleGuestMode = (path: '/myBrand' | '/like' | '/(myPage)/updateInfo') => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      router.push(path);
+    }
+  };
 
   return (
     <View className="flex-1">
@@ -82,7 +94,7 @@ const MyPageScreen = () => {
           </ImageBackground>
         ) : (
           <Pressable
-            onPress={() => router.push('/myBrand')}
+            onPress={() => handleGuestMode('/myBrand')}
             className="flex flex-col gap-y-1 pb-4 bg-black"
           >
             <View className="flex self-end">
@@ -116,7 +128,7 @@ const MyPageScreen = () => {
 
         <View className="bg-white flex-1 gap-y-6 pt-6">
           <View className="px-5">
-            <Pressable onPress={() => router.push('/like')} className="py-3">
+            <Pressable onPress={() => handleGuestMode('/like')} className="py-3">
               <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">찜한 목록</Text>
             </Pressable>
             {/* <Pressable onPress={() => router.push('/chatBox')} className="py-3">
@@ -127,7 +139,7 @@ const MyPageScreen = () => {
           <View className="mx-5 h-[1px] bg-stroke" />
 
           <View className="px-5">
-            <Pressable onPress={() => router.push('/(myPage)/updateInfo')} className="py-3">
+            <Pressable onPress={() => handleGuestMode('/(myPage)/updateInfo')} className="py-3">
               <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">
                 회원 정보 관리
               </Text>
@@ -146,17 +158,25 @@ const MyPageScreen = () => {
 
           <View className="px-5">
             <Pressable onPress={() => logout()} className="py-3">
-              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">로그아웃</Text>
+              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">
+                {isGuestMode ? '게스트로 둘러보기 종료' : '로그아웃'}
+              </Text>
             </Pressable>
           </View>
 
-          <View className="h-2 bg-back_gray" />
+          {!isGuestMode && (
+            <>
+              <View className="h-2 bg-back_gray" />
 
-          <View className="px-5">
-            <Pressable onPress={() => router.push('/(myPage)/withdraw')} className="py-3">
-              <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">탈퇴하기</Text>
-            </Pressable>
-          </View>
+              <View className="px-5">
+                <Pressable onPress={() => router.push('/(myPage)/withdraw')} className="py-3">
+                  <Text className="font-SUB3 text-SUB3 leading-SUB3 text-medium_gray">
+                    탈퇴하기
+                  </Text>
+                </Pressable>
+              </View>
+            </>
+          )}
         </View>
       </SafeAreaView>
     </View>

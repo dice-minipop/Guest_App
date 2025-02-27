@@ -25,7 +25,7 @@ import {
 } from '@/server/auth/request';
 import { LoginResponse, ResetPasswordResponse } from '@/server/auth/response';
 import { deleteToken, setAccessToken, setRefreshToken } from '@/utils/token';
-import { useLoggedInStore } from '@/zustands/member/store';
+import { useGuestStateStore, useLoggedInStore } from '@/zustands/member/store';
 
 // 휴대폰 번호 중복 확인
 export const useCheckPhoneNumber = () => {
@@ -117,6 +117,7 @@ export const useResetPassword = () => {
 export const useLogout = () => {
   const router = useRouter();
   const { setIsLoggedIn } = useLoggedInStore();
+  const { isGuestMode, setIsGuestMode } = useGuestStateStore();
 
   return useMutation({
     mutationFn: () => logout(),
@@ -124,6 +125,8 @@ export const useLogout = () => {
       router.replace('/');
       setIsLoggedIn(false);
       await deleteToken();
+
+      if (isGuestMode) setIsGuestMode(false);
     },
     onError: (error) => {
       console.log(error);

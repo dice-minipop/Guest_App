@@ -43,11 +43,6 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (isAppLoaded && fontsLoaded) {
-      console.log('isAppLoaded', isAppLoaded);
-      console.log('fontsLoaded', fontsLoaded);
-      console.log('isLoggedIn', isLoggedIn);
-
-      console.log('🛠 SplashScreen 숨김 처리');
       SplashScreen.hideAsync();
 
       if (isLoggedIn) {

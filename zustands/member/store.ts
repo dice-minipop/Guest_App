@@ -8,3 +8,12 @@ export const useLoggedInStore = create<{
   isLoggedIn: false,
   setIsLoggedIn: (status) => set({ isLoggedIn: status }),
 }));
+
+// 게스트 상태 관리 store
+export const useGuestStateStore = create<{
+  isGuestMode: boolean;
+  setIsGuestMode: (status: boolean) => void;
+}>((set) => ({
+  isGuestMode: false,
+  setIsGuestMode: (status) => set({ isGuestMode: status }),
+}));
