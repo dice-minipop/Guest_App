@@ -12,7 +12,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Linking,
-  Platform,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -24,11 +24,13 @@ import {
 import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { translateTime } from '@/utils/time';
 import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 export default function RecruitDetailScreen() {
   const { id } = useLocalSearchParams();
 
   const { filtering } = useAnnouncementFilteringStore();
+  const { isGuestMode } = useGuestStateStore();
 
   const router = useRouter();
 
@@ -36,6 +38,14 @@ export default function RecruitDetailScreen() {
   const { refetch: refetchList } = useGetAnnouncementLists(filtering);
 
   const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch, refetchList);
+
+  const handleGuestMode = (id: number) => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      announcementLike(id);
+    }
+  };
 
   const width = Dimensions.get('screen').width;
 
@@ -95,7 +105,7 @@ export default function RecruitDetailScreen() {
             <View className="flex flex-row items-center justify-between">
               <Text className="mr-[22px] font-H2 text-H2 leading-H2">{data.title}</Text>
               <View className="flex flex-col items-center">
-                <Pressable onPress={() => announcementLike(data.id)}>
+                <Pressable onPress={() => handleGuestMode(data.id)}>
                   {data.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
                 </Pressable>
                 <Text

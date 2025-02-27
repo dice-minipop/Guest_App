@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useState } from 'react';
-import { View, SectionList, SafeAreaView, Platform } from 'react-native';
+import { View, SectionList, SafeAreaView, Platform, Alert } from 'react-native';
 
 import LoadingComponent from '@/components/common/loadingComponent';
 import CardComponent from '@/components/space/card';
@@ -11,9 +11,11 @@ import TopNavigation from '@/components/topNavigation/topNavigation';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { useGetFilteredSpaceLists } from '@/hooks/space/space';
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
+import { useGuestStateStore } from '@/zustands/member/store';
 
 const SpaceScreen = () => {
   const { setIsRefetched, filtering } = useSpaceFilteringStore();
+  const { isGuestMode } = useGuestStateStore();
 
   const {
     data: spaceList,
@@ -23,6 +25,14 @@ const SpaceScreen = () => {
     isPending,
   } = useGetFilteredSpaceLists(filtering);
   const { mutateAsync: spaceLike } = useToggleSpaceLike(refetch);
+
+  const handleGuestMode = (id: number) => {
+    if (isGuestMode) {
+      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
+    } else {
+      spaceLike(id);
+    }
+  };
 
   const chipList = ['지역', '가격', '수용인원', '정렬'];
 
@@ -55,7 +65,7 @@ const SpaceScreen = () => {
               // 아이템들을 렌더링하는 메서드
               renderItem={({ item }) => (
                 <View className="px-5">
-                  <CardComponent spaceData={item} toggleLike={spaceLike} />
+                  <CardComponent spaceData={item} toggleLike={handleGuestMode} />
                 </View>
               )}
               // sticky한 ChipContainer를 렌더링하기 위한 메서드
