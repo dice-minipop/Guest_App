@@ -43,17 +43,15 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (isAppLoaded && fontsLoaded) {
-      SplashScreen.hideAsync();
+      setTimeout(() => {
+        SplashScreen.hideAsync();
 
-      if (isLoggedIn) {
-        router.replace('/(tabs)/space');
-      }
+        if (isLoggedIn) {
+          router.replace('/(tabs)/space');
+        }
+      }, 2000); // 2초 후에 SplashScreen 숨기기
     }
-  }, [isAppLoaded, fontsLoaded, isLoggedIn]); // 모든 의존성 추가
-
-  if (!isAppLoaded || !fontsLoaded) {
-    return null;
-  }
+  }, [isAppLoaded, fontsLoaded, isLoggedIn]);
 
   return (
     <GestureHandlerRootView>
