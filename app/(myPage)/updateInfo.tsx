@@ -82,7 +82,7 @@ const UpdateInfoScreen = () => {
               </View>
             </View>
 
-            <View className="flex flex-col gap-y-2 px-5">
+            {/* <View className="flex flex-col gap-y-2 px-5">
               <Text className="text-CAP1 font-CAP1 leading-CAP1 text-dark_gray">휴대폰</Text>
               <View className="flex flex-row items-center gap-x-2">
                 <TextInput
@@ -103,7 +103,7 @@ const UpdateInfoScreen = () => {
                   </Text>
                 </Pressable>
               </View>
-            </View>
+            </View> */}
           </View>
 
           <Pressable

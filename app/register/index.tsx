@@ -24,7 +24,7 @@ interface FormData {
   password_check: string;
   name: string;
   email: string;
-  phone: string;
+  // phone: string;
 }
 
 const RegisterScreen = () => {
@@ -46,7 +46,7 @@ const RegisterScreen = () => {
       email: data.email,
       name: data.name,
       password: data.password,
-      phone: data.phone,
+      // phone: data.phone,
     });
   };
 
@@ -61,9 +61,10 @@ const RegisterScreen = () => {
       Alert.alert('입력 오류', errors.name.message);
     } else if (errors.email) {
       Alert.alert('입력 오류', errors.email.message);
-    } else if (errors.phone) {
-      Alert.alert('입력 오류', errors.phone.message);
     }
+    // else if (errors.phone) {
+    //   Alert.alert('입력 오류', errors.phone.message);
+    // }
   };
 
   return (
@@ -133,7 +134,7 @@ const RegisterScreen = () => {
                 />
               </View>
 
-              <View className="gap-y-2">
+              {/* <View className="gap-y-2">
                 <Text className="text-CAP1 font-CAP1 leading-CAP1">
                   휴대폰<Text className="text-red">*</Text>
                 </Text>
@@ -144,7 +145,7 @@ const RegisterScreen = () => {
                   control={control}
                   rules={{ required: '휴대폰 번호를 입력해주세요' }}
                 />
-              </View>
+              </View> */}
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
