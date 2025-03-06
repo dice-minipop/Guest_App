@@ -8,6 +8,7 @@ import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
 import WithdrawModalComponent from '@/components/myPage/withdrawModal';
 import { useWithdraw } from '@/hooks/auth/auth';
+import { useGetGuestInfo } from '@/hooks/guest/guest';
 
 const WithdrawScreen = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const WithdrawScreen = () => {
   const [reason, setReason] = useState<string>('');
 
   const { mutateAsync: withdraw, isPending } = useWithdraw();
+  const { data: guestInfo } = useGetGuestInfo();
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isWithdrawModalVisible, setIsWithdrawModalVisible] = useState<boolean>(false);
@@ -45,7 +47,7 @@ const WithdrawScreen = () => {
       <View className="px-5 pt-8 gap-y-8">
         <View className="gap-y-2">
           <Text className="text-SUB2 font-SUB2 leading-SUB2">
-            OO님과 이별한다니{'\n'}너무 아쉽습니다
+            {guestInfo.name}님과 이별한다니{'\n'}너무 아쉽습니다
           </Text>
           <Text className="text-BODY1 font-BODY1 leading-BODY1 text-medium_gray">
             회원님께서 탈퇴를 원하신다니 저희 서비스가 많이 부족하고 미흡했나 봅니다. 더 나은
