@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { View, FlatList, SafeAreaView } from 'react-native';
+import { View, FlatList, SafeAreaView, Platform } from 'react-native';
 
 import ChatRoomComponent from '@/components/chatBox/chatRoom';
 import HeaderComponent from '@/components/chatBox/header';
@@ -34,7 +34,7 @@ const ChatBoxScreen = () => {
   // };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
       <StatusBar style="dark" />
       <View className="flex-1">
         <FlatList
