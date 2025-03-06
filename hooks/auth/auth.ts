@@ -9,7 +9,7 @@ import {
   login,
   logout,
   resetPassword,
-  sendResetEmail,
+  sendEmailVerify,
   signUp,
   updatePassword,
   withdraw,
@@ -19,7 +19,7 @@ import {
   CheckPhoneNumberRequest,
   LoginRequest,
   ResetPasswordRequest,
-  SendResetEmailRequest,
+  SendEmailVerifyRequest,
   SignUpRequest,
   UpdatePasswordRequest,
 } from '@/server/auth/request';
@@ -80,10 +80,10 @@ export const useUpdatePassword = () => {
   });
 };
 
-// 비밀번호 재설정 이메일 전송
+// 이메일 인증 전송
 export const useSendResetEmail = (handleSend: () => void) => {
   return useMutation({
-    mutationFn: (data: SendResetEmailRequest) => sendResetEmail(data),
+    mutationFn: (data: SendEmailVerifyRequest) => sendEmailVerify(data),
     onSuccess: () => {
       handleSend();
       Alert.alert('이메일이 전송되었습니다.');
@@ -117,7 +117,7 @@ export const useResetPassword = () => {
 export const useLogout = () => {
   const router = useRouter();
   const { setIsLoggedIn } = useLoggedInStore();
-  const { isGuestMode, setIsGuestMode } = useGuestStateStore();
+  const { setIsGuestMode } = useGuestStateStore();
 
   return useMutation({
     mutationFn: () => logout(),
@@ -125,8 +125,7 @@ export const useLogout = () => {
       router.replace('/');
       setIsLoggedIn(false);
       await deleteToken();
-
-      if (isGuestMode) setIsGuestMode(false);
+      setIsGuestMode(false);
     },
     onError: (error) => {
       console.log(error);
@@ -135,7 +134,7 @@ export const useLogout = () => {
 };
 
 // 이메일 로그인
-export const useLogin = () => {
+export const useLogin = (isGuestMode: boolean) => {
   const router = useRouter();
 
   return useMutation({
@@ -143,11 +142,18 @@ export const useLogin = () => {
     onSuccess: async (response: LoginResponse) => {
       console.log(response.token.accessToken);
 
-      await setAccessToken(response.token.accessToken);
-      await setRefreshToken(response.token.refreshToken);
+      if (isGuestMode) {
+        await setAccessToken(response.token.accessToken);
+      } else {
+        await setAccessToken(response.token.accessToken);
+        await setRefreshToken(response.token.refreshToken);
 
-      console.log(response.token.accessToken);
+        console.log(response.token.accessToken);
+      }
       router.push('/(tabs)/space');
+    },
+    onError: (error: any) => {
+      console.log(error);
     },
   });
 };

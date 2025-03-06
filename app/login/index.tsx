@@ -32,7 +32,7 @@ const LoginScreen = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const { mutateAsync: doLogin } = useLogin();
+  const { mutateAsync: doLogin } = useLogin(false);
 
   const onSubmit: SubmitHandler<FormData> = async (formData: FormData) => {
     if (formData.email === '') {
@@ -45,8 +45,7 @@ const LoginScreen = () => {
 
     try {
       await doLogin(formData);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       Alert.alert('이메일 또는 비밀번호를 확인해주세요');
     }
   };
@@ -89,6 +88,7 @@ const LoginScreen = () => {
                 name="password"
                 control={control}
                 rules={{ required: '비밀번호를 입력해주세요' }}
+                canAvoid={true}
               />
             </KeyboardAvoidingView>
 

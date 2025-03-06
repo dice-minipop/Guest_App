@@ -7,13 +7,13 @@ import { useCheckEmail } from '@/hooks/auth/auth';
 import Icon from '../icon/icon';
 
 const items = [
-  'yahoo.co.kr',
-  'hotmail.com',
-  'daum.net',
-  'kakao.com',
-  'hanmail.com',
-  'gmail.com',
   'naver.com',
+  'gmail.com',
+  'yahoo.co.kr',
+  'kakao.com',
+  'daum.net',
+  // 'hotmail.com',
+  // 'hanmail.com',
   // '직접 입력',
 ];
 
@@ -44,10 +44,10 @@ const EmailInputComponent = <T extends FieldValues>({
       name={name}
       rules={{
         ...rules,
-        validate: async (value) => {
+        validate: (value) => {
           if (!value) return '이메일을 입력해주세요.';
           try {
-            await checkEmail({ email: value });
+            checkEmail({ email: value });
             return true;
           } catch {
             return '이미 가입된 이메일입니다.';
@@ -115,6 +115,7 @@ const EmailInputComponent = <T extends FieldValues>({
                   key={index}
                   className="min-w-36 pl-2 py-3"
                   onPress={() => {
+                    // console.log('Selected domain:', item);
                     const fullEmail = `${emailId}@${item}`;
                     setSelectedDomain(item);
                     setIsSelectDomainOpen(false);

@@ -19,7 +19,7 @@ export interface SignUpRequest {
   email: string;
   name: string;
   password: string;
-  phone: string;
+  phone?: string;
 }
 
 export interface ReissueTokenRequest {

@@ -11,9 +11,16 @@ interface UserInputProps<T extends FieldValues> extends TextInputProps {
   name: Path<T>;
   control: Control<T>;
   rules?: RegisterOptions<T, Path<T>>;
+  canAvoid?: boolean;
 }
 
-const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserInputProps<T>) => {
+const UserInput = <T extends FieldValues>({
+  type,
+  name,
+  control,
+  rules,
+  canAvoid,
+}: UserInputProps<T>) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswdVissible, setIsPasswdVissible] = useState<boolean>(false);
 
@@ -65,7 +72,15 @@ const UserInput = <T extends FieldValues>({ type, name, control, rules }: UserIn
       <Controller
         name={name}
         control={control}
-        rules={type === 'password' ? passwordRules : type === 'phone' ? phoneRules : rules}
+        rules={
+          type === 'password'
+            ? canAvoid
+              ? rules
+              : passwordRules
+            : type === 'phone'
+              ? phoneRules
+              : rules
+        }
         render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
           <View>
             <View className="flex min-h-11 flex-row items-center gap-x-2">

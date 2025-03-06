@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { View, FlatList, SafeAreaView } from 'react-native';
 
@@ -5,9 +6,14 @@ import ChatRoomComponent from '@/components/chatBox/chatRoom';
 import HeaderComponent from '@/components/chatBox/header';
 import CustomTwoBtnModal from '@/components/common/customTwoBtnModal';
 import { dummyData } from '@/constants/mocks/chatBoxDummyData';
+import { useGetMessageLists } from '@/hooks/message/message';
 
 const ChatBoxScreen = () => {
-  const [chatRoomData, setChatRoomData] = useState(dummyData);
+  const { data } = useGetMessageLists();
+
+  console.log(data);
+
+  // const [chatRoomData, setChatRoomData] = useState(dummyData);
 
   const [isExitModalVisible, setIsExitModalVisible] = useState<boolean>(false);
   const [selectedChatRoomId, setSelectedChatRoomId] = useState<number | null>(null);
@@ -17,26 +23,27 @@ const ChatBoxScreen = () => {
     setIsExitModalVisible(true);
   };
 
-  const handleExit = () => {
-    if (selectedChatRoomId !== null) {
-      setChatRoomData((prevData) =>
-        prevData.filter((room) => room.chatRoomId !== selectedChatRoomId),
-      );
-      setSelectedChatRoomId(null);
-    }
-    setIsExitModalVisible(false);
-  };
+  // const handleExit = () => {
+  //   if (selectedChatRoomId !== null) {
+  //     setChatRoomData((prevData) =>
+  //       prevData.filter((room) => room.chatRoomId !== selectedChatRoomId),
+  //     );
+  //     setSelectedChatRoomId(null);
+  //   }
+  //   setIsExitModalVisible(false);
+  // };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <StatusBar style="dark" />
       <View className="flex-1">
         <FlatList
           bounces={false}
           stickyHeaderIndices={[0]}
           // 렌더링하는 전체 데이터
-          data={chatRoomData}
+          data={data}
           // 각 아이템의 key 값 지정
-          keyExtractor={(item) => item.chatRoomId.toString()}
+          keyExtractor={(item) => item.id.toString()}
           // 아이템들을 렌더링하는 메서드
           renderItem={({ item }) => (
             <ChatRoomComponent chatRoomData={item} handleExitModal={handleExitModal} />
@@ -50,7 +57,7 @@ const ChatBoxScreen = () => {
         />
       </View>
 
-      <CustomTwoBtnModal
+      {/* <CustomTwoBtnModal
         isVisible={isExitModalVisible}
         closeModal={() => setIsExitModalVisible(false)}
         title="쪽지함에서 나가시겠습니까?"
@@ -58,7 +65,7 @@ const ChatBoxScreen = () => {
         leftBtnFunc={() => setIsExitModalVisible(false)}
         rightBtnText="나가기"
         rightBtnFunc={handleExit}
-      />
+      /> */}
     </SafeAreaView>
   );
 };

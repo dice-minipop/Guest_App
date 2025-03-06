@@ -6,7 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '../global.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Text, TextInput, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Host } from 'react-native-portalize';
@@ -41,17 +41,27 @@ export default function RootLayout() {
     'Pretendard-Regular': require('../assets/fonts/Pretendard-Regular.otf'),
   });
 
-  useEffect(() => {
-    if (isAppLoaded && fontsLoaded) {
-      setTimeout(() => {
-        SplashScreen.hideAsync();
-
+  useLayoutEffect(() => {
+    const delaySplashScreen = async () => {
+      if (isAppLoaded && fontsLoaded) {
+        // 먼저 라우터 이동
         if (isLoggedIn) {
-          router.replace('/(tabs)/space');
+          await router.replace('/(tabs)/space');
+        } else {
+          await router.replace('/');
         }
-      }, 2000); // 2초 후에 SplashScreen 숨기기
-    }
+      }
+    };
+
+    delaySplashScreen();
   }, [isAppLoaded, fontsLoaded, isLoggedIn]);
+
+  useEffect(() => {
+    // 페이지가 완전히 렌더링된 후에 스플래시 화면을 숨깁니다.
+    if (isAppLoaded && fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [isAppLoaded, fontsLoaded]);
 
   return (
     <GestureHandlerRootView>
@@ -67,6 +77,7 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               {/* <Stack.Screen name="search/[type]" options={{ headerShown: false }} /> */}
               <Stack.Screen name="space/[id]" options={{ headerShown: false }} />
+              <Stack.Screen name="reservation" options={{ headerShown: false }} />
               <Stack.Screen name="announcement/[id]" options={{ headerShown: false }} />
 
               <Stack.Screen name="(myPage)" options={{ headerShown: false }} />

@@ -8,14 +8,13 @@ import {
   Pressable,
   SafeAreaView,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 
 import CustomModal from '@/components/common/customModal';
 import Icon from '@/components/icon/icon';
 import PasswordInputComponent from '@/components/myPage/passwordInput';
-import { useSendResetEmail, useUpdatePassword } from '@/hooks/auth/auth';
+import { useUpdatePassword } from '@/hooks/auth/auth';
 
 const ResetPasswordScreen = () => {
   const router = useRouter();
@@ -76,10 +75,13 @@ const ResetPasswordScreen = () => {
             />
 
             <PasswordInputComponent
-              title="현재 비밀번호"
+              type="check"
+              title="새 비밀번호 확인"
               value={newPasswordCheck}
               handleValue={(text: string) => setNewPasswordCheck(text)}
               placeholder="새 비밀번호를 한번 더 입력해주세요"
+              successMessage="동일한 비밀번호입니다."
+              compareValue={newPassword}
             />
           </View>
 

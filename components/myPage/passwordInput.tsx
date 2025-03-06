@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 
 interface PasswordInputComponentProps {
+  type?: string;
   title: string;
   value: string;
   handleValue: (text: string) => void;
   placeholder: string;
   warningMessage?: string;
   successMessage?: string;
+  compareValue?: string;
 }
 
 const PasswordInputComponent: React.FC<PasswordInputComponentProps> = ({
+  type,
   title,
   value,
   handleValue,
   placeholder,
   warningMessage,
   successMessage,
+  compareValue,
 }) => {
   const [isFocued, setIsFocused] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -53,6 +57,14 @@ const PasswordInputComponent: React.FC<PasswordInputComponentProps> = ({
           className={`text-CAP2 font-CAP2 leading-CAP2 ${canUse ? 'text-green' : 'text-yellow'}`}
         >
           {canUse ? successMessage : warningMessage}
+        </Text>
+      )}
+
+      {type === 'check' && successMessage !== undefined && value !== '' && (
+        <Text
+          className={`text-CAP2 font-CAP2 leading-CAP2 ${canUse ? 'text-green' : 'text-yellow'}`}
+        >
+          {value === compareValue && successMessage}
         </Text>
       )}
     </View>
