@@ -13,7 +13,7 @@ const HomeScreen = () => {
   const [isPressed, setIsPressed] = useState<boolean>(false);
   const { setIsGuestMode } = useGuestStateStore();
 
-  const { mutateAsync: guestLogin } = useLogin();
+  const { mutateAsync: guestLogin } = useLogin(true);
 
   const handleGuestMode = async () => {
     setIsGuestMode(true);

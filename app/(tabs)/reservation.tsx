@@ -1,16 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { Platform, SafeAreaView, SectionList, View } from 'react-native';
+import React, { Suspense, useState } from 'react';
+import { FlatList, Platform, SafeAreaView, SectionList, View } from 'react-native';
 
 import CardComponent from '@/components/reservation/cardComponent';
 import HeaderComponent from '@/components/reservation/header';
 import ChipContainer from '@/components/space/chipContainer';
 import TopNavigation from '@/components/topNavigation/topNavigation';
-import {
-  cancelDummyData,
-  completeDummyData,
-  waitingDummyData,
-} from '@/constants/mocks/reservationListDummyData';
+import { useGetReservationLists } from '@/hooks/reservation/reservation';
 
 const ReservationScreen = () => {
   const chipList = ['최신순'];
@@ -21,20 +17,57 @@ const ReservationScreen = () => {
     setFilteringType(type);
   };
 
-  const [status, setStatus] = useState<string>('waiting');
+  // const [status, setStatus] = useState<string>('waiting');
 
-  const handleStatus = (newStatus: string) => {
-    setStatus(newStatus);
-  };
+  // const handleStatus = (newStatus: string) => {
+  //   setStatus(newStatus);
+  // };
+
+  const { data } = useGetReservationLists();
 
   return (
-    <View className="flex-1">
-      <StatusBar style="light" />
-      <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
-        <TopNavigation />
+    <Suspense>
+      <View className="flex-1">
+        <StatusBar style="light" />
+        <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
+          <TopNavigation />
 
-        <View className="flex-1 bg-white">
-          {status === 'waiting' && (
+          <View className="flex-1 bg-white">
+            <FlatList
+              // section의 title과 데이터
+              data={data}
+              // 각 아이템의 key 값 지정
+              keyExtractor={(item) => item.reservationId.toString()}
+              // 아이템들을 렌더링하는 메서드
+              renderItem={({ item }) => (
+                <View className="px-5">
+                  <CardComponent reservationData={item} />
+                </View>
+              )}
+              // sticky한 ChipContainer를 렌더링하기 위한 메서드
+              // render={({ section }) =>
+              //   section.title === 'chip' ? (
+              //     <ChipContainer chipList={chipList} openModal={handleFilteringType} />
+              //   ) : null
+              // }
+              // SectionList의 최상단에 렌더링되는 Header 아이템
+              // ListHeaderComponent={
+              //   <HeaderComponent
+              //     status={status}
+              //     handleStatus={handleStatus}
+              //     size={waitingDummyData.length}
+              //   />
+              // }
+              // FlatList의 최하단에 렌더링되는 Footer 아이템
+              ListFooterComponent={<View className="h-16" />}
+              // 렌더링 되는 아이템들 사이의 간격
+              ItemSeparatorComponent={() => <View className="h-4" />}
+              // 양 끝에서 스크롤 방지
+              bounces={false}
+              className="mt-6"
+            />
+
+            {/* {status === 'waiting' && (
             <SectionList
               // section의 title과 데이터
               sections={[{ title: 'chip', data: waitingDummyData }]}
@@ -67,9 +100,9 @@ const ReservationScreen = () => {
               // 양 끝에서 스크롤 방지
               bounces={false}
             />
-          )}
+          )} */}
 
-          {status === 'complete' && (
+            {/* {status === 'complete' && (
             <SectionList
               // section의 title과 데이터
               sections={[{ title: 'chip', data: completeDummyData }]}
@@ -101,9 +134,9 @@ const ReservationScreen = () => {
               // 양 끝에서 스크롤 방지
               bounces={false}
             />
-          )}
+          )} */}
 
-          {status === 'cancel' && (
+            {/* {status === 'cancel' && (
             <SectionList
               // section의 title과 데이터
               sections={[{ title: 'chip', data: cancelDummyData }]}
@@ -135,12 +168,13 @@ const ReservationScreen = () => {
               // 양 끝에서 스크롤 방지
               bounces={false}
             />
-          )}
+          )} */}
 
-          <View className="h-16" />
-        </View>
-      </SafeAreaView>
-    </View>
+            <View className="h-16" />
+          </View>
+        </SafeAreaView>
+      </View>
+    </Suspense>
   );
 };
 

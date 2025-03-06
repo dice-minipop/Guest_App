@@ -1,17 +1,21 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
 import { Text, View, Pressable, SafeAreaView } from 'react-native';
 
 import Icon from '@/components/icon/icon';
-import { dummyData } from '@/constants/mocks/reservationDummyData';
+import { useReservationStore } from '@/zustands/reservation/store';
+import { useSpaceDataStore } from '@/zustands/space/store';
 
 const ReservationCompleteScreen = () => {
   const router = useRouter();
 
-  const [reservationData] = useState(dummyData);
+  const { spaceName } = useSpaceDataStore();
+  const { reservationData } = useReservationStore();
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <StatusBar style="dark" />
       <View className="gap-y-12 px-5 pt-[120px]">
         <View className="flex flex-col items-center gap-y-10">
           <Icon.Check />
@@ -28,11 +32,9 @@ const ReservationCompleteScreen = () => {
           </View>
 
           <View className="flex flex-col items-end gap-y-1">
+            <Text className="font-BODY1 text-BODY1 leading-BODY1 text-dark_gray">{spaceName}</Text>
             <Text className="font-BODY1 text-BODY1 leading-BODY1 text-dark_gray">
-              {reservationData.name}
-            </Text>
-            <Text className="font-BODY1 text-BODY1 leading-BODY1 text-dark_gray">
-              {reservationData.resevationNumber}
+              {reservationData.id}
             </Text>
             <Text className="font-BODY1 text-BODY1 leading-BODY1 text-dark_gray">
               {reservationData.startDate} ~ {reservationData.endDate}
@@ -42,14 +44,21 @@ const ReservationCompleteScreen = () => {
       </View>
 
       <View className="absolute bottom-[34px] flex flex-row gap-x-3 border-t border-t-stroke px-5 py-4">
-        <Pressable className="flex-1 rounded-lg border border-stroke bg-white px-4 py-3">
+        <Pressable
+          onPress={() => {
+            router.dismissAll();
+            router.push('/(tabs)/reservation');
+          }}
+          className="flex-1 rounded-lg border border-stroke bg-white px-4 py-[15.5px]"
+        >
           <Text className="text-center font-BTN1 text-BTN1 leading-BTN1 text-black">
             예약 확인하기
           </Text>
         </Pressable>
+
         <Pressable
-          onPress={() => router.push('/')}
-          className="flex-1 rounded-lg bg-black px-4 py-3"
+          onPress={() => router.back()}
+          className="flex-1 rounded-lg bg-black px-4 py-[15.5px]"
         >
           <Text className="text-center font-BTN1 text-BTN1 leading-BTN1 text-white">나가기</Text>
         </Pressable>

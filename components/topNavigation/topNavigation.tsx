@@ -33,9 +33,9 @@ const TopNavigation: React.FC = () => {
           <Icon.Like />
         </Pressable>
 
-        {/* <Pressable onPress={() => router.push('/chatBox')} className="p-3">
+        <Pressable onPress={() => router.push('/chatBox')} className="p-3">
           <Icon.Send />
-        </Pressable> */}
+        </Pressable>
       </View>
     </View>
   );

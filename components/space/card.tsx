@@ -56,7 +56,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ spaceData, toggleLike }) 
             onPress={() => toggleLike(spaceData.id)}
             className="flex flex-col items-center p-3"
           >
-            {spaceData.liked ? <Icon.FilledLike /> : <Icon.Like />}
+            {spaceData.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
             <Text className="font-CAP2 text-CAP2 leading-CAP2 text-semiLight_gray">
               {spaceData.likeCount}
             </Text>

@@ -44,12 +44,17 @@ interface CalendarListComponentProps {
   startDate: string;
   endDate: string;
   handleDate: (date: DateData) => void;
+  impossibleDateLists: {
+    startDate: string;
+    endDate: string;
+  }[];
 }
 
 const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
   startDate,
   endDate,
   handleDate,
+  impossibleDateLists,
 }) => {
   const today = dayjs().format('YYYY-MM-DD');
 
@@ -60,33 +65,42 @@ const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
       onDayPress={handleDate}
       markingType="period"
       dayComponent={({ date, state }) => {
-        const isPast = date && dayjs(date.dateString).isBefore(today, 'day');
-        const isStartDate = date?.dateString === startDate;
-        const isEndDate = date?.dateString === endDate;
+        const dateString = date?.dateString;
 
-        const isInPeroid = date?.dateString < endDate && date?.dateString > startDate;
+        const isPast = dayjs(dateString).isBefore(today, 'day');
+        const isStartDate = dateString === startDate;
+        const isEndDate = dateString === endDate;
+        const isInPeriod = dateString > startDate && dateString < endDate;
+
+        const isImpossibleDate = impossibleDateLists.some(
+          ({ startDate, endDate }) => dateString >= startDate && dateString <= endDate,
+        );
 
         return (
           <Pressable
             onPress={() => handleDate(date)}
-            className={`relative px-1 py-3.5 ${isPast ? 'opacity-40' : ''} ${
-              isInPeroid && 'bg-back_gray'
-            }`}
+            className={`relative h-12 w-full flex items-center justify-center ${isPast ? 'opacity-40' : ''} ${isInPeriod && 'bg-back_gray'}`}
             disabled={isPast}
           >
+            {isStartDate && endDate && (
+              <View className="absolute top-0 left-1/2 w-1/2 h-full bg-back_gray" />
+            )}
+
+            {isEndDate && <View className="absolute top-0 right-1/2 w-1/2 h-full bg-back_gray" />}
+
             {date?.dateString === startDate && (
-              <View className="absolute left-0 top-0">
+              <View className="absolute top-[-2px]">
                 <Icon.Polygon />
               </View>
             )}
             {date?.dateString === endDate && (
-              <View className="absolute left-0 top-0">
+              <View className="absolute top-[-2px]">
                 <Icon.FilledPolygon />
               </View>
             )}
 
             <Text
-              className={`w-10 text-center font-CAP1 text-CAP1 leading-CAP1 ${
+              className={`font-CAP1 text-CAP1 leading-CAP1 ${isImpossibleDate ? 'text-red' : ''}  ${
                 isEndDate
                   ? 'text-white'
                   : isStartDate

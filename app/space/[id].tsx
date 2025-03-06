@@ -25,19 +25,22 @@ import {
 
 import LoadingComponent from '@/components/common/loadingComponent';
 import Icon from '@/components/icon/icon';
-// import DateModalComponent from '@/components/spaceDetail/dateModal';
+import DateModalComponent from '@/components/spaceDetail/dateModal';
 import { useToggleSpaceLike } from '@/hooks/like/like';
+import { useCreateChatRoom } from '@/hooks/message/message';
 import { useGetFilteredSpaceLists, useGetSpaceDetailData } from '@/hooks/space/space';
 import { copyText } from '@/utils/clipboard';
-import { makeCall, makeMessage } from '@/utils/phoneCall';
+import { makeCall } from '@/utils/phoneCall';
 import { useSpaceFilteringStore } from '@/zustands/filter/store';
 import { useGuestStateStore } from '@/zustands/member/store';
+import { useSpaceDataStore } from '@/zustands/space/store';
 
 const SpaceDetailScreen = () => {
   const { id } = useLocalSearchParams();
 
   const { filtering } = useSpaceFilteringStore();
   const { isGuestMode } = useGuestStateStore();
+  const { setSpaceName } = useSpaceDataStore();
 
   const width = Dimensions.get('screen').width;
 
@@ -68,7 +71,18 @@ const SpaceDetailScreen = () => {
     }
   };
 
-  // const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
+  const { mutateAsync: createChatRoom } = useCreateChatRoom(refetch);
+
+  const handleChatRoom = () => {
+    if (data.messageRoomId === null) {
+      createChatRoom({ spaceId: data.id });
+    } else {
+      setSpaceName(data.name);
+      router.push(`/chatRoom/${data.messageRoomId}`);
+    }
+  };
+
+  const [isReservationModalVisible, setIsReservationModalVisible] = useState<boolean>(false);
 
   return (
     <View className="flex-1">
@@ -360,28 +374,29 @@ const SpaceDetailScreen = () => {
             <Icon.Phone />
           </Pressable>
 
-          {/* <Pressable
-            onPress={() => makeMessage(data.contactNumber)}
-            className="rounded-lg border border-stroke p-3.5"
-          >
-            <Icon.FilledSend />
-          </Pressable> */}
+          <Pressable onPress={handleChatRoom} className="rounded-lg border border-stroke p-3.5">
+            <Icon.BlackMessage />
+          </Pressable>
 
           <Pressable
-            onPress={() => makeMessage(data.contactNumber)}
+            onPress={() => {
+              setSpaceName(data.name);
+              setIsReservationModalVisible(true);
+            }}
             className="flex flex-1 flex-row items-center justify-center gap-x-2 rounded-lg border border-stroke bg-black px-4 py-3.5"
           >
-            <Icon.Message />
-            <Text className="font-BTN1 text-BTN1 leading-BTN1 text-white">메시지 보내기</Text>
+            <Icon.Reservation />
+            <Text className="font-BTN1 text-BTN1 leading-BTN1 text-white">공간 예약하기</Text>
           </Pressable>
         </View>
       </SafeAreaView>
       <SafeAreaView className="bg-white" />
 
-      {/* <DateModalComponent
+      <DateModalComponent
         isVisible={isReservationModalVisible}
+        spaceId={Number(id)}
         closeModal={() => setIsReservationModalVisible(false)}
-      /> */}
+      />
     </View>
   );
 };

@@ -6,18 +6,10 @@ import { useGuestStateStore, useLoggedInStore } from '@/zustands/member/store';
 
 export const useAutoLogin = (setAppLoaded: React.Dispatch<React.SetStateAction<boolean>>) => {
   const { setIsLoggedIn } = useLoggedInStore();
-  const { isGuestMode, setIsGuestMode } = useGuestStateStore();
 
   useEffect(() => {
     const checkLoggedIn = async () => {
-      if (!isGuestMode) {
-        setIsLoggedIn(false);
-        await deleteToken();
-        setAppLoaded(true);
-        return;
-      }
       try {
-        setIsGuestMode(false);
         const refreshToken = await getRefreshToken();
         console.log('리프레쉬 : ', refreshToken);
 

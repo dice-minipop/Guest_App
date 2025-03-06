@@ -23,7 +23,7 @@ export interface LikedSpace {
   size: number;
   likeCount: number;
   chatRoomId: number | null;
-  liked: boolean;
+  isLiked: boolean;
 }
 
 export type GetLikedSpaceListsResponse = PagenationDTO<LikedSpace>;

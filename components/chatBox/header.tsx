@@ -14,7 +14,7 @@ const HeaderComponent: React.FC = () => {
       </Pressable>
 
       <View className="flex flex-row items-center gap-x-2 px-5">
-        <Text className="font-H1 text-H1 leading-H1 text-black">쪽지함</Text>
+        <Text className="font-H1 text-H1 leading-H1 text-black">호스트와의 쪽지함</Text>
         <Icon.FilledSend />
       </View>
     </View>

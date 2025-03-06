@@ -12,7 +12,8 @@ export interface SpaceItem {
   size: number;
   likeCount: number;
   chatRoomId: number | null;
-  liked: boolean;
+  isLiked: boolean;
+  isActivated: boolean;
 }
 
 export type GetSpaceListsResponse = PagenationDTO<SpaceItem>;
