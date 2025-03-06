@@ -22,7 +22,7 @@ const ChatRoomScreen = () => {
   const [isReportModalVisible, setIsReportModalVisible] = useState<boolean>(false);
 
   return (
-    <SafeAreaView className={`flex-1 bg-white`}>
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
       <StatusBar style="dark" />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

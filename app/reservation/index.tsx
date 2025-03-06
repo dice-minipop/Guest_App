@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View, Pressable, SafeAreaView } from 'react-native';
+import { Text, View, Pressable, SafeAreaView, Platform } from 'react-native';
 
 import Icon from '@/components/icon/icon';
 import { useReservationStore } from '@/zustands/reservation/store';
@@ -14,7 +14,7 @@ const ReservationCompleteScreen = () => {
   const { reservationData } = useReservationStore();
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className={`flex-1 bg-white ${Platform.OS === 'android' && 'pt-[50px]'}`}>
       <StatusBar style="dark" />
       <View className="gap-y-12 px-5 pt-[120px]">
         <View className="flex flex-col items-center gap-y-10">
@@ -43,7 +43,9 @@ const ReservationCompleteScreen = () => {
         </View>
       </View>
 
-      <View className="absolute bottom-[34px] flex flex-row gap-x-3 border-t border-t-stroke px-5 py-4">
+      <View
+        className={`absolute bottom-0 flex flex-row gap-x-3 border-t border-t-stroke px-5 py-4 ${Platform.OS === 'ios' && 'pb-[34px]'}`}
+      >
         <Pressable
           onPress={() => {
             router.dismissAll();

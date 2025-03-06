@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Pressable, Alert } from 'react-native';
+import { Text, View, Pressable, Alert, Platform } from 'react-native';
 import { DateData } from 'react-native-calendars';
 import { Portal } from 'react-native-portalize';
 
@@ -117,7 +117,7 @@ const DateModalComponent: React.FC<DateModalComponentProps> = ({
         >
           <View
             onTouchEnd={(e) => e.stopPropagation()}
-            className="h-[740px] rounded-t-xl bg-white pt-6"
+            className="h-[600px] rounded-t-xl bg-white pt-6"
           >
             <View className="flex flex-row items-center justify-between pl-5 pr-[3px]">
               <Text className="font-H2 text-H2 leading-H2">예약 일정 선택</Text>
@@ -139,7 +139,7 @@ const DateModalComponent: React.FC<DateModalComponentProps> = ({
 
           <View
             onTouchEnd={(e) => e.stopPropagation()}
-            className="absolute flex-row items-center gap-x-3 bg-white px-5 pb-[50px] pt-4"
+            className={`absolute flex-row items-center gap-x-3 bg-white px-5 pt-4 ${Platform.OS === 'ios' ? 'pb-[34px]' : 'bottom-[-34px]'}`}
           >
             <Pressable
               onPress={clearDate}

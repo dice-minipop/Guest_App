@@ -82,7 +82,9 @@ const WithdrawScreen = () => {
           </Pressable>
         </View>
       </View>
-      <View className="absolute bottom-[50px] flex flex-row px-5 gap-x-3">
+      <View
+        className={`absolute flex flex-row px-5 gap-x-3 ${Platform.OS === 'ios' ? 'bottom-[50px]' : 'bottom-4'}`}
+      >
         <Pressable className="rounded-lg bg-white border border-stroke px-4 py-[15.5px] flex-1">
           <Text className="text-BTN1 font-BTN1 leading-BTN1 text-medium_gray text-center">
             취소
