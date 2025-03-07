@@ -33,7 +33,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: 'com.cmc.dice.minipop.expo',
-    buildNumber: '1.0.0',
+    buildNumber: '1.0.1',
     infoPlist: {
       NSPhotoLibraryUsageDescription:
         'The app accesses the photo library to upload your profile when you are signing up or updating profile image.',
