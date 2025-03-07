@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Suspense, useState } from 'react';
-import { FlatList, Platform, SafeAreaView, SectionList, View } from 'react-native';
+import { Platform, SafeAreaView, SectionList, View } from 'react-native';
 
 import CardComponent from '@/components/reservation/cardComponent';
 import HeaderComponent from '@/components/reservation/header';
@@ -17,13 +17,14 @@ const ReservationScreen = () => {
     setFilteringType(type);
   };
 
-  // const [status, setStatus] = useState<string>('waiting');
+  // PENDING, ACCEPT, DECLINE, CANCEL
+  const [status, setStatus] = useState<string>('PENDING');
 
-  // const handleStatus = (newStatus: string) => {
-  //   setStatus(newStatus);
-  // };
+  const handleStatus = (newStatus: string) => {
+    setStatus(newStatus);
+  };
 
-  const { data } = useGetReservationLists();
+  const { data } = useGetReservationLists(status);
 
   return (
     <Suspense>
@@ -33,142 +34,108 @@ const ReservationScreen = () => {
           <TopNavigation />
 
           <View className="flex-1 bg-white">
-            <FlatList
-              // section의 title과 데이터
-              data={data}
-              // 각 아이템의 key 값 지정
-              keyExtractor={(item) => item.reservationId.toString()}
-              // 아이템들을 렌더링하는 메서드
-              renderItem={({ item }) => (
-                <View className="px-5">
-                  <CardComponent reservationData={item} />
-                </View>
-              )}
-              // sticky한 ChipContainer를 렌더링하기 위한 메서드
-              // render={({ section }) =>
-              //   section.title === 'chip' ? (
-              //     <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-              //   ) : null
-              // }
-              // SectionList의 최상단에 렌더링되는 Header 아이템
-              // ListHeaderComponent={
-              //   <HeaderComponent
-              //     status={status}
-              //     handleStatus={handleStatus}
-              //     size={waitingDummyData.length}
-              //   />
-              // }
-              // FlatList의 최하단에 렌더링되는 Footer 아이템
-              ListFooterComponent={<View className="h-16" />}
-              // 렌더링 되는 아이템들 사이의 간격
-              ItemSeparatorComponent={() => <View className="h-4" />}
-              // 양 끝에서 스크롤 방지
-              bounces={false}
-              className="mt-6"
-            />
+            {status === 'PENDING' && (
+              <SectionList
+                // section의 title과 데이터
+                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
+                // 각 아이템의 key 값 지정
+                keyExtractor={(item) => item.reservationId.toString()}
+                // 아이템들을 렌더링하는 메서드
+                renderItem={({ item }) => (
+                  <View className="px-5">
+                    <CardComponent reservationData={item} type={status} />
+                  </View>
+                )}
+                // sticky한 ChipContainer를 렌더링하기 위한 메서드
+                renderSectionHeader={({ section }) =>
+                  section.title === 'chip' ? (
+                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
+                  ) : null
+                }
+                // SectionList의 최상단에 렌더링되는 Header 아이템
+                ListHeaderComponent={
+                  <HeaderComponent
+                    status={status}
+                    handleStatus={handleStatus}
+                    // size={data.length}
+                  />
+                }
+                // FlatList의 최하단에 렌더링되는 Footer 아이템
+                ListFooterComponent={<View className="h-16" />}
+                // 렌더링 되는 아이템들 사이의 간격
+                ItemSeparatorComponent={() => <View className="h-4" />}
+                // 양 끝에서 스크롤 방지
+                bounces={false}
+              />
+            )}
 
-            {/* {status === 'waiting' && (
-            <SectionList
-              // section의 title과 데이터
-              sections={[{ title: 'chip', data: waitingDummyData }]}
-              // 각 아이템의 key 값 지정
-              keyExtractor={(item) => item.id.toString()}
-              // 아이템들을 렌더링하는 메서드
-              renderItem={({ item }) => (
-                <View className="px-5">
-                  <CardComponent reservationData={item} type={status} />
-                </View>
-              )}
-              // sticky한 ChipContainer를 렌더링하기 위한 메서드
-              renderSectionHeader={({ section }) =>
-                section.title === 'chip' ? (
-                  <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                ) : null
-              }
-              // SectionList의 최상단에 렌더링되는 Header 아이템
-              ListHeaderComponent={
-                <HeaderComponent
-                  status={status}
-                  handleStatus={handleStatus}
-                  size={waitingDummyData.length}
-                />
-              }
-              // FlatList의 최하단에 렌더링되는 Footer 아이템
-              ListFooterComponent={<View className="h-16" />}
-              // 렌더링 되는 아이템들 사이의 간격
-              ItemSeparatorComponent={() => <View className="h-4" />}
-              // 양 끝에서 스크롤 방지
-              bounces={false}
-            />
-          )} */}
+            {status === 'ACCEPT' && (
+              <SectionList
+                // section의 title과 데이터
+                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
+                // 각 아이템의 key 값 지정
+                keyExtractor={(item) => item.reservationId.toString()}
+                // 아이템들을 렌더링하는 메서드
+                renderItem={({ item }) => (
+                  <View className="px-5">
+                    <CardComponent reservationData={item} type={status} />
+                  </View>
+                )}
+                // sticky한 ChipContainer를 렌더링하기 위한 메서드
+                renderSectionHeader={({ section }) =>
+                  section.title === 'chip' ? (
+                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
+                  ) : null
+                }
+                // SectionList의 최상단에 렌더링되는 Header 아이템
+                ListHeaderComponent={
+                  <HeaderComponent
+                    status={status}
+                    handleStatus={handleStatus}
+                    // size={waitingDummyData.length}
+                  />
+                } // FlatList의 최하단에 렌더링되는 Footer 아이템
+                ListFooterComponent={<View className="h-16" />}
+                // 렌더링 되는 아이템들 사이의 간격
+                ItemSeparatorComponent={() => <View className="h-4" />}
+                // 양 끝에서 스크롤 방지
+                bounces={false}
+              />
+            )}
 
-            {/* {status === 'complete' && (
-            <SectionList
-              // section의 title과 데이터
-              sections={[{ title: 'chip', data: completeDummyData }]}
-              // 각 아이템의 key 값 지정
-              keyExtractor={(item) => item.id.toString()}
-              // 아이템들을 렌더링하는 메서드
-              renderItem={({ item }) => (
-                <View className="px-5">
-                  <CardComponent reservationData={item} type={status} />
-                </View>
-              )}
-              // sticky한 ChipContainer를 렌더링하기 위한 메서드
-              renderSectionHeader={({ section }) =>
-                section.title === 'chip' ? (
-                  <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                ) : null
-              }
-              // SectionList의 최상단에 렌더링되는 Header 아이템
-              ListHeaderComponent={
-                <HeaderComponent
-                  status={status}
-                  handleStatus={handleStatus}
-                  size={waitingDummyData.length}
-                />
-              } // FlatList의 최하단에 렌더링되는 Footer 아이템
-              ListFooterComponent={<View className="h-16" />}
-              // 렌더링 되는 아이템들 사이의 간격
-              ItemSeparatorComponent={() => <View className="h-4" />}
-              // 양 끝에서 스크롤 방지
-              bounces={false}
-            />
-          )} */}
-
-            {/* {status === 'cancel' && (
-            <SectionList
-              // section의 title과 데이터
-              sections={[{ title: 'chip', data: cancelDummyData }]}
-              // 각 아이템의 key 값 지정
-              keyExtractor={(item) => item.id.toString()}
-              // 아이템들을 렌더링하는 메서드
-              renderItem={({ item }) => (
-                <View className="px-5">
-                  <CardComponent reservationData={item} type={status} />
-                </View>
-              )}
-              // sticky한 ChipContainer를 렌더링하기 위한 메서드
-              renderSectionHeader={({ section }) =>
-                section.title === 'chip' ? (
-                  <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                ) : null
-              }
-              // SectionList의 최상단에 렌더링되는 Header 아이템
-              ListHeaderComponent={
-                <HeaderComponent
-                  status={status}
-                  handleStatus={handleStatus}
-                  size={waitingDummyData.length}
-                />
-              } // FlatList의 최하단에 렌더링되는 Footer 아이템
-              ListFooterComponent={<View className="h-16" />}
-              // 렌더링 되는 아이템들 사이의 간격
-              ItemSeparatorComponent={() => <View className="h-4" />}
-              // 양 끝에서 스크롤 방지
-              bounces={false}
-            />
-          )} */}
+            {status === 'CANCEL' && (
+              <SectionList
+                // section의 title과 데이터
+                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
+                // 각 아이템의 key 값 지정
+                keyExtractor={(item) => item.reservationId.toString()}
+                // 아이템들을 렌더링하는 메서드
+                renderItem={({ item }) => (
+                  <View className="px-5">
+                    <CardComponent reservationData={item} type={status} />
+                  </View>
+                )}
+                // sticky한 ChipContainer를 렌더링하기 위한 메서드
+                renderSectionHeader={({ section }) =>
+                  section.title === 'chip' ? (
+                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
+                  ) : null
+                }
+                // SectionList의 최상단에 렌더링되는 Header 아이템
+                ListHeaderComponent={
+                  <HeaderComponent
+                    status={status}
+                    handleStatus={handleStatus}
+                    // size={waitingDummyData.length}
+                  />
+                } // FlatList의 최하단에 렌더링되는 Footer 아이템
+                ListFooterComponent={<View className="h-16" />}
+                // 렌더링 되는 아이템들 사이의 간격
+                ItemSeparatorComponent={() => <View className="h-4" />}
+                // 양 끝에서 스크롤 방지
+                bounces={false}
+              />
+            )}
 
             <View className="h-16" />
           </View>

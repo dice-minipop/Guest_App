@@ -27,6 +27,16 @@ const ChatRoomComponent: React.FC<ChatRoomComponentProps> = ({ chatRoomData, han
 
   const { setSpaceName } = useSpaceDataStore();
 
+  const formatDate = (isoString: string | null) => {
+    if (!isoString) return '-';
+    const date = new Date(isoString);
+    return date.toLocaleDateString('ko-KR', {
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
+
   function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
     const styleAnimation = useAnimatedStyle(() => {
       return {
@@ -79,7 +89,7 @@ const ChatRoomComponent: React.FC<ChatRoomComponentProps> = ({ chatRoomData, han
 
         <View className="flex flex-col items-end justify-between">
           <Text className="font-CAP2 text-CAP2 leading-CAP2 text-light_gray">
-            {chatRoomData.lastMessageAt ? chatRoomData.lastMessageAt : '-'}
+            {formatDate(chatRoomData.lastMessageAt)}
           </Text>
 
           {chatRoomData.unreadCount !== 0 && (

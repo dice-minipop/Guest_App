@@ -16,6 +16,8 @@ const FooterComponent: React.FC = () => {
   const [content, setContent] = useState<string>('');
 
   const handleSend = (content: string) => {
+    if (content === '') return;
+
     sendChat({ content: content, type: 'TEXT' });
     setContent('');
   };

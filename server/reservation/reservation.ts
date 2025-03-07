@@ -16,9 +16,30 @@ export const createReservation = async (
   return response.data;
 };
 
+// 예약 취소
+export const cancelReservation = async (reservationId: number) => {
+  const response = await PostAxiosInstance(`/reservation/cancel`, null, {
+    params: {
+      reservationId: reservationId,
+    },
+  });
+
+  return response.data;
+};
+
 // 예약 목록 조회
-export const getReservationLists = async (): Promise<GetReservationListsResponse> => {
-  const response = await GetAxiosInstance<GetReservationListsResponse>(`/reservation/list`);
+export const getReservationLists = async (
+  status: string,
+  page?: number,
+  size?: number,
+): Promise<GetReservationListsResponse> => {
+  const response = await GetAxiosInstance<GetReservationListsResponse>(`/reservation/list`, {
+    params: {
+      status: status,
+      page: page,
+      size: size,
+    },
+  });
 
   return response.data;
 };
