@@ -1,192 +1,52 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  Pressable,
-  ScrollView,
-  Dimensions,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Linking,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
+import { ScrollView, View } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import Icon from '@/components/icon/icon';
-import {
-  useGetAnnouncementDetailData,
-  useGetAnnouncementLists,
-} from '@/hooks/announcement/announcement';
-import { useToggleAnnouncementLike } from '@/hooks/like/like';
-import { translateTime } from '@/utils/time';
-import { useAnnouncementFilteringStore } from '@/zustands/filter/store';
-import { useGuestStateStore } from '@/zustands/member/store';
+import AnnouncementBasicInfoComponent from '@/components/announcement/detail/basicInfo';
+import AnnouncementImageListComponent from '@/components/announcement/detail/imageList';
+import AnnouncementIntroduceComponent from '@/components/announcement/detail/introduce';
+import BackHeaderComponent from '@/components/common/backHeader';
+import { useGetAnnouncementDetailData } from '@/hooks/announcement/announcement';
 
-export default function RecruitDetailScreen() {
+export default function AnnouncementDetail() {
   const { id } = useLocalSearchParams();
 
-  const { filtering } = useAnnouncementFilteringStore();
-  const { isGuestMode } = useGuestStateStore();
+  const { bottom } = useSafeAreaInsets();
 
-  const router = useRouter();
+  // const { data } = useGetAnnouncementDetailData(Number(id));
 
-  const { data, refetch } = useGetAnnouncementDetailData(Number(id));
-  const { refetch: refetchList } = useGetAnnouncementLists(filtering);
-
-  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(refetch, refetchList);
-
-  const handleGuestMode = (id: number) => {
-    if (isGuestMode) {
-      Alert.alert('게스트로 둘러보기 상태에서는 이용할 수 없습니다!');
-    } else {
-      announcementLike(id);
-    }
-  };
-
-  const width = Dimensions.get('screen').width;
-
-  const [currentIndex, setCurrentIndex] = useState<number>(1);
-
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.floor(offsetX / width);
-    setCurrentIndex(index + 1);
+  const data = {
+    id: 1,
+    title: '이름',
+    city: '서울',
+    district: '중랑구',
+    address: '머시기로',
+    hostName: '호스트네임',
+    target: '소상공인',
+    imageUrls: ['https://picsum.photos/250/250'],
+    recruitmentStartAt: '시작시간',
+    recruitmentEndAt: '끝시간',
+    details:
+      '소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개소개',
+    contactNumber: '010-1234-5678',
+    websiteUrl: 'https://google.co.kr',
+    isLiked: false,
+    likeCount: 123,
+    status: '상태',
   };
 
   return (
-    <View className="flex-1">
-      <StatusBar style="light" />
-      <SafeAreaView className="flex-1 bg-black">
-        <View className="ml-[3px] flex flex-row items-start justify-start">
-          <Pressable onPress={() => router.back()} className="p-3">
-            <Icon.WhiteLeftArrow />
-          </Pressable>
-        </View>
+    <View className="flex-1 bg-white">
+      <BackHeaderComponent />
 
-        <ScrollView
-          contentContainerStyle={{
-            paddingBottom: 100,
-            backgroundColor: 'white',
-          }}
-          bounces={false}
-        >
-          <View className="relative">
-            <FlatList
-              data={data.imageUrls}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Image
-                  source={{ uri: item }}
-                  style={{ width: width, height: 210, resizeMode: 'cover' }}
-                />
-              )}
-              bounces={false}
-              horizontal={true}
-              nestedScrollEnabled={true}
-              disableIntervalMomentum={false}
-              scrollEventThrottle={16}
-              snapToInterval={width} // 화면 너비만큼 스냅
-              decelerationRate="fast" // 스크롤 속도 줄임
-              showsHorizontalScrollIndicator={false} // 스크롤 바 숨김
-              onScroll={handleScroll}
-            />
-            <View className="absolute bottom-5 right-5 rounded-full bg-basic px-1.5 py-1">
-              <Text className="font-BTN1 text-BTN1 text-white">
-                {currentIndex} / {data.imageUrls.length}
-              </Text>
-            </View>
-          </View>
+      <ScrollView contentContainerStyle={{ paddingBottom: 160 }}>
+        <AnnouncementImageListComponent data={data} />
+        <AnnouncementBasicInfoComponent data={data} />
+        <View className="h-[8px] bg-back_gray my-[24px]" />
+        <AnnouncementIntroduceComponent data={data} />
+      </ScrollView>
 
-          <View className="mt-8 px-5">
-            <View className="flex flex-row items-center justify-between">
-              <Text className="mr-[22px] font-H2 text-H2 leading-H2">{data.title}</Text>
-              <View className="flex flex-col items-center">
-                <Pressable onPress={() => handleGuestMode(data.id)}>
-                  {data.isLiked ? <Icon.FilledLike /> : <Icon.Like />}
-                </Pressable>
-                <Text
-                  className={`font-CAP2 text-CAP2 leading-CAP2 ${
-                    data.isLiked ? 'text-purple' : 'text-semiLight_gray'
-                  }`}
-                >
-                  {data.likeCount}
-                </Text>
-              </View>
-            </View>
-
-            <View className="my-6 h-[1px] w-full bg-stroke" />
-            <View className="flex flex-col gap-y-2">
-              <View className="flex flex-row">
-                <Text className="mr-5 font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  해당 지역
-                </Text>
-                <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray ">
-                  {data.city}{' '}
-                </Text>
-              </View>
-              <View className="flex flex-row">
-                <Text className=" mr-5 font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  공간 위치
-                </Text>
-                <Text className="max-w-[290px] font-CAP1 text-CAP1 leading-CAP1 text-deep_gray ">
-                  {data.district}, {data.address}
-                </Text>
-              </View>
-              <View className="flex flex-row">
-                <Text className="mr-5 font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  지원 대상
-                </Text>
-                <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  {data.target}
-                </Text>
-              </View>
-              <View className="flex flex-row">
-                <Text className="mr-5 font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  모집 기간
-                </Text>
-                <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  {translateTime(data.recruitmentStartAt)} ~{' '}
-                  {translateTime(data.recruitmentStartAt)}
-                </Text>
-              </View>
-              <View className="flex flex-row">
-                <Text className="mr-5 font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  문의 번호
-                </Text>
-                <Text className="font-CAP1 text-CAP1 leading-CAP1 text-deep_gray">
-                  {data.contactNumber}
-                </Text>
-              </View>
-            </View>
-          </View>
-
-          <View className="my-6 h-2 w-full bg-stroke" />
-          <View className="px-5">
-            <Text className="mb-4 font-SUB2 text-SUB2 leading-SUB2">지원 공고 소개</Text>
-            <Text className="font-BODY1 text-BODY1 leading-BODY1 text-deep_gray">
-              {data.details}
-            </Text>
-          </View>
-        </ScrollView>
-
-        <View
-          className={`fixed bottom-0 flex flex-row gap-x-3 border-t border-t-stroke bg-white px-5 py-4`}
-        >
-          <Pressable
-            onPress={() => Linking.openURL(data.websiteUrl)}
-            className="flex flex-1 flex-row gap-x-2 items-center justify-center rounded-lg border border-stroke bg-black px-4 py-3.5"
-          >
-            <Icon.Globe />
-            <Text className="font-BTN1 text-BTN1 text-white leading-BTN1">
-              공고 페이지 바로가기
-            </Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
+      <SafeAreaView edges={['bottom']} style={{ height: bottom, backgroundColor: '#FFFFFF' }} />
     </View>
   );
 }
