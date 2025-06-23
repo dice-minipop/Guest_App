@@ -1,3 +1,82 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .H1 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28.8px;
+  }
+
+  .H2 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 30.8px;
+  }
+
+  .SUB1 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 28px;
+  }
+
+  .SUB2 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
+  }
+
+  .SUB3 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .BODY1 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .BODY2 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22.4px;
+  }
+
+  .CAP1 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 19.5px;
+  }
+
+  .CAP2 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+  }
+
+  .BTN1 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 21px;
+  }
+
+  .BTN2 {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14.4px;
+  }
+}
