@@ -71,6 +71,8 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     'expo-router',
+    '@react-native-firebase/app',
+    '@react-native-firebase/messaging',
     [
       '@react-native-firebase/app',
       {
