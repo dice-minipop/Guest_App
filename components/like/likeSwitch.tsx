@@ -2,11 +2,11 @@ import { useRef, useState } from 'react';
 import { Animated, Dimensions, Pressable, Text } from 'react-native';
 
 interface LikeSwitchComponentProps {
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  currentType: 'SPACE' | 'ANNOUNCEMENT';
+  handleType: () => void;
 }
 
-export default function LikeSwitchComponent({ index, setIndex }: LikeSwitchComponentProps) {
+const LikeSwitchComponent: React.FC<LikeSwitchComponentProps> = ({ currentType, handleType }) => {
   const width = Dimensions.get('screen').width;
   const translateX = useRef(new Animated.Value(0)).current;
 
@@ -18,11 +18,10 @@ export default function LikeSwitchComponent({ index, setIndex }: LikeSwitchCompo
   };
 
   const slideAnimation = () => {
-    const newIndex = index === 0 ? 1 : 0; // 새 index 계산
-    setIndex(newIndex);
+    handleType();
 
     Animated.timing(translateX, {
-      toValue: newIndex === 0 ? 0 : 69, // 새 index 기준
+      toValue: currentType === 'ANNOUNCEMENT' ? 0 : 69,
       duration: 200,
       useNativeDriver: true,
     }).start();
@@ -34,7 +33,7 @@ export default function LikeSwitchComponent({ index, setIndex }: LikeSwitchCompo
       onLayout={handleLayout}
       style={{ left: (width - switchWidth) / 2 }}
       className={`absolute top-[-24px] flex flex-row items-center rounded-full bg-black p-[3px] ${
-        index === 0 ? 'text-black' : 'text-white'
+        currentType === 'SPACE' ? 'text-black' : 'text-white'
       }`}
     >
       <Animated.View
@@ -44,15 +43,17 @@ export default function LikeSwitchComponent({ index, setIndex }: LikeSwitchCompo
         className="absolute left-[4px] top-[3px] h-full w-1/2 rounded-full bg-white"
       />
       <Text
-        className={`BTN1 px-[11px] py-[10.5px] text-center ${index === 0 ? 'text-black' : 'text-white'}`}
+        className={`BTN1 px-[11px] py-[10.5px] text-center ${currentType === 'SPACE' ? 'text-black' : 'text-white'}`}
       >
         찜한공간
       </Text>
       <Text
-        className={`BTN1 px-[11px] py-[10.5px] text-center ${index === 1 ? 'text-black' : 'text-white'}`}
+        className={`BTN1 px-[11px] py-[10.5px] text-center ${currentType === 'ANNOUNCEMENT' ? 'text-black' : 'text-white'}`}
       >
         찜한공고
       </Text>
     </Pressable>
   );
-}
+};
+
+export default LikeSwitchComponent;
