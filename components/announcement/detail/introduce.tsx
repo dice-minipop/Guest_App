@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 
 import { AnnouncementDetailComponentProps } from '@/types/announcement';
 
-const AnnouncementIntroduce: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
+const AnnouncementIntroduceComponent: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
   return (
     <View className="gap-[16px] px-[20px]">
       <Text className="SUB2 text-black">지원 공고 소개</Text>
@@ -11,4 +11,4 @@ const AnnouncementIntroduce: React.FC<AnnouncementDetailComponentProps> = ({ dat
   );
 };
 
-export default AnnouncementIntroduce;
+export default AnnouncementIntroduceComponent;

@@ -5,7 +5,7 @@ import Carousel from 'react-native-reanimated-carousel';
 
 import { AnnouncementDetailComponentProps } from '@/types/announcement';
 
-const AnnouncementImageList: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
+const AnnouncementImageListComponent: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
   const width = Dimensions.get('screen').width;
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -33,4 +33,4 @@ const AnnouncementImageList: React.FC<AnnouncementDetailComponentProps> = ({ dat
   );
 };
 
-export default AnnouncementImageList;
+export default AnnouncementImageListComponent;
