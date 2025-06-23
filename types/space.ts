@@ -2,12 +2,17 @@ export interface SpaceItem {
   id: number;
   name: string;
   address: string;
+  city: string;
+  district: string;
   imageUrl: string;
   pricePerDay: number;
   discountRate: number;
   discountPrice: number;
   capacity: number;
+  size: number;
   likeCount: number;
+  isLiked: boolean;
+  isActivated: boolean;
 }
 
 export interface SpaceDetailItem {
@@ -46,4 +51,8 @@ export interface SpaceFilterDTO {
   minCapacity: number;
   maxCapacity: number;
   sortBy: string;
+}
+
+export interface SpaceDetailComponentProps {
+  data: SpaceDetailItem;
 }

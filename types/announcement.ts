@@ -8,20 +8,27 @@ export interface AnnouncementItem {
   recruitmentStartAt: string;
   recruitmentEndAt: string;
   likeCount: number;
+  isLiked: boolean;
   status: string;
 }
 
 export interface AnnouncementDetailItem {
-  imageList: string[];
+  id: number;
   title: string;
-  isLiked: boolean;
+  city: string;
+  district: string;
+  address: string;
+  hostName: string;
+  target: string;
+  imageUrls: string[];
+  recruitmentStartAt: string;
+  recruitmentEndAt: string;
+  details: string;
+  contactNumber: string;
+  websiteUrl: string;
   likeCount: number;
-  location: string;
-  locationDetail: string;
-  target: string[];
-  startDate: string;
-  endDate: string;
-  information: string;
+  status: string;
+  isLiked: boolean;
 }
 
 export interface AnnouncementFilterDTO {
@@ -29,4 +36,8 @@ export interface AnnouncementFilterDTO {
   district: string | null;
   targets: string[];
   status: string;
+}
+
+export interface AnnouncementDetailComponentProps {
+  data: AnnouncementDetailItem;
 }
