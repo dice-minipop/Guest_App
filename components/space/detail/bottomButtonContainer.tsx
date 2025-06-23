@@ -1,63 +1,32 @@
-import BottomSheet from '@gorhom/bottom-sheet';
-import { useRouter } from 'expo-router';
-import { Fragment, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import ChatIcon from '@/assets/icons/chat.svg';
+import PhoneIcon from '@/assets/icons/phone.svg';
 import ReservationIcon from '@/assets/icons/reservation.svg';
-import OpacityPressable from '@/components/common/opacityPressable';
-import { useCreateChatRoom } from '@/hooks/message/message';
-import { SpaceDetailItem } from '@/types/space';
-
-import ReservationModalComponent from './reservationModal';
 
 interface BottomButtonContainerProps {
-  spaceId: number;
-  data: SpaceDetailItem;
+  bottomSheetRef: React.RefObject<BottomSheetMethods>;
 }
 
-export default function BottomButtonContainer({ spaceId, data }: BottomButtonContainerProps) {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const router = useRouter();
-  const { mutate: createChatRoom } = useCreateChatRoom();
-
-  const handlePressChat = () => {
-    if (data?.messageRoomId) {
-      router.push({
-        pathname: '/chat/[id]',
-        params: {
-          id: String(data.messageRoomId),
-          spaceName: data.name,
-        },
-      });
-      return;
-    }
-
-    createChatRoom({ spaceId });
-  };
-
+const BottomButtonContainer: React.FC<BottomButtonContainerProps> = ({ bottomSheetRef }) => {
   return (
-    <Fragment>
-      <View className="bg-white border-t border-t-stroke">
-        <View className="flex flex-row gap-x-[8px] px-[20px] pt-[16px] pb-[50px]">
-          <OpacityPressable
-            onPress={handlePressChat}
-            className="px-[14.5px] py-[14px] border border-light_gray rounded-lg"
-          >
-            <ChatIcon />
-          </OpacityPressable>
-
-          <OpacityPressable
-            onPress={() => bottomSheetRef.current?.expand()}
-            className="flex-1 flex flex-row justify-center items-center gap-x-[8px] bg-black rounded-lg py-[15px]"
-          >
-            <ReservationIcon />
-            <Text className="BTN1 text-white">공간 예약 신청</Text>
-          </OpacityPressable>
-        </View>
-      </View>
-
-      <ReservationModalComponent spaceId={spaceId} data={data} bottomSheetRef={bottomSheetRef} />
-    </Fragment>
+    <View className="flex flex-row items-center gap-x-[8px] px-[20px] pt-[16px] pb-[50px] border-t border-t-stroke">
+      <TouchableOpacity className="p-[14px] border border-light_gray rounded-lg">
+        <PhoneIcon />
+      </TouchableOpacity>
+      <TouchableOpacity className="px-[14.5px] py-[14px] border border-light_gray rounded-lg">
+        <ChatIcon />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => bottomSheetRef.current?.expand()}
+        className="flex-1 flex flex-row justify-center items-center gap-x-[8px] bg-black rounded-lg py-[15px]"
+      >
+        <ReservationIcon />
+        <Text className="BTN1 text-white">공간 예약하기</Text>
+      </TouchableOpacity>
+    </View>
   );
-}
+};
+
+export default BottomButtonContainer;

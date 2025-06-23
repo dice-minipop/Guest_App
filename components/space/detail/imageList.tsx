@@ -5,7 +5,7 @@ import Carousel from 'react-native-reanimated-carousel';
 
 import { SpaceDetailComponentProps } from '@/types/space';
 
-export default function SpaceImageListComponent({ data }: SpaceDetailComponentProps) {
+const SpaceImageListComponent: React.FC<SpaceDetailComponentProps> = ({ data }) => {
   const width = Dimensions.get('screen').width;
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -31,4 +31,6 @@ export default function SpaceImageListComponent({ data }: SpaceDetailComponentPr
       </View>
     </View>
   );
-}
+};
+
+export default SpaceImageListComponent;
