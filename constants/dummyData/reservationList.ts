@@ -1,0 +1,47 @@
+export const reservationData = [
+  {
+    reservationId: 33,
+    spaceName: '힐링 카페힐링 카페힐링 카페힐링 카페힐링 카페',
+    startDate: '2025-04-10',
+    endDate: '2025-04-12',
+    message: '',
+    status: 'PENDING',
+    city: '서울특별시',
+    district: '서초구',
+    capacity: 15,
+    size: 40,
+    totalPrice: 22800,
+    spaceImage:
+      'https://cmc-dice-bucket.s3.ap-northeast-2.amazonaws.com/34/98c23dfe-f664-4ec2-9e6f-5ef1d948ca57.jpg',
+  },
+  {
+    reservationId: 35,
+    spaceName: '한옥 카페한옥 카페한옥 카페한옥 카페한옥 카페',
+    startDate: '2026-03-02',
+    endDate: '2026-03-21',
+    message: '',
+    status: 'PENDING',
+    city: '서울',
+    district: '종로구',
+    capacity: 14,
+    size: 38,
+    totalPrice: 223250,
+    spaceImage:
+      'https://korean.visitseoul.net/comm/getImage?srvcId=MEDIA&parentSn=24318&fileTy=MEDIA&fileNo=1',
+  },
+  {
+    reservationId: 36,
+    spaceName: '힐링 카페힐링 카페힐링 카페힐링 카페힐링 카페',
+    startDate: '2025-05-08',
+    endDate: '2025-05-09',
+    message: '',
+    status: 'PENDING',
+    city: '서울특별시',
+    district: '서초구',
+    capacity: 15,
+    size: 40,
+    totalPrice: 11400,
+    spaceImage:
+      'https://cmc-dice-bucket.s3.ap-northeast-2.amazonaws.com/34/98c23dfe-f664-4ec2-9e6f-5ef1d948ca57.jpg',
+  },
+];
