@@ -1,8 +1,8 @@
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { View, Text, Pressable, Dimensions, Image } from 'react-native';
+import { Dimensions, Pressable, Text, View } from 'react-native';
 
-import Icon from '../icon/icon';
+import MagnifierIcon from '@/assets/icons/magnifier.svg';
 
 const HeaderComponent: React.FC = () => {
   const router = useRouter();
@@ -10,26 +10,19 @@ const HeaderComponent: React.FC = () => {
   const width = Dimensions.get('screen').width;
 
   return (
-    <View className="relative px-5 pb-8 pt-16">
+    <View className="relative px-[20px] pt-[64px] pb-[32px] flex flex-col gap-y-[10px]">
       <Image
-        source={require('@/assets/images/space.png')}
+        source={require('@/assets/image/space.png')}
         style={{ width: width, height: 214, position: 'absolute' }}
       />
-      <View className="relative z-10 w-full gap-y-2.5">
-        <Text className="font-H1 text-H1 text-[#FFFFFF]">
-          저렴한 팝업 공간은{'\n'}쉽게 다이스에서.
-        </Text>
-
-        <View className="h-[49.3px]" />
-
-        {/* <Pressable
-          onPress={() => router.push('/search/space')}
-          className="flex flex-row items-center gap-x-1 rounded-lg bg-white pb-3.5 pl-[13px] pr-2 pt-[13px]"
-        >
-          <Icon.Magnifier />
-          <Text className="text-medium_gray">찾는 지역이나 지하철역으로 검색해보세요</Text>
-        </Pressable> */}
-      </View>
+      <Text className="H1 text-white">저렴한 팝업 공간은{'\n'}쉽게 다이스에서.</Text>
+      <Pressable
+        onPress={() => router.push(`/space/search`)}
+        className="bg-white flex flex-row items-center gap-x-[4px] px-[13px] pt-[13px] pb-[14px] rounded-lg"
+      >
+        <MagnifierIcon />
+        <Text className="BODY2 text-medium_gray">찾은 지역이나 지하철역으로 검색해보세요</Text>
+      </Pressable>
     </View>
   );
 };

@@ -3,7 +3,8 @@ import React from 'react';
 import { Text, Pressable, View } from 'react-native';
 import { DateData, LocaleConfig, CalendarList } from 'react-native-calendars';
 
-import Icon from '../icon/icon';
+import FilledPolygonIcon from '@/assets/icons/spaceDetail/filled-polygon.svg';
+import PolygonIcon from '@/assets/icons/spaceDetail/polygon.svg';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -90,12 +91,12 @@ const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
 
             {date?.dateString === startDate && (
               <View className="absolute top-[-2px]">
-                <Icon.Polygon />
+                <PolygonIcon />
               </View>
             )}
             {date?.dateString === endDate && (
               <View className="absolute top-[-2px]">
-                <Icon.FilledPolygon />
+                <FilledPolygonIcon />
               </View>
             )}
 
