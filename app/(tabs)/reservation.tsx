@@ -1,148 +1,73 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { Suspense, useState } from 'react';
-import { Platform, SafeAreaView, SectionList, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { Dimensions, FlatList, RefreshControl, Text, View } from 'react-native';
 
-import CardComponent from '@/components/reservation/cardComponent';
+import CoverViewComponent from '@/components/common/coverView';
+import ReservationItemComponent from '@/components/common/reservationItem';
 import HeaderComponent from '@/components/reservation/header';
-import ChipContainer from '@/components/space/chipContainer';
-import TopNavigation from '@/components/topNavigation/topNavigation';
+import TopNavigationComponent from '@/components/tabs/topNavigation';
+import { reservationData } from '@/constants/dummyData/reservationList';
 import { useGetReservationLists } from '@/hooks/reservation/reservation';
+// import { ReservationItem } from '@/types/reservation';
 
-const ReservationScreen = () => {
-  const chipList = ['최신순'];
+export default function Reservation() {
+  const [currentType, setCurrentType] = useState<'PENDING' | 'ACCEPT' | 'CANCEL'>('PENDING');
 
-  const [filteringType, setFilteringType] = useState<string>('');
+  // const { data, hasNextPage, fetchNextPage, refetch } = useGetReservationLists(currentType);
+  const data = reservationData;
 
-  const handleFilteringType = (type: string) => {
-    setFilteringType(type);
-  };
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  // PENDING, ACCEPT, DECLINE, CANCEL
-  const [status, setStatus] = useState<string>('PENDING');
-
-  const handleStatus = (newStatus: string) => {
-    setStatus(newStatus);
-  };
-
-  const { data } = useGetReservationLists(status);
+  const onRefresh = useCallback(() => {
+    // refetch();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1500);
+  }, []);
 
   return (
-    <Suspense>
-      <View className="flex-1">
-        <StatusBar style="light" />
-        <SafeAreaView className={`flex-1 bg-black ${Platform.OS === 'android' && 'pt-[50px]'}`}>
-          <TopNavigation />
+    <View className="flex-1 bg-white">
+      <TopNavigationComponent title="예약 관리" />
+      <CoverViewComponent height={500} top={-100} />
 
-          <View className="flex-1 bg-white">
-            {status === 'PENDING' && (
-              <SectionList
-                // section의 title과 데이터
-                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
-                // 각 아이템의 key 값 지정
-                keyExtractor={(item) => item.reservationId.toString()}
-                // 아이템들을 렌더링하는 메서드
-                renderItem={({ item }) => (
-                  <View className="px-5">
-                    <CardComponent reservationData={item} type={status} />
-                  </View>
-                )}
-                // sticky한 ChipContainer를 렌더링하기 위한 메서드
-                renderSectionHeader={({ section }) =>
-                  section.title === 'chip' ? (
-                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                  ) : null
-                }
-                // SectionList의 최상단에 렌더링되는 Header 아이템
-                ListHeaderComponent={
-                  <HeaderComponent
-                    status={status}
-                    handleStatus={handleStatus}
-                    // size={data.length}
-                  />
-                }
-                // FlatList의 최하단에 렌더링되는 Footer 아이템
-                ListFooterComponent={<View className="h-16" />}
-                // 렌더링 되는 아이템들 사이의 간격
-                ItemSeparatorComponent={() => <View className="h-4" />}
-                // 양 끝에서 스크롤 방지
-                bounces={false}
-              />
-            )}
-
-            {status === 'ACCEPT' && (
-              <SectionList
-                // section의 title과 데이터
-                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
-                // 각 아이템의 key 값 지정
-                keyExtractor={(item) => item.reservationId.toString()}
-                // 아이템들을 렌더링하는 메서드
-                renderItem={({ item }) => (
-                  <View className="px-5">
-                    <CardComponent reservationData={item} type={status} />
-                  </View>
-                )}
-                // sticky한 ChipContainer를 렌더링하기 위한 메서드
-                renderSectionHeader={({ section }) =>
-                  section.title === 'chip' ? (
-                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                  ) : null
-                }
-                // SectionList의 최상단에 렌더링되는 Header 아이템
-                ListHeaderComponent={
-                  <HeaderComponent
-                    status={status}
-                    handleStatus={handleStatus}
-                    // size={waitingDummyData.length}
-                  />
-                } // FlatList의 최하단에 렌더링되는 Footer 아이템
-                ListFooterComponent={<View className="h-16" />}
-                // 렌더링 되는 아이템들 사이의 간격
-                ItemSeparatorComponent={() => <View className="h-4" />}
-                // 양 끝에서 스크롤 방지
-                bounces={false}
-              />
-            )}
-
-            {status === 'CANCEL' && (
-              <SectionList
-                // section의 title과 데이터
-                sections={[{ title: 'chip', data: data.pages.flatMap((page) => page.content) }]}
-                // 각 아이템의 key 값 지정
-                keyExtractor={(item) => item.reservationId.toString()}
-                // 아이템들을 렌더링하는 메서드
-                renderItem={({ item }) => (
-                  <View className="px-5">
-                    <CardComponent reservationData={item} type={status} />
-                  </View>
-                )}
-                // sticky한 ChipContainer를 렌더링하기 위한 메서드
-                renderSectionHeader={({ section }) =>
-                  section.title === 'chip' ? (
-                    <ChipContainer chipList={chipList} openModal={handleFilteringType} />
-                  ) : null
-                }
-                // SectionList의 최상단에 렌더링되는 Header 아이템
-                ListHeaderComponent={
-                  <HeaderComponent
-                    status={status}
-                    handleStatus={handleStatus}
-                    // size={waitingDummyData.length}
-                  />
-                } // FlatList의 최하단에 렌더링되는 Footer 아이템
-                ListFooterComponent={<View className="h-16" />}
-                // 렌더링 되는 아이템들 사이의 간격
-                ItemSeparatorComponent={() => <View className="h-4" />}
-                // 양 끝에서 스크롤 방지
-                bounces={false}
-              />
-            )}
-
-            <View className="h-16" />
+      <FlatList
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 64,
+          backgroundColor: '#FFFFFF',
+          rowGap: 16,
+        }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            progressBackgroundColor={'#FFFFFF'}
+            title="조회중"
+            tintColor={'#FFFFFF'}
+            titleColor={'#FFFFFF'}
+          />
+        }
+        // data={data?.pages.flatMap((page) => page.content)}
+        data={data}
+        stickyHeaderIndices={[0]}
+        ListHeaderComponent={
+          <HeaderComponent currentType={currentType} setCurrentType={setCurrentType} />
+        }
+        renderItem={({ item }) => (
+          <ReservationItemComponent key={item.reservationId} type={currentType} data={item} />
+        )}
+        ItemSeparatorComponent={() => <View className="h-[16px]" />}
+        ListEmptyComponent={() => (
+          <View className="flex-1 flex justify-center items-center">
+            <Text className="BODY1 text-deep_gray text-center">아직 예약 내역이 없어요</Text>
           </View>
-        </SafeAreaView>
-      </View>
-    </Suspense>
+        )}
+        onEndReachedThreshold={0.5}
+        // onEndReached={() => {
+        //   if (hasNextPage) {
+        //     fetchNextPage();
+        //   }
+        // }}
+      />
+    </View>
   );
-};
-
-export default ReservationScreen;
+}

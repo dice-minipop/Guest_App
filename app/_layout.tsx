@@ -1,21 +1,25 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import messaging from '@react-native-firebase/messaging';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
-import { Stack, useRouter } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import * as Notifications from 'expo-notifications';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import '../global.css';
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { Text, TextInput, useColorScheme } from 'react-native';
+import { Fragment, useEffect, useState } from 'react';
+import { Platform, Text, TextInput, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Host } from 'react-native-portalize';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import SplashImage from '@/assets/images/splash/splash.svg';
 import { useAutoLogin } from '@/hooks/autoLogin';
-import { useLoggedInStore } from '@/zustands/member/store';
+import { requestUserPermission } from '@/hooks/useFCM';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -23,14 +27,30 @@ Text.defaultProps.allowFontScaling = false;
 TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+async function createNotificationChannel() {
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'Default',
+      importance: Notifications.AndroidImportance.HIGH,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+}
+
 export default function RootLayout() {
-  const router = useRouter();
-  const { isLoggedIn } = useLoggedInStore();
   const [isAppLoaded, setIsAppLoaded] = useState<boolean>(false);
+  const [isAnimationFinished, setIsAnimationFinished] = useState<boolean>(false);
 
   useAutoLogin(setIsAppLoaded);
-
-  const colorScheme = useColorScheme();
 
   const queryClient = new QueryClient();
 
@@ -41,59 +61,89 @@ export default function RootLayout() {
     'Pretendard-Regular': require('../assets/fonts/Pretendard-Regular.otf'),
   });
 
-  useLayoutEffect(() => {
-    const delaySplashScreen = async () => {
-      if (isAppLoaded && fontsLoaded) {
-        // 먼저 라우터 이동
-        if (isLoggedIn) {
-          await router.replace('/(tabs)/space');
-        } else {
-          await router.replace('/');
-        }
-      }
-    };
+  useEffect(() => {
+    if (isAppLoaded && fontsLoaded) {
+      // SplashScreen.hideAsync();
+      (async () => {
+        await requestUserPermission();
+        await createNotificationChannel();
+      })();
 
-    delaySplashScreen();
-  }, [isAppLoaded, fontsLoaded, isLoggedIn]);
+      const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+        console.log('📨 FCM Notification Received:', remoteMessage);
+
+        const { title, body } = remoteMessage.notification || {};
+
+        // expo-notifications로 Foreground 알림 띄우기
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: title ?? '알림',
+            body: body ?? '',
+            sound: true,
+          },
+          trigger: null, // 즉시 표시
+        });
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [fontsLoaded]);
 
   useEffect(() => {
-    // 페이지가 완전히 렌더링된 후에 스플래시 화면을 숨깁니다.
-    if (isAppLoaded && fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [isAppLoaded, fontsLoaded]);
+    const timer = setTimeout(() => {
+      setIsAnimationFinished(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <GestureHandlerRootView>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Host>
+      <Host>
+        <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
-            <Stack initialRouteName={isLoggedIn ? '(tabs)' : 'index'}>
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="login" options={{ headerShown: false }} />
-              <Stack.Screen name="findPassword" options={{ headerShown: false }} />
-              <Stack.Screen name="register" options={{ headerShown: false }} />
+            <BottomSheetModalProvider>
+              <ActionSheetProvider>
+                <Fragment>
+                  <Stack>
+                    <Stack.Screen name="(onBoarding)" options={{ headerShown: false }} />
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              {/* <Stack.Screen name="search/[type]" options={{ headerShown: false }} /> */}
-              <Stack.Screen name="space/[id]" options={{ headerShown: false }} />
-              <Stack.Screen name="reservation" options={{ headerShown: false }} />
-              <Stack.Screen name="announcement/[id]" options={{ headerShown: false }} />
+                    <Stack.Screen name="(topTabs)" options={{ headerShown: false }} />
 
-              <Stack.Screen name="(myPage)" options={{ headerShown: false }} />
+                    <Stack.Screen name="space" options={{ headerShown: false }} />
+                    <Stack.Screen name="announcement" options={{ headerShown: false }} />
+                    <Stack.Screen name="myPage" options={{ headerShown: false }} />
 
-              <Stack.Screen name="like" options={{ headerShown: false }} />
-              <Stack.Screen name="chatBox" options={{ headerShown: false }} />
-              <Stack.Screen name="chatRoom" options={{ headerShown: false }} />
+                    <Stack.Screen name="+not-found" />
+                  </Stack>
 
-              <Stack.Screen name="(terms)" options={{ headerShown: false }} />
+                  <StatusBar style="dark" />
 
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
+                  {!isAnimationFinished && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: '#000000',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <SplashImage />
+                    </View>
+                  )}
+                </Fragment>
+              </ActionSheetProvider>
+            </BottomSheetModalProvider>
           </QueryClientProvider>
-        </Host>
-      </ThemeProvider>
+        </SafeAreaProvider>
+      </Host>
     </GestureHandlerRootView>
   );
 }
