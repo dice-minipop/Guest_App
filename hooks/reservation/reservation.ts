@@ -2,6 +2,7 @@ import {
   useInfiniteQuery,
   useMutation,
   useQueryClient,
+  useSuspenseInfiniteQuery,
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
@@ -14,38 +15,47 @@ import {
   getReservationLists,
 } from '@/server/reservation/reservation';
 import { CreateReservationResponse } from '@/server/reservation/response';
+import { useReservationStore } from '@/zustands/reservation/store';
 
 export const useCreateReservation = () => {
   const router = useRouter();
+
   const queryClient = useQueryClient();
+
+  const { setReservationData } = useReservationStore();
 
   return useMutation({
     mutationFn: (data: CreateReservationRequest) => createReservation(data),
     onSuccess: (response: CreateReservationResponse) => {
-      console.log(response);
-      router.push(
-        `/space/reservation/complete?reservationId=${response.id}&name=${response.name}&startDate=${response.startDate}&endDate=${response.endDate}&totalPrice=${response.totalPrice}`,
-      );
-      queryClient.invalidateQueries({ queryKey: [`/reservation/list`] });
+      setReservationData({
+        id: response.id,
+        startDate: response.startDate,
+        endDate: response.endDate,
+      });
+      router.push('/reservation');
+      queryClient.invalidateQueries({ queryKey: [`/reservation/list`, 'PENDING'] });
     },
   });
 };
 
-export const useCancelReservation = () => {
+export const useCancelReservation = (status: 'PENDING' | 'ACCEPT' | 'CANCEL') => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (reservationId: number) => cancelReservation(reservationId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`/reservation/list`] });
+      queryClient.invalidateQueries({ queryKey: [`/reservation/list`, status] });
     },
   });
 };
 
-export const useGetReservationLists = (status: string, sort?: string) => {
+export const useGetReservationLists = (status: string) => {
   return useInfiniteQuery({
-    queryKey: [`/reservation/list`, status, sort],
-    queryFn: async ({ pageParam }) => getReservationLists(status, sort, pageParam, 5),
+    queryKey: [`/reservation/list`, status],
+    queryFn: async ({ pageParam }) => {
+      const response = getReservationLists(status, pageParam, 5);
+      return response;
+    },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {

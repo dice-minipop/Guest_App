@@ -8,18 +8,13 @@ export const useToggleSpaceLike = (id: number) => {
 
   return useMutation({
     mutationFn: () => toggleLikeSpace(id),
-    onSuccess: async () => {
+    onSuccess: () => {
       // 공간 목록 조회
-      await queryClient.refetchQueries({
-        queryKey: [`/space/list`],
-        exact: false,
-      });
+      queryClient.invalidateQueries({ queryKey: [`/space/list`] });
       // 공간 상세 조회
-      await queryClient.invalidateQueries({ queryKey: [`/space/${id}`, id] });
+      queryClient.invalidateQueries({ queryKey: [`/space/${id}`, id] });
       // 좋아요 공간 목록
-      await queryClient.invalidateQueries({ queryKey: [`/guest/like/space`] });
-      // 공간 검색
-      await queryClient.invalidateQueries({ queryKey: [`/space/list/search`] });
+      queryClient.invalidateQueries({ queryKey: [`/guest/like/space`] });
     },
   });
 };
@@ -30,18 +25,13 @@ export const useToggleAnnouncementLike = (id: number) => {
 
   return useMutation({
     mutationFn: () => toggleLikeAnnouncement(id),
-    onSuccess: async () => {
-      // 공고 목록 조회
-      await queryClient.refetchQueries({
-        queryKey: [`/announcement/list`],
-        exact: false,
-      });
-      // 공고 상세 조회
-      await queryClient.invalidateQueries({ queryKey: [`/announcement/${id}`, id] });
-      // 좋아요 공고 목록
-      await queryClient.invalidateQueries({ queryKey: [`/guest/like/announcement`] });
-      // 공고 검색
-      await queryClient.invalidateQueries({ queryKey: [`/announcement/list/search`] });
+    onSuccess: () => {
+      // 공간 목록 조회
+      queryClient.invalidateQueries({ queryKey: [`/announcement/list`] });
+      // 공간 상세 조회
+      queryClient.invalidateQueries({ queryKey: [`/announcement/${id}`, id] });
+      // 좋아요 공간 목록
+      queryClient.invalidateQueries({ queryKey: [`/guest/like/announcement`] });
     },
   });
 };

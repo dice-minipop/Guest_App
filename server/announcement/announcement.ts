@@ -11,7 +11,7 @@ export const getAnnouncementLists = async (
   data?: Partial<AnnouncementFilterDTO>,
 ): Promise<GetAnnouncementListsResponse> => {
   const response = await PostAxiosInstance<GetAnnouncementListsResponse>(
-    `/v1/announcement/list`,
+    `/announcement/list`,
     data,
     {
       params: {
@@ -28,9 +28,7 @@ export const getAnnouncementLists = async (
 export const getAnnouncementDetailData = async (
   id: number,
 ): Promise<GetAnnouncementDetailDataResponse> => {
-  const response = await GetAxiosInstance<GetAnnouncementDetailDataResponse>(
-    `/v1/announcement/${id}`,
-  );
+  const response = await GetAxiosInstance<GetAnnouncementDetailDataResponse>(`/announcement/${id}`);
 
   return response.data;
 };
