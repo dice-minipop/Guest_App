@@ -1,9 +1,12 @@
-import { useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 
 import {
   getAnnouncementDetailData,
   getAnnouncementLists,
-  getSearchedAnnouncementLists,
 } from '@/server/announcement/announcement';
 import { AnnouncementFilterDTO } from '@/types/announcement';
 
@@ -18,7 +21,8 @@ export const useGetAnnouncementLists = (data: Partial<AnnouncementFilterDTO>) =>
   return useSuspenseInfiniteQuery({
     queryKey: [`/announcement/list`],
     queryFn: async ({ pageParam }) => {
-      const response = getAnnouncementLists(filteredData, pageParam, 5);
+      await new Promise((res) => setTimeout(res, 5000)); // 1.5초 delay
+      const response = getAnnouncementLists(undefined, pageParam, 5, filteredData);
       return response;
     },
     initialPageParam: 0,
@@ -32,10 +36,10 @@ export const useGetAnnouncementLists = (data: Partial<AnnouncementFilterDTO>) =>
 
 // 모집 공고 검색
 export const useGetSearchedAnnouncementLists = (keyword: string) => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/announcement/list`, keyword],
     queryFn: async ({ pageParam }) => {
-      const response = getSearchedAnnouncementLists(keyword, pageParam, 5);
+      const response = getAnnouncementLists(keyword, pageParam, 5);
       return response;
     },
     initialPageParam: 0,
@@ -44,6 +48,7 @@ export const useGetSearchedAnnouncementLists = (keyword: string) => {
         return lastPage.number + 1;
       }
     },
+    enabled: keyword !== '',
   });
 };
 

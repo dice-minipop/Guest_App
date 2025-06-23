@@ -20,6 +20,7 @@ export interface SignUpRequest {
   name: string;
   password: string;
   phone?: string;
+  userRole: 1 | 0;
 }
 
 export interface ReissueTokenRequest {

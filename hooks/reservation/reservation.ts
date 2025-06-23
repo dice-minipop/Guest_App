@@ -1,4 +1,10 @@
-import { useMutation, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+  useSuspenseInfiniteQuery,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 
 import { CreateReservationRequest } from '@/server/reservation/request';
@@ -11,8 +17,10 @@ import {
 import { CreateReservationResponse } from '@/server/reservation/response';
 import { useReservationStore } from '@/zustands/reservation/store';
 
-export const useCreateReservation = (refetch: () => void) => {
+export const useCreateReservation = () => {
   const router = useRouter();
+
+  const queryClient = useQueryClient();
 
   const { setReservationData } = useReservationStore();
 
@@ -25,20 +33,24 @@ export const useCreateReservation = (refetch: () => void) => {
         endDate: response.endDate,
       });
       router.push('/reservation');
-      refetch();
+      queryClient.invalidateQueries({ queryKey: [`/reservation/list`, 'PENDING'] });
     },
   });
 };
 
-export const useCancelReservation = (refetch: () => void) => {
+export const useCancelReservation = (status: 'PENDING' | 'ACCEPT' | 'CANCEL') => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (reservationId: number) => cancelReservation(reservationId),
-    onSuccess: () => refetch(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`/reservation/list`, status] });
+    },
   });
 };
 
 export const useGetReservationLists = (status: string) => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/reservation/list`, status],
     queryFn: async ({ pageParam }) => {
       const response = getReservationLists(status, pageParam, 5);

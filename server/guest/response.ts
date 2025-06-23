@@ -1,4 +1,5 @@
 import { PagenationDTO } from '@/types/page';
+import { SpaceItem } from '@/types/space';
 
 export interface UpdateInfoResponse {
   name: string;
@@ -11,22 +12,7 @@ export interface UpdateInfoResponse {
   }[];
 }
 
-export interface LikedSpace {
-  id: number;
-  name: string;
-  address: string;
-  imageUrl: string;
-  pricePerDay: number;
-  discountRate: number;
-  discountPrice: number;
-  capacity: number;
-  size: number;
-  likeCount: number;
-  chatRoomId: number | null;
-  isLiked: boolean;
-}
-
-export type GetLikedSpaceListsResponse = PagenationDTO<LikedSpace>;
+export type GetLikedSpaceListsResponse = PagenationDTO<SpaceItem>;
 
 export interface LikedAnnouncement {
   id: number;

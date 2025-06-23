@@ -4,11 +4,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 
-import {
-  getSpaceDetailData,
-  getFilteredSpaceLists,
-  getSearchedSpaceLists,
-} from '@/server/space/space';
+import { getSpaceDetailData, getFilteredSpaceLists } from '@/server/space/space';
 import { SpaceFilterDTO } from '@/types/space';
 
 // 공간 상세 조회
@@ -38,10 +34,7 @@ export const useGetFilteredSpaceLists = (data: Partial<SpaceFilterDTO>) => {
 
   return useSuspenseInfiniteQuery({
     queryKey: [`/space/list`],
-    queryFn: async ({ pageParam }) => {
-      const response = getFilteredSpaceLists(filteredData, pageParam, 5);
-      return response;
-    },
+    queryFn: async ({ pageParam }) => getFilteredSpaceLists(undefined, pageParam, 5, filteredData),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {
@@ -52,11 +45,11 @@ export const useGetFilteredSpaceLists = (data: Partial<SpaceFilterDTO>) => {
 };
 
 // 공간 검색
-export const useGetSearchedSpaceLists = (type: string, keyword: string) => {
+export const useGetSearchedSpaceLists = (keyword: string) => {
   return useInfiniteQuery({
-    queryKey: [`/space/list`, keyword],
+    queryKey: [`/space/list/search`, keyword],
     queryFn: async ({ pageParam }) => {
-      const response = getSearchedSpaceLists(keyword, pageParam, 5);
+      const response = getFilteredSpaceLists(keyword, pageParam, 5, undefined);
       return response;
     },
     initialPageParam: 0,
@@ -65,14 +58,6 @@ export const useGetSearchedSpaceLists = (type: string, keyword: string) => {
         return lastPage.number + 1;
       }
     },
-    enabled: type === 'space' && keyword !== '',
+    enabled: keyword !== '',
   });
 };
-
-// 최신 공간 조회
-// export const useGetSpaceLists = () => {
-//   return useSuspenseQuery({
-//     queryKey: [`/space/latest`],
-//     queryFn: () => getFilteredSpaceLists(),
-//   });
-// };

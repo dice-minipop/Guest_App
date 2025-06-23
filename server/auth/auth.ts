@@ -17,6 +17,7 @@ import {
   ReissueTokenResponse,
   ResetPasswordResponse,
   SignUpResponse,
+  VerifyEmailResponse,
 } from './response';
 
 // 회원 탈퇴
@@ -34,8 +35,8 @@ export const sendEmailVerify = async (data: SendEmailVerifyRequest) => {
 };
 
 // 이메일 인증 확인
-export const verifyEmail = async (data: VerifyEmailRequest) => {
-  const response = await GuestPostAxiosInstance(`/auth/verify/code`, data);
+export const verifyEmail = async (data: VerifyEmailRequest): Promise<VerifyEmailResponse> => {
+  const response = await GuestPostAxiosInstance<VerifyEmailResponse>(`/auth/verify/code`, data);
 
   return response.data;
 };

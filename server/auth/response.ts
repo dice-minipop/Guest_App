@@ -1,3 +1,7 @@
+export interface VerifyEmailResponse {
+  isVerified: boolean;
+}
+
 export interface SignUpResponse {
   email: string;
   name: string;
