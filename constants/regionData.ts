@@ -270,6 +270,30 @@ export type RegionItem = {
   item?: string[];
 };
 
+export const regionOneItems: RegionItem[] = [
+  { title: '전국' },
+  { title: '서울', item: ['전체', ...seoulItems] },
+  { title: '부산', item: ['전체', ...busanItems] },
+  { title: '대구', item: ['전체', ...daeguItems] },
+  { title: '인천', item: ['전체', ...incheonItems] },
+  { title: '광주', item: ['전체', ...gwangjuItems] },
+  { title: '대전', item: ['전체', ...daejeonItems] },
+  { title: '울산', item: ['전체', ...ulsanItems] },
+  { title: '세종' },
+];
+
+export const regionTwoItems: RegionItem[] = [
+  { title: '경기', item: ['전체', ...gyeonggiItems] },
+  { title: '강원', item: ['전체', ...gangwonItems] },
+  { title: '충북', item: ['전체', ...chungBukItems] },
+  { title: '충남', item: ['전체', ...chungNamItems] },
+  { title: '전북', item: ['전체', ...jeonBukItems] },
+  { title: '전남', item: ['전체', ...jeonNamItems] },
+  { title: '경북', item: ['전체', ...gyeongBukItems] },
+  { title: '경남', item: ['전체', ...gyeongNamItems] },
+  { title: '제주', item: ['전체', ...jejuItems] },
+];
+
 export const regionItems: RegionItem[] = [
   { title: '전국' },
   { title: '서울', item: ['전체', ...seoulItems] },
