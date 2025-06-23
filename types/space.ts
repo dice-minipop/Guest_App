@@ -8,11 +8,12 @@ export interface SpaceItem {
   pricePerDay: number;
   discountRate: number;
   discountPrice: number;
+  capacity: number;
   size: number;
   likeCount: number;
   isLiked: boolean;
   isActivated: boolean;
-  badge: string;
+  badge?: string;
 }
 
 export interface SpaceDetailItem {

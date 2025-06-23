@@ -1,6 +1,6 @@
-export interface ReservationData {
+export interface ReservationItem {
   reservationId: number;
-  messageRoomId: number;
+  messageRoomId?: number;
   spaceName: string;
   startDate: string;
   endDate: string;
