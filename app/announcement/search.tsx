@@ -3,12 +3,12 @@ import { FlatList, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MagnifierIcon from '@/assets/icons/magnifier.svg';
-import AnnouncementItemComponent from '@/components/announcement/item/announcementItem';
+import AnnouncementItemComponent from '@/components/common/announcementItem';
 import BackHeaderComponent from '@/components/common/backHeader';
 import { useGetSearchedAnnouncementLists } from '@/hooks/announcement/announcement';
 import { useDebounce } from '@/hooks/useDebounce';
 
-export default function AnnouncementSearch() {
+export default function SpaceSearch() {
   const [keyword, setKeyword] = useState<string>('');
   const debouncedKeyword = useDebounce(keyword, 300);
 
@@ -30,7 +30,7 @@ export default function AnnouncementSearch() {
           onBlur={() => setIsFocused(false)}
           placeholder="검색어를 입력해주세요"
           placeholderTextColor="#CCCCCC"
-          className="flex-1 INPUT"
+          className="flex-1"
         />
       </View>
 

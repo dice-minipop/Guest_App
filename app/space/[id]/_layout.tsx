@@ -11,6 +11,9 @@ export default function SpaceDetailLayout() {
 
       {/* 분석 */}
       <Stack.Screen name="analysis" options={{ headerShown: false }} />
+
+      {/* 예약 완료 */}
+      <Stack.Screen name="complete" options={{ headerShown: false }} />
     </Stack>
   );
 }

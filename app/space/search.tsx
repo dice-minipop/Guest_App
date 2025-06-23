@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import MagnifierIcon from '@/assets/icons/magnifier.svg';
 import BackHeaderComponent from '@/components/common/backHeader';
-import SpaceItemComponent from '@/components/space/item/spaceItem';
+import SpaceItemComponent from '@/components/common/spaceItem';
 import { useGetSearchedSpaceLists } from '@/hooks/space/space';
 import { useDebounce } from '@/hooks/useDebounce';
 
@@ -30,7 +30,7 @@ export default function SpaceSearch() {
           onBlur={() => setIsFocused(false)}
           placeholder="검색어를 입력해주세요"
           placeholderTextColor="#CCCCCC"
-          className="flex-1 INPUT"
+          className="flex-1"
         />
       </View>
 
