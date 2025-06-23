@@ -15,6 +15,7 @@ export const validateEmail = async (
   }
 
   try {
+    console.log('이메일 중복확인 호출됨');
     await checkEmail({ email: value }); // 중복확인 API
     setMessage('사용 가능한 이메일입니다.');
     setMessageColor('text-green');
@@ -23,6 +24,7 @@ export const validateEmail = async (
       setMessage('이미 가입된 이메일입니다.');
       setMessageColor('text-red');
     } else {
+      console.log('예상치 못한 오류:', error);
       setMessage('');
       setMessageColor('text-yellow');
     }
@@ -87,6 +89,7 @@ export const validatePhone = async (
   }
 
   try {
+    console.log('휴대폰 중복확인 호출됨');
     await checkPhoneNumber({ phone: value }); // 중복확인 API
     setMessage('사용 가능한 휴대폰 번호입니다.');
     setMessageColor('text-green');
@@ -95,6 +98,7 @@ export const validatePhone = async (
       setMessage('중복된 휴대폰 번호입니다.');
       setMessageColor('text-red');
     } else {
+      console.log('예상치 못한 오류:', error);
       setMessage('');
       setMessageColor('text-yellow');
     }
