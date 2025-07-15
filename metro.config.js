@@ -1,4 +1,7 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
+const path = require('path');
+
+const withStorybook = require('@storybook/react-native/metro/withStorybook');
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativeWind } = require('nativewind/metro');
 
@@ -19,8 +22,14 @@ module.exports = (() => {
   nativeWindConfig.resolver = {
     ...resolver,
     assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
-    sourceExts: [...resolver.sourceExts, 'svg'],
+    sourceExts: [...resolver.sourceExts, 'svg', 'stories.ts', 'stories.tsx'],
   };
 
-  return nativeWindConfig;
+  const storybookConfig = withStorybook(nativeWindConfig, {
+    enabled: true,
+    configPath: path.resolve(__dirname, './.rnstorybook'),
+    useJs: true, // 스토리북 설정 파일이 js인 경우 true
+  });
+
+  return storybookConfig;
 })();
