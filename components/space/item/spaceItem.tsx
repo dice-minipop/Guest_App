@@ -7,13 +7,18 @@ import FilledLikeIcon from '@/assets/icons/filled-like.svg';
 import LikeIcon from '@/assets/icons/like.svg';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { SpaceItem } from '@/types/space';
+import { showToast } from '@/utils/toast';
+
+import SpaceBadge from '../spaceBadge/spaceBadge';
 
 interface SpaceItemComponentProps {
   data: SpaceItem;
 }
 
 const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
-  const router = useRouter();
+  const isStorybook = globalThis.__STORYBOOK__ === true;
+  const expoRouter = useRouter();
+  const router = isStorybook ? require('@/constants/mockRouter').mockRouter : expoRouter;
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
 
@@ -24,12 +29,13 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
       onPress={() => router.push(`/space/${data.id}`)}
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
-      className="border border-stroke rounded-lg bg-white mx-[20px]"
+      className="border border-stroke rounded-lg bg-white mx-[20px] relative"
     >
       <Image
         source={data.imageUrl}
         style={{ width: '100%', aspectRatio: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
       />
+      <SpaceBadge badgeString="20대 여성 방문 상위 10%" />
 
       <View className={`pl-[16px] pb-[16px] pr-[6px] gap-y-[8px] ${isPressed && 'opacity-50'}`}>
         <View className="flex flex-row justify-between">
@@ -46,7 +52,11 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
           </View>
 
           <Pressable
-            onPress={() => spaceLike()}
+            // onPress={() => spaceLike()}
+            onPress={() => {
+              showToast(true, 'ㅎㅇ');
+              console.log('ㅎㅇ');
+            }}
             className="flex flex-col items-center self-start py-[8px]"
           >
             {data.isLiked ? <FilledLikeIcon /> : <LikeIcon />}
