@@ -1,17 +1,20 @@
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import { Alert, Pressable, Text, TouchableOpacity, View } from 'react-native';
 
 import SendIcon from '@/assets/icons/send.svg';
 import { useCancelReservation } from '@/hooks/reservation/reservation';
-import { ReservationItem } from '@/types/reservation';
+import { ReservationData } from '@/types/reservation';
 import { calculateDurationInDays, formatToCompactDate } from '@/utils/dateUtils';
 
-interface ReservationItemComponentProps {
+interface ReservationItemProps {
   type: 'PENDING' | 'ACCEPT' | 'CANCEL';
-  data: ReservationItem;
+  data: ReservationData;
 }
 
-const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ type, data }) => {
+const ReservationItem: React.FC<ReservationItemProps> = ({ type, data }) => {
+  const router = useRouter();
+
   const { mutateAsync: cancelReservation } = useCancelReservation(type);
 
   const handleCancel = () => {
@@ -69,7 +72,10 @@ const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ typ
 
         {type === 'PENDING' && (
           <View className="flex flex-row items-center gap-x-[8px]">
-            <TouchableOpacity className="border border-stroke rounded-lg p-[14px]">
+            <TouchableOpacity
+              onPress={() => router.push(`/(topTabs)/chat/${1}`)}
+              className="border border-stroke rounded-lg p-[14px]"
+            >
               <SendIcon />
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 border border-stroke rounded-lg py-[15.5px]">
@@ -83,7 +89,10 @@ const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ typ
 
         {type === 'ACCEPT' && (
           <View className="flex flex-row items-center gap-x-[8px]">
-            <TouchableOpacity className="border border-stroke rounded-lg p-[14px]">
+            <TouchableOpacity
+              onPress={() => router.push(`/(topTabs)/chat/${1}`)}
+              className="border border-stroke rounded-lg p-[14px]"
+            >
               <SendIcon />
             </TouchableOpacity>
             <TouchableOpacity
@@ -105,4 +114,4 @@ const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ typ
   );
 };
 
-export default ReservationItemComponent;
+export default ReservationItem;
