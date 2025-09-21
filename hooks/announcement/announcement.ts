@@ -1,8 +1,4 @@
-import {
-  useInfiniteQuery,
-  useSuspenseInfiniteQuery,
-  useSuspenseQuery,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 import {
   getAnnouncementDetailData,
@@ -12,19 +8,9 @@ import { AnnouncementFilterDTO } from '@/types/announcement';
 
 // 모집 공고 리스트 조회
 export const useGetAnnouncementLists = (data: Partial<AnnouncementFilterDTO>) => {
-  const filteredData = { ...data };
-
-  if (data?.city === '전국' || data?.city === '세종') {
-    delete filteredData.city;
-  }
-
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/announcement/list`],
-    queryFn: async ({ pageParam }) => {
-      await new Promise((res) => setTimeout(res, 5000)); // 1.5초 delay
-      const response = getAnnouncementLists(undefined, pageParam, 5, filteredData);
-      return response;
-    },
+    queryFn: ({ pageParam }) => getAnnouncementLists(undefined, pageParam, 5, data),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {
@@ -37,7 +23,7 @@ export const useGetAnnouncementLists = (data: Partial<AnnouncementFilterDTO>) =>
 // 모집 공고 검색
 export const useGetSearchedAnnouncementLists = (keyword: string) => {
   return useInfiniteQuery({
-    queryKey: [`/announcement/list`, keyword],
+    queryKey: [`/announcement/list/search`, keyword],
     queryFn: async ({ pageParam }) => {
       const response = getAnnouncementLists(keyword, pageParam, 5);
       return response;
@@ -54,7 +40,7 @@ export const useGetSearchedAnnouncementLists = (keyword: string) => {
 
 // 모집 공고 상세 조회
 export const useGetAnnouncementDetailData = (id: number) => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: [`/announcement/${id}`, id],
     queryFn: () => getAnnouncementDetailData(id),
   });
