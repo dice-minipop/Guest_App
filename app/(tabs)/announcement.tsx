@@ -15,8 +15,36 @@ export default function Announcement() {
   const { data, isLoading, fetchNextPage, hasNextPage } =
     useGetAnnouncementLists(announcementFilter);
 
-  const announcementData =
-    data?.pages.flatMap((page) => page.content.map((item) => ({ ...item }))) || [];
+  const announcementData = data?.pages.flatMap((page) =>
+    page.content.map((item) => ({ ...item })),
+  ) || [
+    {
+      city: '경기',
+      district: '의정부시',
+      hostName: ' 신세계백화점(의정부점)',
+      id: 1,
+      isLiked: false,
+      likeCount: 28,
+      recruitmentEndAt: '2025-06-08T23:59:59',
+      recruitmentStartAt: '2025-06-05T00:00:00',
+      status: 'RECRUITING',
+      target: '자영업자',
+      title: '2025 업사이클팝업스토어 [RE] 모집',
+    },
+    {
+      city: '서울',
+      district: '노원구',
+      hostName: '갤러리',
+      id: 2,
+      isLiked: true,
+      likeCount: 21,
+      recruitmentEndAt: '2025-06-10T00:00:00',
+      recruitmentStartAt: '2025-05-27T00:00:00',
+      status: 'RECRUITING',
+      target: '자영업자',
+      title: '노원구 청년 팝업스토어 하계점',
+    },
+  ];
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
