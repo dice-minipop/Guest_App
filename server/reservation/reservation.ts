@@ -11,14 +11,17 @@ import {
 export const createReservation = async (
   data: CreateReservationRequest,
 ): Promise<CreateReservationResponse> => {
-  const response = await PostAxiosInstance<CreateReservationResponse>(`/reservation/reserve`, data);
+  const response = await PostAxiosInstance<CreateReservationResponse>(
+    `/v1/reservation/reserve`,
+    data,
+  );
 
   return response.data;
 };
 
 // 예약 취소
 export const cancelReservation = async (reservationId: number) => {
-  const response = await PostAxiosInstance(`/reservation/cancel`, null, {
+  const response = await PostAxiosInstance(`/v1/reservation/cancel`, null, {
     params: {
       reservationId: reservationId,
     },
@@ -33,7 +36,7 @@ export const getReservationLists = async (
   page?: number,
   size?: number,
 ): Promise<GetReservationListsResponse> => {
-  const response = await GetAxiosInstance<GetReservationListsResponse>(`/reservation/list`, {
+  const response = await GetAxiosInstance<GetReservationListsResponse>(`/v1/reservation/list`, {
     params: {
       status: status,
       page: page,
@@ -49,7 +52,7 @@ export const getImpossibleDateLists = async (
   spaceId: number,
 ): Promise<GetImpossibleDateListsResponse> => {
   const response = await GetAxiosInstance<GetImpossibleDateListsResponse>(
-    `/reservation/available-dates`,
+    `/v1/reservation/available-dates`,
     {
       params: {
         spaceId: spaceId,

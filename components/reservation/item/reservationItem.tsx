@@ -12,10 +12,10 @@ interface ReservationItemProps {
   data: ReservationData;
 }
 
-const ReservationItem: React.FC<ReservationItemProps> = ({ type, data }) => {
+export default function ReservationItem({ type, data }: ReservationItemProps) {
   const router = useRouter();
 
-  const { mutateAsync: cancelReservation } = useCancelReservation(type);
+  const { mutateAsync: cancelReservation } = useCancelReservation();
 
   const handleCancel = () => {
     Alert.alert('예약을 취소하시겠습니까?', '예약 취소 시 복구할 수 없습니다.', [
@@ -112,6 +112,4 @@ const ReservationItem: React.FC<ReservationItemProps> = ({ type, data }) => {
       </View>
     </Pressable>
   );
-};
-
-export default ReservationItem;
+}

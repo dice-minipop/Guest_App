@@ -1,4 +1,4 @@
-export interface ReservationItem {
+export interface ReservationData {
   reservationId: number;
   spaceName: string;
   startDate: string;
