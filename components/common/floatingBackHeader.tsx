@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BackArrowIcon from '@/assets/icons/backArrow.svg';
 
-const FloatingBackHeader: React.FC = () => {
+export default function FloatingBackHeader() {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
@@ -14,7 +14,7 @@ const FloatingBackHeader: React.FC = () => {
       <StatusBar style="light" />
 
       <View style={{ height: top, backgroundColor: '#000000' }} />
-      <View className="flex flex-row items-center bg-transparent px-[20px] py-[16px]">
+      <View className="flex flex-row items-center bg-transparent px-[9px] py-[6px]">
         <Pressable
           onPress={() => router.back()}
           className="bg-black/50 flex justify-center items-center rounded-full w-[36px] h-[36px] p-[6px]"
@@ -24,6 +24,4 @@ const FloatingBackHeader: React.FC = () => {
       </View>
     </View>
   );
-};
-
-export default FloatingBackHeader;
+}
