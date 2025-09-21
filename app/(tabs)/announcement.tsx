@@ -1,19 +1,22 @@
 import { useCallback, useState } from 'react';
-import { RefreshControl, SectionList, View } from 'react-native';
+import { View, SectionList, RefreshControl } from 'react-native';
 
-import FilteringContainer from '@/components/announcement/filteringContainer';
+import FilteringContainer from '@/components/announcement/filtering/filteringContainer';
 import HeaderComponent from '@/components/announcement/header';
-import AnnouncementItemComponent from '@/components/common/announcementItem';
+import AnnouncementItemComponent from '@/components/announcement/item/announcementItem';
+import AnnouncementSkeletonItem from '@/components/announcementSkeleton';
 import CoverViewComponent from '@/components/common/coverView';
 import TopNavigationComponent from '@/components/tabs/topNavigation';
-import { dummyData } from '@/constants/dummyData/announcementList';
 import { useGetAnnouncementLists } from '@/hooks/announcement/announcement';
+import { useAnnouncementFilterStore } from '@/zustands/filter/announcement';
 
 export default function Announcement() {
-  // const { data, fetchNextPage, hasNextPage, refetch } = useGetAnnouncementLists(filtering);
-  const data = dummyData;
+  const { announcementFilter } = useAnnouncementFilterStore();
+  const { data, isLoading, fetchNextPage, hasNextPage } =
+    useGetAnnouncementLists(announcementFilter);
 
-  const [selectedFilter, setSelectedFilter] = useState<string>('');
+  const announcementData =
+    data?.pages.flatMap((page) => page.content.map((item) => ({ ...item }))) || [];
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -27,10 +30,11 @@ export default function Announcement() {
   return (
     <View className="flex-1 bg-white">
       <TopNavigationComponent title="팝업 지원 공고" />
+
       <CoverViewComponent height={500} top={-100} />
 
       <SectionList
-        contentContainerStyle={{ paddingBottom: 64, backgroundColor: '#FFFFFF' }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 64, backgroundColor: '#FFFFFF' }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -41,26 +45,35 @@ export default function Announcement() {
             titleColor={'#FFFFFF'}
           />
         }
-        // sections={[{ title: 'CHIP', data: data.pages.flatMap((page) => page.content) }]}
-        sections={[{ title: 'CHIP', data: data }]}
+        sections={[
+          {
+            title: 'CHIP',
+            data: isLoading
+              ? Array.from({ length: 3 }).map(() => null) // Skeleton용
+              : announcementData,
+          },
+        ]}
         ListHeaderComponent={<HeaderComponent />}
         renderSectionHeader={({ section }) =>
           section.title === 'CHIP' ? (
-            <FilteringContainer
-              items={['지역', '지원대상', '모집상태']}
-              selectedFilter={selectedFilter}
-              handleFilter={(e: string) => setSelectedFilter(e)}
-            />
+            <FilteringContainer items={['지역', '지원대상', '모집상태', '정렬']} />
           ) : null
         }
-        renderItem={({ item }) => <AnnouncementItemComponent key={item.id} data={item} />}
+        stickySectionHeadersEnabled={true}
+        renderItem={({ item, index }) =>
+          item ? (
+            <AnnouncementItemComponent key={item.id} data={item} />
+          ) : (
+            <AnnouncementSkeletonItem key={index} />
+          )
+        }
         ItemSeparatorComponent={() => <View className="h-[16px]" />}
         onEndReachedThreshold={0.5}
-        // onEndReached={() => {
-        //   if (hasNextPage) {
-        //     fetchNextPage();
-        //   }
-        // }}
+        onEndReached={() => {
+          if (hasNextPage) {
+            fetchNextPage();
+          }
+        }}
       />
     </View>
   );
