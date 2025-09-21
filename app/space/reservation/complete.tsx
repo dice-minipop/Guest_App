@@ -1,9 +1,9 @@
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ReservationInfoComponent from '@/components/space/reservationInfo';
-import { CommonActions, useNavigation } from '@react-navigation/native';
 
 export default function ReservationComplete() {
   const navigation = useNavigation();
