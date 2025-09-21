@@ -7,7 +7,6 @@ import FilledLikeIcon from '@/assets/icons/filled-like.svg';
 import LikeIcon from '@/assets/icons/like.svg';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { SpaceItem } from '@/types/space';
-import { showToast } from '@/utils/toast';
 
 import SpaceBadge from '../spaceBadge/spaceBadge';
 
@@ -15,10 +14,8 @@ interface SpaceItemComponentProps {
   data: SpaceItem;
 }
 
-const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
-  const isStorybook = globalThis.__STORYBOOK__ === true;
-  const expoRouter = useRouter();
-  const router = isStorybook ? require('@/constants/mockRouter').mockRouter : expoRouter;
+export default function SpaceItemComponent({ data }: SpaceItemComponentProps) {
+  const router = useRouter();
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
 
@@ -35,7 +32,7 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
         source={data.imageUrl}
         style={{ width: '100%', aspectRatio: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
       />
-      <SpaceBadge badgeString="20대 여성 방문 상위 10%" />
+      <SpaceBadge badgeString={data.badge} />
 
       <View className={`pl-[16px] pb-[16px] pr-[6px] gap-y-[8px] ${isPressed && 'opacity-50'}`}>
         <View className="flex flex-row justify-between">
@@ -46,17 +43,11 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
             <Text numberOfLines={1} className="max-w-[240px] SUB1 text-black">
               {data.name}
             </Text>
-            <Text className="CAP2 text-light_gray">
-              {data.size}m² · {data.capacity}명 수용 가능
-            </Text>
+            <Text className="CAP2 text-light_gray">{data.size}m²</Text>
           </View>
 
           <Pressable
-            // onPress={() => spaceLike()}
-            onPress={() => {
-              showToast(true, 'ㅎㅇ');
-              console.log('ㅎㅇ');
-            }}
+            onPress={() => spaceLike()}
             className="flex flex-col items-center self-start py-[8px]"
           >
             {data.isLiked ? <FilledLikeIcon /> : <LikeIcon />}
@@ -84,6 +75,4 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
       </View>
     </Pressable>
   );
-};
-
-export default SpaceItemComponent;
+}

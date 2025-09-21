@@ -6,7 +6,7 @@ interface ChatItemComponentProps {
   data: ChatRoomDetailItem;
 }
 
-const ChatItemComponent: React.FC<ChatItemComponentProps> = ({ data }) => {
+export default function ChatItemComponent({ data }: ChatItemComponentProps) {
   if (data.type === 'NOTICE') {
     return (
       <View className="bg-white mt-[24px] rounded-lg p-[16px] mx-[20px]">
@@ -18,17 +18,23 @@ const ChatItemComponent: React.FC<ChatItemComponentProps> = ({ data }) => {
     );
   } else if (data.isLoginUsersMessage) {
     return (
-      <View className="max-w-[240px] bg-dark_gray self-end px-[12px] py-[8px] mt-[4px] mr-[20px] rounded-lg rounded-tr-[1px]">
-        <Text className="BODY1 text-white">{data.content}</Text>
+      <View className="self-end mr-[20px]">
+        <Text className="CAP1 text-medium_gray text-right">{data.createdAt}</Text>
+        <View className="max-w-[240px] bg-dark_gray px-[12px] py-[8px] mt-[4px] rounded-lg rounded-tr-[1px]">
+          <Text className="BODY1 text-white">{data.content}</Text>
+        </View>
       </View>
     );
   } else {
     return (
-      <View className="max-w-[240px] bg-white self-start px-[12px] py-[8px] mt-[4px] ml-[20px] rounded-lg rounded-tl-[1px]">
-        <Text className="BODY1 text-deep_gray">{data.content}</Text>
+      <View className="ml-[20px]">
+        <Text className="CAP1 text-medium_gray">
+          {data.senderName} · 호스트 {data.createdAt}
+        </Text>
+        <View className="max-w-[240px] bg-white self-start px-[12px] py-[8px] mt-[4px]  rounded-lg rounded-tl-[1px]">
+          <Text className="BODY1 text-deep_gray">{data.content}</Text>
+        </View>
       </View>
     );
   }
-};
-
-export default ChatItemComponent;
+}

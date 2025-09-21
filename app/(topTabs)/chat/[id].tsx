@@ -23,7 +23,8 @@ export default function ChatDetail() {
   const data = [
     {
       id: 1,
-      content: '안녕하세요',
+      content:
+        '1월 26일부터 2주간 공간을 대여하고 싶은데 혹시 야간에 저희가 건물에 출입이 가능한지 궁금해서 문의드려요!',
       type: '',
       senderName: 'gd',
       senderId: 2,
@@ -32,7 +33,36 @@ export default function ChatDetail() {
     },
     {
       id: 2,
+      content:
+        '1월 26일부터 2주간 공간을 대여하고 싶은데 혹시 야간에 저희가 건물에 출입이 가능한지 궁금해서 문의드려요!',
+      type: '',
+      senderName: 'gd',
+      senderId: 3,
+      createdAt: '오전 12시',
+      isLoginUsersMessage: false,
+    },
+    {
+      id: 3,
       content: '안녕하세요',
+      type: '',
+      senderName: 'gd',
+      senderId: 3,
+      createdAt: '오전 12시',
+      isLoginUsersMessage: false,
+    },
+    {
+      id: 4,
+      content: '안녕하세요',
+      type: '',
+      senderName: 'gd',
+      senderId: 3,
+      createdAt: '오전 12시',
+      isLoginUsersMessage: false,
+    },
+    {
+      id: 5,
+      content:
+        '1월 26일부터 2주간 공간을 대여하고 싶은데 혹시 야간에 저희가 건물에 출입이 가능한지 궁금해서 문의드려요!',
       type: '',
       senderName: 'gd',
       senderId: 3,
@@ -65,6 +95,11 @@ export default function ChatDetail() {
     }, 10);
   }, []);
 
+  const handleSend = () => {
+    // 메시지 전송 로직 추가 예정 (예: 서버로 메시지 보내기 등)
+    flatListRef.current?.scrollToEnd({ animated: true });
+  };
+
   return (
     <View className="flex-1 bg-back_gray">
       <BackHeaderComponent
@@ -78,11 +113,12 @@ export default function ChatDetail() {
       />
 
       <FlatList
-        contentContainerStyle={{ flex: 1, backgroundColor: '#F4F4F4' }}
+        contentContainerStyle={{ backgroundColor: '#F4F4F4', rowGap: 16 }}
         ref={flatListRef}
         // data={[{ id: 'NOTICE', type: 'NOTICE' }, ...data.pages.flatMap((page) => page.content)]}
         data={[{ id: 'NOTICE', type: 'NOTICE' }, ...data]}
         renderItem={({ item }) => <ChatItemComponent key={item.id} data={item} />}
+        ListFooterComponent={() => <View className="h-[64px]" />}
       />
 
       <View className="bg-white flex flex-row items-center gap-x-[8px] pl-[8px] pr-[20px] py-[16px]">
@@ -95,7 +131,7 @@ export default function ChatDetail() {
             placeholderTextColor={'#CCCCCC'}
             className="h-[48px] flex-1"
           />
-          <Pressable className="p-[12px]">
+          <Pressable onPress={handleSend} className="p-[12px]">
             <SendIcon />
           </Pressable>
         </View>

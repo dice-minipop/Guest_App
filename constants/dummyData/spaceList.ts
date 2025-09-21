@@ -1,7 +1,7 @@
 export const SpacedummyData = [
   {
     id: 21,
-    name: '팝업 공간 등록',
+    name: '아트 갤러리 카페',
     address: '서울 성동구 서울특별시 성동구 연무장길 81 남경빌딩',
     city: '서울',
     district: '성동구',

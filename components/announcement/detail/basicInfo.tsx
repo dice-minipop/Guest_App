@@ -4,17 +4,23 @@ import { Alert, Pressable, Text, View } from 'react-native';
 import CopyIcon from '@/assets/icons/copy.svg';
 import FilledLikeIcon from '@/assets/icons/filled-like.svg';
 import LikeIcon from '@/assets/icons/like.svg';
+import { useToggleAnnouncementLike } from '@/hooks/like/like';
 import { AnnouncementDetailComponentProps } from '@/types/announcement';
 import { formatDate } from '@/utils/dateUtils';
 
-const AnnouncementBasicInfoComponent: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
+const AnnouncementBasicInfo: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
+  const { mutateAsync: announcementLike } = useToggleAnnouncementLike(data.id);
+
   return (
     <View className="pl-[20px] pt-[26px]">
       <View className="flex flex-col gap-y-[24px]">
         <View className="flex flex-row justify-between pr-[5px]">
           <Text className="H2 text-black max-w-[280px]">{data.title}</Text>
 
-          <Pressable className="flex flex-col items-center py-[8px]">
+          <Pressable
+            onPress={() => announcementLike()}
+            className="flex flex-col items-center py-[8px]"
+          >
             {data.isLiked ? <FilledLikeIcon /> : <LikeIcon />}
             <Text
               className={`CAP2 text-center w-[48px] ${data.isLiked ? 'text-purple' : 'text-semiLight_gray'}`}
@@ -73,4 +79,4 @@ const AnnouncementBasicInfoComponent: React.FC<AnnouncementDetailComponentProps>
   );
 };
 
-export default AnnouncementBasicInfoComponent;
+export default AnnouncementBasicInfo;

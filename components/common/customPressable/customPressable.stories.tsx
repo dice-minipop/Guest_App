@@ -2,11 +2,11 @@ import type { Meta } from '@storybook/react-native';
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
 
-import CustomPressableComponent from './customPressable';
+import CustomPressable from './customPressable';
 
-const meta: Meta<typeof CustomPressableComponent> = {
+const meta: Meta<typeof CustomPressable> = {
   title: 'Common',
-  component: CustomPressableComponent,
+  component: CustomPressable,
 };
 export default meta;
 
@@ -16,46 +16,31 @@ export const CustomPressableList = () => {
   return (
     <ScrollView contentContainerStyle={{ flexDirection: 'column', rowGap: 16, paddingBottom: 80 }}>
       <Text className="mx-[20px] H2">버튼 상태 별 Story</Text>
-      <CustomPressableComponent
-        buttonText="Button"
-        onPress={() => {}}
-        disabled={false}
-        color="BLACK"
-      />
-      <CustomPressableComponent
+      <CustomPressable buttonText="Button" onPress={() => {}} disabled={false} color="BLACK" />
+      <CustomPressable
         buttonText="Button"
         onPress={() => {}}
         disabled={false}
         color="BLACK"
         icon="DICE"
       />
-      <CustomPressableComponent
+      <CustomPressable
         buttonText="Button"
         onPress={() => {}}
         disabled={false}
         color="WHITE"
         arrow="DOWN"
       />
-      <CustomPressableComponent
-        buttonText="Button"
-        onPress={() => {}}
-        disabled={true}
-        color="GRAY"
-      />
-      <CustomPressableComponent
+      <CustomPressable buttonText="Button" onPress={() => {}} disabled={true} color="GRAY" />
+      <CustomPressable
         buttonText="Button"
         onPress={() => {}}
         disabled={false}
         color="WHITE"
         arrow="UP"
       />
-      <CustomPressableComponent
-        buttonText="Button"
-        onPress={() => {}}
-        disabled={false}
-        color="WHITE"
-      />
-      <CustomPressableComponent
+      <CustomPressable buttonText="Button" onPress={() => {}} disabled={false} color="WHITE" />
+      <CustomPressable
         buttonText="Button"
         onPress={() => {}}
         disabled={false}
