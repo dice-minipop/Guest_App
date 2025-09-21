@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Platform, Pressable } from 'react-native';
+import { Platform } from 'react-native';
 
 import AnnouncementIcon from '@/assets/icons/bottomTabs/announcement.svg';
 import BlackAnnouncementIcon from '@/assets/icons/bottomTabs/black-announcement.svg';
@@ -9,6 +9,7 @@ import BlackSpaceIcon from '@/assets/icons/bottomTabs/black-space.svg';
 import MyIcon from '@/assets/icons/bottomTabs/my.svg';
 import ReservationIcon from '@/assets/icons/bottomTabs/reservation.svg';
 import SpaceIcon from '@/assets/icons/bottomTabs/space.svg';
+import { HapticTab } from '@/components/HapticTab';
 import { colors } from '@/constants/Colors';
 
 export default function TabLayout() {
@@ -16,6 +17,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        tabBarButton: HapticTab,
         tabBarStyle: Platform.select({
           android: {
             height: 72,
@@ -28,7 +30,6 @@ export default function TabLayout() {
         options={{
           title: '팝업공간',
           tabBarIcon: ({ focused }) => (focused ? <BlackSpaceIcon /> : <SpaceIcon />),
-          tabBarButton: (props) => <Pressable {...props} android_ripple={null} />,
           tabBarActiveTintColor: colors.dark_gray,
           tabBarInactiveTintColor: colors.light_gray,
           tabBarLabelStyle: {
@@ -44,7 +45,6 @@ export default function TabLayout() {
         options={{
           title: '지원공고',
           tabBarIcon: ({ focused }) => (focused ? <BlackAnnouncementIcon /> : <AnnouncementIcon />),
-          tabBarButton: (props) => <Pressable {...props} android_ripple={null} />,
           tabBarActiveTintColor: colors.dark_gray,
           tabBarInactiveTintColor: colors.light_gray,
           tabBarLabelStyle: {
@@ -58,9 +58,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="reservation"
         options={{
-          title: '공간예약',
+          title: '예약관리',
           tabBarIcon: ({ focused }) => (focused ? <BlackReservationIcon /> : <ReservationIcon />),
-          tabBarButton: (props) => <Pressable {...props} android_ripple={null} />,
           tabBarActiveTintColor: colors.dark_gray,
           tabBarInactiveTintColor: colors.light_gray,
           tabBarLabelStyle: {
@@ -74,9 +73,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="myPage"
         options={{
-          title: '마이',
+          title: '나의정보',
           tabBarIcon: ({ focused }) => (focused ? <BlackMyIcon /> : <MyIcon />),
-          tabBarButton: (props) => <Pressable {...props} android_ripple={null} />,
           tabBarActiveTintColor: colors.dark_gray,
           tabBarInactiveTintColor: colors.light_gray,
           tabBarLabelStyle: {

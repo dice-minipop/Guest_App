@@ -1,23 +1,23 @@
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
-import { Animated, Pressable, Text, View } from 'react-native';
+import { Animated, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ChatIcon from '@/assets/icons/topTabs/chat.svg';
 import LikeIcon from '@/assets/icons/topTabs/like.svg';
 import MagnifierIcon from '@/assets/icons/topTabs/magnifier.svg';
-import NotificationIcon from '@/assets/icons/topTabs/notification.svg';
+// import NotificationIcon from '@/assets/icons/topTabs/notification.svg';
+
+import OpacityPressable from '../common/opacityPressable';
 
 interface TopNavigationComponentProps {
   title: string;
   scrollY?: number;
 }
 
-const TopNavigationComponent: React.FC<TopNavigationComponentProps> = ({ title, scrollY }) => {
-  const isStorybook = globalThis.__STORYBOOK__ === true;
-  const expoRouter = useRouter();
-  const router = isStorybook ? require('@/constants/mockRouter').mockRouter : expoRouter;
+export default function TopNavigationComponent({ title, scrollY }: TopNavigationComponentProps) {
+  const router = useRouter();
 
   const { top } = useSafeAreaInsets();
 
@@ -30,7 +30,7 @@ const TopNavigationComponent: React.FC<TopNavigationComponentProps> = ({ title, 
       duration: 200,
       useNativeDriver: true,
     }).start();
-  }, [shouldShowMagnifier]);
+  }, [shouldShowMagnifier, magnifierOpacity]);
 
   return (
     <View className="bg-black z-50">
@@ -48,26 +48,28 @@ const TopNavigationComponent: React.FC<TopNavigationComponentProps> = ({ title, 
               pointerEvents: shouldShowMagnifier ? 'auto' : 'none',
             }}
           >
-            <Pressable onPress={() => router.push(`/space/search`)} className="p-[12px]">
+            <OpacityPressable onPress={() => router.push(`/space/search`)} className="p-[12px]">
               <MagnifierIcon />
-            </Pressable>
+            </OpacityPressable>
           </Animated.View>
 
-          <Pressable onPress={() => router.push('/(topTabs)/like')} className="p-[12px]">
+          <OpacityPressable onPress={() => router.push('/(topTabs)/like')} className="p-[12px]">
             <LikeIcon />
-          </Pressable>
+          </OpacityPressable>
+
           {title !== '팝업 지원 공고' && (
-            <Pressable onPress={() => router.push('/(topTabs)/chat')} className="p-[12px]">
+            <OpacityPressable onPress={() => router.push('/(topTabs)/chat')} className="p-[12px]">
               <ChatIcon />
-            </Pressable>
+            </OpacityPressable>
           )}
-          <Pressable onPress={() => router.push('/(topTabs)/notification')} className="p-[12px]">
-            <NotificationIcon />
-          </Pressable>
+
+          {/* <OpacityPressable onPress={() => router.push('/(topTabs)/notification')}>
+            <View className="p-[12px]">
+              <NotificationIcon />
+            </View>
+          </OpacityPressable> */}
         </View>
       </View>
     </View>
   );
-};
-
-export default TopNavigationComponent;
+}
