@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Pressable, Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -18,27 +18,7 @@ type FormData = {
 export default function GuestManagement() {
   const router = useRouter();
 
-  // const { data } = useGetGuestInfo();
-
-  const data = useMemo(
-    () => ({
-      name: '미니팝',
-      email: 'dice.minipop@gmail.com',
-      phone: '010-1234-5678',
-      brandList: [
-        {
-          id: 1,
-          name: '이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름이름',
-          description:
-            '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
-          logoUrl: '',
-          imageUrls: [],
-          homepageUrl: '',
-        },
-      ],
-    }),
-    [],
-  );
+  const { data } = useGetGuestInfo();
 
   const { control, handleSubmit, reset } = useForm<FormData>();
 
