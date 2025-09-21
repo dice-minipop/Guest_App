@@ -52,10 +52,7 @@ export const useCancelReservation = (status: 'PENDING' | 'ACCEPT' | 'CANCEL') =>
 export const useGetReservationLists = (status: string) => {
   return useInfiniteQuery({
     queryKey: [`/reservation/list`, status],
-    queryFn: async ({ pageParam }) => {
-      const response = getReservationLists(status, pageParam, 5);
-      return response;
-    },
+    queryFn: async ({ pageParam }) => getReservationLists(status, pageParam, 5),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {
