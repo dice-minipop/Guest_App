@@ -8,25 +8,33 @@ export interface SpaceItem {
   pricePerDay: number;
   discountRate: number;
   discountPrice: number;
-  capacity: number;
   size: number;
   likeCount: number;
   isLiked: boolean;
   isActivated: boolean;
+  badge: string;
 }
 
 export interface SpaceDetailItem {
   id: number;
   name: string;
-  description: string;
+  nearestSubway: {
+    lineNumber: string;
+    stationName: string;
+    distance: number;
+  };
+  analysis: {
+    title: string;
+    description: string;
+  };
   imageUrls: string[];
-  category: string;
   openingTime: string;
   closingTime: string;
-  capacity: number;
+  size: number;
   tags: string[];
   pricePerDay: number;
   discountRate: number;
+  discountPrice: number;
   details: string;
   latitude: number;
   longitude: number;
@@ -34,13 +42,16 @@ export interface SpaceDetailItem {
   district: string;
   address: string;
   detailAddress: string | null;
-  websiteUrl: string;
   contactNumber: string;
-  facilityInfo: string;
-  notice: string;
+  notices: string[];
   likeCount: number;
   isLiked: boolean;
   messageRoomId: number | null;
+  isActivated: boolean;
+  facilityInfos: {
+    key: string;
+    number: number;
+  }[];
 }
 
 export interface SpaceFilterDTO {
