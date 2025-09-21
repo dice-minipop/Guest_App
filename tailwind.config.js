@@ -70,6 +70,8 @@ module.exports = {
         // Background Color
         back_gray: '#F4F4F4',
 
+        kakao: '#FEE500',
+
         // Stroke Color
         stroke: '#EEEEEE',
       },
