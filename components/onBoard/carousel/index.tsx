@@ -29,11 +29,11 @@ const CarouselComponent: React.FC = () => {
   }, []);
 
   return (
-    <Fragment>
+    <View className="flex flex-col items-center">
       <Carousel
         width={lottieWidth}
         // Lottie 이미지 크기 + 텍스트크기 + 간격 2개
-        height={lottieHeight + 152}
+        height={lottieHeight + 72}
         loop={true}
         data={LottieItems}
         snapEnabled={true}
@@ -41,17 +41,17 @@ const CarouselComponent: React.FC = () => {
         autoPlay={true}
         autoPlayInterval={6000}
         onProgressChange={progress}
-        renderItem={({ item }) => <CarouselItemComponent item={item} />}
+        renderItem={({ item }) => <CarouselItemComponent key={item.title} item={item} />}
       />
 
-      <View className="flex flex-row justify-center gap-x-[12px] mb-[40px]">
+      <View className="flex flex-row justify-center gap-x-[12px]">
         {LottieItems.map((_, dotIndex) => (
           <View key={dotIndex}>
             {dotIndex === currentIndex ? <BlackIndicator /> : <GrayIndicator />}
           </View>
         ))}
       </View>
-    </Fragment>
+    </View>
   );
 };
 
