@@ -18,7 +18,7 @@ const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) =
   const lottieHeight = Math.min(calculatedHeight, 500);
 
   return (
-    <View className="flex flex-col gap-y-[32px] items-center">
+    <View className="flex flex-col items-center relative">
       <LottieView
         source={item.path}
         style={{
@@ -28,7 +28,7 @@ const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) =
         autoPlay
         loop
       />
-      <View className="gap-y-[12px]">
+      <View className="w-full gap-y-[12px] absolute -bottom-16 bg-white">
         <Text className="SUB1 text-center">{item.title}</Text>
         <Text className="SUB3 text-medium_gray text-center">{item.subtitle}</Text>
       </View>
