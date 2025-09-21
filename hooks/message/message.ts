@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { Alert } from 'react-native';
 
@@ -18,12 +18,9 @@ import { MessageRoom } from '@/server/message/response';
 import { useSpaceDataStore } from '@/zustands/space/store';
 
 export const useGetMessageDetailData = (roomId: number) => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/message/${roomId}`, roomId],
-    queryFn: async ({ pageParam }) => {
-      const response = getMessageDetailData(roomId, pageParam, 10);
-      return response;
-    },
+    queryFn: async ({ pageParam }) => getMessageDetailData(roomId, pageParam, 10),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {
@@ -57,14 +54,14 @@ export const useCreateChatRoom = (refetch: () => void) => {
     mutationFn: (data: CreateChatRoomRequest) => createChatRoom(data),
     onSuccess: (response: MessageRoom) => {
       setSpaceName(response.spaceName);
-      router.push(`/chatRoom/${response.id}`);
+      router.push(`/chat/${response.id}`);
       refetch();
     },
   });
 };
 
 export const useGetMessageLists = () => {
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: [`/message/guest-list`],
     queryFn: () => getMessageLists(),
   });

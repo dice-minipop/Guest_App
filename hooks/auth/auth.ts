@@ -25,8 +25,8 @@ import {
 } from '@/server/auth/request';
 import { LoginResponse, ResetPasswordResponse } from '@/server/auth/response';
 import { deleteToken, setAccessToken, setRefreshToken } from '@/utils/token';
-import { useGuestStateStore, useLoggedInStore } from '@/zustands/member/store';
-
+import { useAuthStore } from '@/zustands/auth/auth';
+//
 // 휴대폰 번호 중복 확인
 export const useCheckPhoneNumber = () => {
   return useMutation({
@@ -58,8 +58,7 @@ export const useSignUp = () => {
   return useMutation({
     mutationFn: (data: SignUpRequest) => signUp(data),
     onSuccess: () => {
-      Alert.alert('회원가입이 완료되었습니다!');
-      router.back();
+      router.push(`/(onBoarding)/brandProfile`);
     },
     onError: (error) => {
       console.log(error);
@@ -116,16 +115,14 @@ export const useResetPassword = () => {
 
 export const useLogout = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useLoggedInStore();
-  const { setIsGuestMode } = useGuestStateStore();
+  const { setIsLoggedOut } = useAuthStore();
 
   return useMutation({
     mutationFn: () => logout(),
     onSuccess: async () => {
       router.replace('/');
-      setIsLoggedIn(false);
+      setIsLoggedOut();
       await deleteToken();
-      setIsGuestMode(false);
     },
     onError: (error) => {
       console.log(error);
@@ -135,7 +132,7 @@ export const useLogout = () => {
 
 // 이메일 로그인
 export const useLogin = (isGuestMode: boolean) => {
-  const router = useRouter();
+  const { setIsLoggedIn } = useAuthStore();
 
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
@@ -148,12 +145,18 @@ export const useLogin = (isGuestMode: boolean) => {
         await setAccessToken(response.token.accessToken);
         await setRefreshToken(response.token.refreshToken);
 
+        // const fcmToken = (await AsyncStorage.getItem('fcmToken')) as string;
+
+        // const FCMresponse = await saveFCMToken({ token: fcmToken });
+        // console.log(FCMresponse);
+
         console.log(response.token.accessToken);
+
+        setIsLoggedIn();
       }
-      router.push('/(tabs)/space');
     },
     onError: (error: any) => {
-      console.log(error);
+      console.log(error.config);
     },
   });
 };
@@ -161,13 +164,13 @@ export const useLogin = (isGuestMode: boolean) => {
 // 회원 탈퇴
 export const useWithdraw = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useLoggedInStore();
+  const { setIsLoggedIn } = useAuthStore();
 
   return useMutation({
     mutationFn: () => withdraw(),
     onSuccess: async () => {
+      setIsLoggedIn();
       await deleteToken();
-      setIsLoggedIn(false);
       router.replace('/');
     },
   });
