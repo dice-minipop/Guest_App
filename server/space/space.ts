@@ -10,7 +10,7 @@ export const getFilteredSpaceLists = async (
   size?: number,
   data?: Partial<SpaceFilterDTO>,
 ): Promise<GetSpaceListsResponse> => {
-  const response = await PostAxiosInstance<GetSpaceListsResponse>(`/space/list`, data, {
+  const response = await PostAxiosInstance<GetSpaceListsResponse>(`/v1/space/list`, data, {
     params: {
       keyword,
       page,
@@ -23,7 +23,7 @@ export const getFilteredSpaceLists = async (
 
 // 공간 상세 조회
 export const getSpaceDetailData = async (id: number): Promise<SpaceDetailItem> => {
-  const response = await GetAxiosInstance<SpaceDetailItem>(`/space/${id}`);
+  const response = await GetAxiosInstance<SpaceDetailItem>(`/v2/space/${id}`);
 
   return response.data;
 };

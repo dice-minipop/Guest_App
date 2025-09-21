@@ -1,8 +1,10 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { Dimensions, Pressable, Text, View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 
 import MagnifierIcon from '@/assets/icons/magnifier.svg';
+
+import OpacityPressable from '../common/opacityPressable';
 
 const HeaderComponent: React.FC = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const HeaderComponent: React.FC = () => {
         style={{ width: width, height: 214, position: 'absolute' }}
       />
       <Text className="H1 text-white">모든 지원 공고는{'\n'}여기 다이스에서.</Text>
-      <Pressable
+      <OpacityPressable
         onPress={() => router.push(`/announcement/search`)}
         className="bg-white flex flex-row items-center gap-x-[4px] px-[13px] pt-[13px] pb-[14px] rounded-lg"
       >
@@ -24,7 +26,7 @@ const HeaderComponent: React.FC = () => {
         <Text className="BODY2 text-medium_gray">
           원하시는 지역, 모집처, 지원 내용을 검색해보세요
         </Text>
-      </Pressable>
+      </OpacityPressable>
     </View>
   );
 };
