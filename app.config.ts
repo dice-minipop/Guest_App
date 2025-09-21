@@ -8,7 +8,7 @@ const projectId = process.env.EXPO_PUBLIC_PROJECT_ID;
 
 const defineConfig = (_: ConfigContext): ExpoConfig => ({
   owner: 'minipop',
-  name: 'dice - 팝업 운영 올인원 솔루션',
+  name: 'dice',
   slug: 'dice',
   version: '1.1',
   orientation: 'portrait',
@@ -30,7 +30,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   },
   runtimeVersion: '1.1',
   ios: {
-    supportsTablet: true,
+    supportsTablet: false,
     bundleIdentifier: 'com.cmc.dice.minipop.expo',
     buildNumber: '1.0.0',
     entitlements: {
@@ -69,8 +69,8 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
     [
       'expo-splash-screen',
       {
-        image: './assets/images/splash.png',
-        imageWidth: 97,
+        image: './assets/images/splash/splash-icon-light.png',
+        imageWidth: 180,
         resizeMode: 'contain',
         backgroundColor: '#000000',
       },
