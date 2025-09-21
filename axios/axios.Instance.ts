@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import { deleteToken, getAccessToken } from '@/utils/token';
+import { deleteToken, getAccessToken, getRefreshToken, setAccessToken } from '@/utils/token';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -35,16 +35,27 @@ axiosInstance.interceptors.request.use(
 );
 
 // 토큰 관련 에러 처리
+// response interceptor 수정 예시
 axiosInstance.interceptors.response.use(
-  async (response) => {
-    return response;
-  },
-
+  (response) => response,
   async (error) => {
-    // 토큰 만료나 잘못된 토큰일 때 로그아웃 처리
-    if (error.response?.data?.code === 'AUTH_001') {
-      console.log('잘못된 토큰');
-      deleteToken();
+    if (error.response?.status === 401) {
+      try {
+        // refresh 요청
+        const refreshToken = await getRefreshToken();
+        const res = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/v1/auth/reissue`, {
+          refreshToken,
+        });
+
+        const newAccessToken = res.data.accessToken;
+        await setAccessToken(newAccessToken);
+
+        // 원래 요청 retry
+        error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        return axiosInstance(error.config);
+      } catch (refreshError) {
+        await deleteToken();
+      }
     }
 
     return Promise.reject(error);
