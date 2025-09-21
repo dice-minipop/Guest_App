@@ -1,11 +1,13 @@
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BackArrowIcon from '@/assets/icons/backArrow.svg';
 import BlackBackArrowIcon from '@/assets/icons/black-backArrow.svg';
+
+import OpacityPressable from './opacityPressable';
 
 interface BackHeaderComponentProps {
   style?: 'BLACK' | 'WHITE';
@@ -15,13 +17,13 @@ interface BackHeaderComponentProps {
   rightIcon?: React.ReactNode;
 }
 
-const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
+export default function BackHeaderComponent({
   style = 'BLACK',
   hasSafeArea = true,
   title,
   children,
   rightIcon,
-}) => {
+}: BackHeaderComponentProps) {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
@@ -31,9 +33,9 @@ const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
 
       {hasSafeArea && <View style={{ height: top }} />}
       <View className="flex flex-row items-center pl-[3px]">
-        <Pressable onPress={() => router.back()} className="p-[12px]">
+        <OpacityPressable onPress={() => router.back()} className="p-[12px]">
           <BackArrowIcon />
-        </Pressable>
+        </OpacityPressable>
 
         {title !== undefined && (
           <Text className="BODY1 text-black absolute left-1/2 -translate-x-1/2 py-[12px]">
@@ -54,9 +56,9 @@ const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
 
       {hasSafeArea && <View style={{ height: top }} />}
       <View className="flex flex-row w-full items-center justify-between px-[3px]">
-        <Pressable onPress={() => router.back()} className="p-[12px]">
+        <OpacityPressable onPress={() => router.back()} className="p-[12px]">
           <BlackBackArrowIcon />
-        </Pressable>
+        </OpacityPressable>
 
         {title !== undefined && (
           <Text
@@ -74,6 +76,4 @@ const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default BackHeaderComponent;
+}
