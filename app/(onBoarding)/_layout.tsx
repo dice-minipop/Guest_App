@@ -12,6 +12,9 @@ export default function OnBoardingLayout() {
       {/* 회원가입 */}
       <Stack.Screen name="register" options={{ headerShown: false }} />
 
+      {/* 브랜드 프로필 */}
+      <Stack.Screen name="brandProfile" options={{ headerShown: false }} />
+
       {/* 비밀번호 찾기 */}
       <Stack.Screen name="findPassword" options={{ headerShown: false }} />
     </Stack>

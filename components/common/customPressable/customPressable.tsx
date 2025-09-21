@@ -6,16 +6,16 @@ import GlobeIcon from '@/assets/icons/globe.svg';
 import GrayDownArrowIcon from '@/assets/icons/grayDownArrow.svg';
 import GrayUpArrowIcon from '@/assets/icons/grayUpArrow.svg';
 
-interface CustomPressableComponentProps {
+interface CustomPressableProps {
   buttonText: string;
   onPress: any;
   disabled: boolean;
   color?: 'BLACK' | 'GRAY' | 'WHITE';
-  icon?: 'DICE' | 'GLOBE';
+  icon?: 'DICE' | 'GLOBE' | 'KAKAO';
   arrow?: 'DOWN' | 'UP';
 }
 
-const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
+const CustomPressable: React.FC<CustomPressableProps> = ({
   buttonText,
   onPress,
   disabled,
@@ -27,7 +27,7 @@ const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
 
   const buttonColorStyles = {
     BLACK: 'bg-black ',
-    GRAY: 'bg-light_gray ',
+    GRAY: 'bg-light_gray',
     WHITE: 'bg-white border border-stroke',
   };
 
@@ -57,7 +57,7 @@ const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
       disabled={disabled}
       onPressIn={() => setIsPressed(true)}
       onPressOut={() => setIsPressed(false)}
-      className={`${isPressed && 'opacity-50'} mx-[20px]`}
+      className={`${isPressed && 'opacity-50'}`}
     >
       <View className={`${baseContainerStyle} ${buttonColorStyles[color]}`}>
         <View className="w-[24px] h-[24px] mr-[16px]" />
@@ -87,4 +87,4 @@ const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
   );
 };
 
-export default CustomPressableComponent;
+export default CustomPressable;
