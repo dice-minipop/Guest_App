@@ -1,4 +1,4 @@
-import { useMutation, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 
 import {
@@ -24,7 +24,7 @@ export const useUpdateGuestInfo = (refetch: any) => {
 
 // 공간 좋아요 목록 조회
 export const useGetLikedSpaceLists = () => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/guest/like/space`],
     queryFn: async ({ pageParam }) => {
       const response = getLikedSpaceLists(pageParam, 5);
@@ -41,7 +41,7 @@ export const useGetLikedSpaceLists = () => {
 
 // 공고 좋아요 목록 조회
 export const useGetLikedAnnouncementLists = () => {
-  return useSuspenseInfiniteQuery({
+  return useInfiniteQuery({
     queryKey: [`/guest/like/announcement`],
     queryFn: async ({ pageParam }) => {
       const response = getLikedAnnounceMentLists(pageParam, 5);

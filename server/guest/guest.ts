@@ -10,7 +10,7 @@ import {
 
 // 게스트 정보 수정
 export const updateGuestInfo = async (data: UpdateInfoRequest): Promise<UpdateInfoResponse> => {
-  const response = await PostAxiosInstance<UpdateInfoResponse>(`/guest/update`, data);
+  const response = await PostAxiosInstance<UpdateInfoResponse>(`/v1/guest/update`, data);
 
   return response.data;
 };
@@ -20,7 +20,7 @@ export const getLikedSpaceLists = async (
   page?: number,
   size?: number,
 ): Promise<GetLikedSpaceListsResponse> => {
-  const response = await GetAxiosInstance<GetLikedSpaceListsResponse>(`/guest/like/space`, {
+  const response = await GetAxiosInstance<GetLikedSpaceListsResponse>(`/v1/guest/like/space`, {
     params: {
       page: page,
       size: size,
@@ -36,7 +36,7 @@ export const getLikedAnnounceMentLists = async (
   size?: number,
 ): Promise<GetLikedAnnouncementListsResponse> => {
   const response = await GetAxiosInstance<GetLikedAnnouncementListsResponse>(
-    `/guest/like/announcement`,
+    `/v1/guest/like/announcement`,
     {
       params: {
         page: page,
@@ -50,7 +50,7 @@ export const getLikedAnnounceMentLists = async (
 
 // 게스트 정보 조회
 export const getGuestInfo = async (): Promise<GetGuestInfoResponse> => {
-  const response = await GetAxiosInstance<GetGuestInfoResponse>(`/guest/info`);
+  const response = await GetAxiosInstance<GetGuestInfoResponse>(`/v1/guest/info`);
 
   return response.data;
 };
