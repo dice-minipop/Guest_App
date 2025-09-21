@@ -6,6 +6,9 @@ export default function SpaceLayout() {
       {/* 상세 */}
       <Stack.Screen name="[id]" options={{ headerShown: false }} />
 
+      {/* 예약 */}
+      <Stack.Screen name="reservation" options={{ headerShown: false }} />
+
       {/* 검색 */}
       <Stack.Screen name="search" options={{ headerShown: false }} />
     </Stack>
