@@ -1,7 +1,7 @@
 export const reservationData = [
   {
     reservationId: 33,
-    spaceName: '힐링 카페힐링 카페힐링 카페힐링 카페힐링 카페',
+    spaceName: '힐링 카페',
     startDate: '2025-04-10',
     endDate: '2025-04-12',
     message: '',
@@ -16,7 +16,7 @@ export const reservationData = [
   },
   {
     reservationId: 35,
-    spaceName: '한옥 카페한옥 카페한옥 카페한옥 카페한옥 카페',
+    spaceName: '한옥 카페',
     startDate: '2026-03-02',
     endDate: '2026-03-21',
     message: '',
