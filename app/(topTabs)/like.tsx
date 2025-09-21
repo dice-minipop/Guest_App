@@ -1,77 +1,43 @@
+import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
-import AnnouncementItemComponent from '@/components/common/announcementItem';
 import BackHeaderComponent from '@/components/common/backHeader';
-import SpaceItemComponent from '@/components/common/spaceItem';
+import AnnouncementLikeList from '@/components/like/announcementLikeList';
 import LikeSwitchComponent from '@/components/like/likeSwitch';
-import { dummyData } from '@/constants/dummyData/announcementList';
-import { SpacedummyData } from '@/constants/dummyData/spaceList';
-import { useGetLikedAnnouncementLists, useGetLikedSpaceLists } from '@/hooks/guest/guest';
-import { AnnouncementItem } from '@/types/announcement';
-import { SpaceItem } from '@/types/space';
+import SpaceLikeList from '@/components/like/spaceLikeList';
 
-export default function Like() {
-  const spaceData = SpacedummyData;
-  const announcementData = dummyData;
+const renderScene = SceneMap({
+  space: SpaceLikeList,
+  notice: AnnouncementLikeList,
+});
 
-  // const {
-  //   data: spaceData,
-  //   fetchNextPage: fetchSpaceNextPage,
-  //   hasNextPage: hasSpaceNextPage,
-  // } = useGetLikedSpaceLists();
+export default function LikeListScreen() {
+  const [index, setIndex] = useState(0);
 
-  // const {
-  //   data: announcementData,
-  //   fetchNextPage: fetchAnnouncementNextPage,
-  //   hasNextPage: hasAnnouncementNextPage,
-  // } = useGetLikedAnnouncementLists();
-
-  const [currentType, setCurrentType] = useState<'SPACE' | 'ANNOUNCEMENT'>('SPACE');
-
-  const handleType = () => {
-    if (currentType === 'SPACE') {
-      setCurrentType('ANNOUNCEMENT');
-    } else {
-      setCurrentType('SPACE');
-    }
-  };
+  const [routes] = useState([
+    { key: 'space', title: '공간 좋아요' },
+    { key: 'notice', title: '공고 좋아요' },
+  ]);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <StatusBar style="dark" />
       <BackHeaderComponent style="WHITE" hasSafeArea={false}>
-        <LikeSwitchComponent currentType={currentType} handleType={handleType} />
+        <LikeSwitchComponent index={index} setIndex={setIndex} />
       </BackHeaderComponent>
 
-      <FlatList<SpaceItem | AnnouncementItem>
-        contentContainerStyle={{ paddingBottom: 64, paddingTop: 24 }}
-        // data={
-        //   currentType === 'SPACE'
-        //     ? spaceData?.pages.flatMap((page) => page.content)
-        //     : announcementData?.pages.flatMap((page) => page.content)
-        // }
-        data={currentType === 'SPACE' ? spaceData : announcementData}
-        renderItem={({ item }) =>
-          currentType === 'SPACE' ? (
-            <SpaceItemComponent key={item.id} data={item as SpaceItem} />
-          ) : (
-            <AnnouncementItemComponent key={item.id} data={item as AnnouncementItem} />
-          )
-        }
-        ItemSeparatorComponent={() => <View className="h-[16px]" />}
-        onEndReachedThreshold={0.5}
-        // onEndReached={() => {
-        //   if (currentType === 'SPACE') {
-        //     if (hasSpaceNextPage) {
-        //       fetchSpaceNextPage();
-        //     }
-        //   } else {
-        //     if (hasAnnouncementNextPage) {
-        //       fetchAnnouncementNextPage();
-        //     }
-        //   }
-        // }}
+      <View className="h-[24px]" />
+
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: Dimensions.get('screen').width }}
+        swipeEnabled={false}
+        renderTabBar={() => null}
       />
     </SafeAreaView>
   );
