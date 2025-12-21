@@ -1,5 +1,5 @@
 import { Control, Controller, FieldErrors } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 import CustomTextInput from '@/components/common/customTextInput';
 import { RegisterDto } from '@/types/auth';

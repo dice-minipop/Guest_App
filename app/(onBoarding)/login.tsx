@@ -21,7 +21,7 @@ export default function Login() {
 
   const { control, handleSubmit } = useForm<LoginDto>();
 
-  const { mutateAsync: login } = useLogin(false);
+  const { mutateAsync: login, isPending } = useLogin(false);
 
   const onSubmit: SubmitHandler<LoginDto> = async (data: LoginDto) => {
     await login({
@@ -40,7 +40,11 @@ export default function Login() {
         <LoginForm formFields={formFields} control={control} />
 
         <View className="gap-y-3">
-          <CustomPressable buttonText="로그인" onPress={handleSubmit(onSubmit)} disabled={false} />
+          <CustomPressable
+            buttonText="로그인"
+            onPress={handleSubmit(onSubmit)}
+            disabled={isPending}
+          />
           <TextButton onPress={() => router.push('/(onBoarding)/findPassword')}>
             비밀번호 찾기
           </TextButton>

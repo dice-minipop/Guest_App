@@ -1,13 +1,15 @@
 import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
+import { Text, View } from 'react-native';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackHeaderComponent from '@/components/common/backHeader';
-import CTAContainer from '@/components/common/ctaContainer';
 import CustomPressable from '@/components/common/customPressable/customPressable';
+import OpacityPressable from '@/components/common/opacityPressable';
 import RegisterForm from '@/components/onBoard/register/registerForm';
 import { useSignUp } from '@/hooks/auth/auth';
-import KeyBoardAwareProvider from '@/providers/keyBoardProvider';
 import { RegisterDto } from '@/types/auth';
 import {
   emailValidate,
@@ -42,7 +44,7 @@ export default function Register() {
       title: '비밀번호 확인',
       name: 'passwordCheck',
       placeholder: '비밀번호를 한번 더 입력해주세요',
-      validate: (value, password) => passwordCheckValidate(value, password!),
+      validate: (value, formValues) => passwordCheckValidate(value, formValues),
     },
     // { title: '휴대폰', name: 'phone', placeholder: '숫자만 입력해주세요', validate: phoneValidate },
   ];
@@ -50,8 +52,17 @@ export default function Register() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterDto>({ mode: 'onChange' });
+    formState: { errors, isValid },
+  } = useForm<RegisterDto>({
+    mode: 'onChange',
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      passwordCheck: '',
+      phone: '', // 옵셔널이어도 string으로 초기화
+    },
+  });
 
   const { mutateAsync: signUp } = useSignUp();
 
@@ -66,21 +77,26 @@ export default function Register() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white relative">
+    <SafeAreaView className="flex-1 bg-white">
       <BackHeaderComponent style="WHITE" hasSafeArea={false} title="회원가입" />
 
-      <KeyBoardAwareProvider rowGap={11}>
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingHorizontal: 20 }}
+        bottomOffset={80}
+      >
         <RegisterForm formFields={formFields} control={control} errors={errors} />
-      </KeyBoardAwareProvider>
+      </KeyboardAwareScrollView>
 
-      <CTAContainer extraBottom={16}>
-        <CustomPressable
-          buttonText="다음"
-          // onPress={handleSubmit(onSubmit)}
-          onPress={() => router.push('/(onBoarding)/brandProfile')}
-          disabled={false}
-        />
-      </CTAContainer>
+      <View className="px-[20px] py-[16px]">
+        <OpacityPressable
+          onPress={handleSubmit(onSubmit)}
+          className={`${isValid ? 'bg-black' : 'bg-light_gray'} py-[15.5px] rounded-lg`}
+          disabled={!isValid}
+        >
+          <Text className="BTN1 text-white text-center">다음</Text>
+        </OpacityPressable>
+      </View>
     </SafeAreaView>
   );
 }

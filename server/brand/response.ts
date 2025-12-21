@@ -4,7 +4,8 @@ export interface BrandInfo {
   description: string;
   logoUrl: string;
   imageUrls: string[];
-  homepageUrl: string;
+  targetGender: string[];
+  targetAgeGroup: string[];
 }
 
 export type GetMyBrandInfoResponse = BrandInfo[] | [];

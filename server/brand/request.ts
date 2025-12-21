@@ -4,6 +4,8 @@ export interface UpdateBrandRequest {
   logoUrl: string;
   imageUrls: string[];
   homepageUrl: string;
+  targetGender?: string[];
+  targetAgeGroup?: string[];
 }
 
 export interface CreateBrandRequest {
@@ -12,4 +14,6 @@ export interface CreateBrandRequest {
   logoUrl: string;
   imageUrls: string[];
   homepageUrl: string;
+  targetGender?: string[];
+  targetAgeGroup?: string[];
 }

@@ -8,7 +8,7 @@ export interface SignUpStore {
   };
   brandProfile: {
     targetGender: string[];
-    targetAgeGroup: number[];
+    targetAgeGroup: string[];
     name: string;
     description: string;
     logoUrl: string;

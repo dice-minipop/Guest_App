@@ -24,8 +24,29 @@ import {
   UpdatePasswordRequest,
 } from '@/server/auth/request';
 import { LoginResponse, ResetPasswordResponse } from '@/server/auth/response';
+import { saveFCMToken } from '@/server/fcm/fcm';
+import { getFcmToken, getFcmTokenFromFirebase } from '@/utils/notification/fcmTokenUtil';
 import { deleteToken, setAccessToken, setRefreshToken } from '@/utils/token';
 import { useAuthStore } from '@/zustands/auth/auth';
+
+export const saveFcmTokenAfterAuth = async () => {
+  try {
+    let fcmToken = await getFcmToken();
+
+    if (!fcmToken) {
+      fcmToken = await getFcmTokenFromFirebase();
+    }
+
+    if (!fcmToken) {
+      return;
+    }
+
+    await saveFCMToken({ fcmToken: fcmToken });
+    console.log('✅ FCM 토큰 서버 저장 완료');
+  } catch (error) {
+    console.error('❌ FCM 토큰 서버 저장 실패:', error);
+  }
+};
 //
 // 휴대폰 번호 중복 확인
 export const useCheckPhoneNumber = () => {
@@ -56,12 +77,27 @@ export const useSignUp = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (data: SignUpRequest) => signUp(data),
-    onSuccess: () => {
+    mutationFn: async (data: SignUpRequest) => {
+      // 회원가입 API 호출
+      await signUp(data);
+      // 회원가입 성공 후 자동 로그인 (토큰 획득)
+      const loginResponse = await login({ email: data.email, password: data.password });
+      return loginResponse;
+    },
+    onSuccess: async (loginResponse: LoginResponse) => {
+      // 로그인 성공 후 토큰만 저장 (로그인 상태는 브랜드 프로필 등록 완료 후 전환)
+      console.log('🔑 Access Token:', loginResponse.token.accessToken);
+      console.log('🔑 Refresh Token:', loginResponse.token.refreshToken);
+
+      await setAccessToken(loginResponse.token.accessToken);
+      await setRefreshToken(loginResponse.token.refreshToken);
+      // setIsLoggedIn()은 브랜드 프로필 등록 완료 후 호출
+      await saveFcmTokenAfterAuth();
+      console.log('✅ 회원가입 완료');
       router.push(`/(onBoarding)/brandProfile`);
     },
     onError: (error) => {
-      console.log(error);
+      console.error('❌ 회원가입 실패:', error);
     },
   });
 };
@@ -88,8 +124,7 @@ export const useSendResetEmail = (handleSend: () => void) => {
       Alert.alert('이메일이 전송되었습니다.');
     },
     onError: (error: any) => {
-      console.log(error);
-      console.log(error.message);
+      console.error('❌ 이메일 전송 실패:', error);
     },
   });
 };
@@ -103,12 +138,10 @@ export const useResetPassword = () => {
     onSuccess: async (response: ResetPasswordResponse) => {
       Alert.alert(`임시 비밀번호는 ${response.tempPassword}입니다. 클립보드에 복사되었습니다.`);
       await Clipboard.setStringAsync(response.tempPassword);
-
       router.replace('/');
     },
     onError: (error) => {
-      console.log(error);
-      console.log(error.message);
+      console.error('❌ 비밀번호 재설정 실패:', error);
     },
   });
 };
@@ -123,9 +156,10 @@ export const useLogout = () => {
       router.replace('/');
       setIsLoggedOut();
       await deleteToken();
+      console.log('✅ 로그아웃 완료');
     },
     onError: (error) => {
-      console.log(error);
+      console.error('❌ 로그아웃 실패:', error);
     },
   });
 };
@@ -137,26 +171,22 @@ export const useLogin = (isGuestMode: boolean) => {
   return useMutation({
     mutationFn: (data: LoginRequest) => login(data),
     onSuccess: async (response: LoginResponse) => {
-      console.log(response.token.accessToken);
-
       if (isGuestMode) {
+        console.log('🔑 Access Token:', response.token.accessToken);
         await setAccessToken(response.token.accessToken);
+        console.log('✅ 게스트 로그인 완료');
       } else {
+        console.log('🔑 Access Token:', response.token.accessToken);
+        console.log('🔑 Refresh Token:', response.token.refreshToken);
         await setAccessToken(response.token.accessToken);
         await setRefreshToken(response.token.refreshToken);
-
-        // const fcmToken = (await AsyncStorage.getItem('fcmToken')) as string;
-
-        // const FCMresponse = await saveFCMToken({ token: fcmToken });
-        // console.log(FCMresponse);
-
-        console.log(response.token.accessToken);
-
+        await saveFcmTokenAfterAuth();
         setIsLoggedIn();
+        console.log('✅ 로그인 완료');
       }
     },
     onError: (error: any) => {
-      console.log(error.config);
+      console.error('❌ 로그인 실패:', error);
     },
   });
 };
@@ -172,6 +202,10 @@ export const useWithdraw = () => {
       setIsLoggedIn();
       await deleteToken();
       router.replace('/');
+      console.log('✅ 회원 탈퇴 완료');
+    },
+    onError: (error) => {
+      console.error('❌ 회원 탈퇴 실패:', error);
     },
   });
 };

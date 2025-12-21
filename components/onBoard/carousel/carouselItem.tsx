@@ -18,7 +18,9 @@ const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) =
   const lottieHeight = Math.min(calculatedHeight, 500);
 
   return (
-    <View className="flex flex-col items-center relative">
+    // TODO: 소셜 로그인 생길 때 변경
+    // <View className="flex flex-col items-center relative">
+    <View className="flex flex-col items-center">
       <LottieView
         source={item.path}
         style={{
@@ -28,7 +30,9 @@ const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) =
         autoPlay
         loop
       />
-      <View className="w-full gap-y-[12px] absolute -bottom-16 bg-white">
+      {/* TODO: 소셜 로그인 생길 때 변경 */}
+      {/* <View className="w-full gap-y-[12px] absolute -bottom-16 bg-white"> */}
+      <View className="w-full gap-y-[12px] bg-white">
         <Text className="SUB1 text-center">{item.title}</Text>
         <Text className="SUB3 text-medium_gray text-center">{item.subtitle}</Text>
       </View>

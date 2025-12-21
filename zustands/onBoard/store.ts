@@ -7,7 +7,7 @@ export const useSignUpStore = create<{
   setSignUpStore: (state: Partial<SignUpStore>) => void;
 
   setTargetGender: (genders: string[]) => void;
-  setTargetAgeGroup: (ages: number[]) => void;
+  setTargetAgeGroup: (ages: string[]) => void;
   setBrandName: (name: string) => void;
   setBrandDescription: (desc: string) => void;
   setLogoUrl: (url: string) => void;
@@ -46,7 +46,7 @@ export const useSignUpStore = create<{
         brandProfile: { ...state.signUpStore.brandProfile, targetGender },
       },
     })),
-  setTargetAgeGroup: (targetAgeGroup: number[]) =>
+  setTargetAgeGroup: (targetAgeGroup: string[]) =>
     set((state) => ({
       signUpStore: {
         ...state.signUpStore,

@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
@@ -29,11 +29,13 @@ const CarouselComponent: React.FC = () => {
   }, []);
 
   return (
-    <View className="flex flex-col items-center">
+    <View className="flex-1 flex flex-col items-center">
       <Carousel
         width={lottieWidth}
         // Lottie 이미지 크기 + 텍스트크기 + 간격 2개
-        height={lottieHeight + 72}
+        // TODO: 소셜 로그인 생길 때 변경
+        // height={lottieHeight + 72}
+        height={lottieHeight + 120}
         loop={true}
         data={LottieItems}
         snapEnabled={true}
