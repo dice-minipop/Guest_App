@@ -35,6 +35,14 @@ const FilteringContainer: React.FC<FilteringContainerProps> = ({ items }) => {
     switch (key) {
       case '지역':
         if (announcementFilter.city || announcementFilter.district) {
+          // "전국"인 경우 그대로 표시
+          if (announcementFilter.city === '전국') {
+            return '전국';
+          }
+          // city가 선택되고 district가 undefined인 경우 "<city> 전체"로 표시
+          if (announcementFilter.city && announcementFilter.district === undefined) {
+            return `${announcementFilter.city} 전체`;
+          }
           return [announcementFilter.city, announcementFilter.district].filter(Boolean).join(' ');
         }
         break;

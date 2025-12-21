@@ -4,7 +4,7 @@ import { statusItems } from '@/constants/filtering';
 import { useAnnouncementFilterStore } from '@/zustands/filter/announcement';
 
 interface StatusFilteringProps {
-  viewRef: React.RefObject<View>;
+  viewRef: React.RefObject<View | null>;
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 

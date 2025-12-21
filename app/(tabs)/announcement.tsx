@@ -12,8 +12,14 @@ import { useAnnouncementFilterStore } from '@/zustands/filter/announcement';
 
 export default function Announcement() {
   const { announcementFilter } = useAnnouncementFilterStore();
-  const { data, isLoading, fetchNextPage, hasNextPage } =
-    useGetAnnouncementLists(announcementFilter);
+
+  // API 호출용 필터: "전국"은 undefined로 변환
+  const apiFilter = {
+    ...announcementFilter,
+    city: announcementFilter.city === '전국' ? undefined : announcementFilter.city,
+  };
+
+  const { data, isLoading, fetchNextPage, hasNextPage } = useGetAnnouncementLists(apiFilter);
 
   const announcementData = data?.pages.flatMap((page) =>
     page.content.map((item) => ({ ...item })),
