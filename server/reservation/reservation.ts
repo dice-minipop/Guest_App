@@ -12,7 +12,7 @@ export const createReservation = async (
   data: CreateReservationRequest,
 ): Promise<CreateReservationResponse> => {
   const response = await PostAxiosInstance<CreateReservationResponse>(
-    `/v1/reservation/reserve`,
+    `/v2/reservation/reserve`,
     data,
   );
 
@@ -33,12 +33,14 @@ export const cancelReservation = async (reservationId: number) => {
 // 예약 목록 조회
 export const getReservationLists = async (
   status: string,
+  sort?: string,
   page?: number,
   size?: number,
 ): Promise<GetReservationListsResponse> => {
-  const response = await GetAxiosInstance<GetReservationListsResponse>(`/v1/reservation/list`, {
+  const response = await GetAxiosInstance<GetReservationListsResponse>(`/v2/reservation/list`, {
     params: {
       status: status,
+      sort: sort,
       page: page,
       size: size,
     },

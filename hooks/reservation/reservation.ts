@@ -13,6 +13,7 @@ import {
   getImpossibleDateLists,
   getReservationLists,
 } from '@/server/reservation/reservation';
+import { CreateReservationResponse } from '@/server/reservation/response';
 
 export const useCreateReservation = () => {
   const router = useRouter();
@@ -20,8 +21,11 @@ export const useCreateReservation = () => {
 
   return useMutation({
     mutationFn: (data: CreateReservationRequest) => createReservation(data),
-    onSuccess: () => {
-      router.push(`/space/reservation/complete`);
+    onSuccess: (response: CreateReservationResponse) => {
+      console.log(response);
+      router.push(
+        `/space/reservation/complete?reservationId=${response.id}&name=${response.name}&startDate=${response.startDate}&endDate=${response.endDate}&totalPrice=${response.totalPrice}`,
+      );
       queryClient.invalidateQueries({ queryKey: [`/reservation/list`] });
     },
   });
@@ -38,10 +42,10 @@ export const useCancelReservation = () => {
   });
 };
 
-export const useGetReservationLists = (status: string) => {
+export const useGetReservationLists = (status: string, sort?: string) => {
   return useInfiniteQuery({
-    queryKey: [`/reservation/list`, status],
-    queryFn: async ({ pageParam }) => getReservationLists(status, pageParam, 5),
+    queryKey: [`/reservation/list`, status, sort],
+    queryFn: async ({ pageParam }) => getReservationLists(status, sort, pageParam, 5),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       if (!lastPage.last) {

@@ -73,7 +73,11 @@ export default function ReservationItem({ type, data }: ReservationItemProps) {
         {type === 'PENDING' && (
           <View className="flex flex-row items-center gap-x-[8px]">
             <TouchableOpacity
-              onPress={() => router.push(`/(topTabs)/chat/${1}`)}
+              onPress={() =>
+                router.push(
+                  `/(topTabs)/chat/${data.messageRoomId}?spaceName=${encodeURIComponent(data.spaceName)}`,
+                )
+              }
               className="border border-stroke rounded-lg p-[14px]"
             >
               <SendIcon />
@@ -81,16 +85,17 @@ export default function ReservationItem({ type, data }: ReservationItemProps) {
             <TouchableOpacity className="flex-1 border border-stroke rounded-lg py-[15.5px]">
               <Text className="BTN1 text-medium_gray text-center">대기 취소</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="flex-1 border border-stroke rounded-lg py-[15.5px]">
-              <Text className="BTN1 text-medium_gray text-center">기간 변경</Text>
-            </TouchableOpacity>
           </View>
         )}
 
         {type === 'ACCEPT' && (
           <View className="flex flex-row items-center gap-x-[8px]">
             <TouchableOpacity
-              onPress={() => router.push(`/(topTabs)/chat/${1}`)}
+              onPress={() =>
+                router.push(
+                  `/(topTabs)/chat/${data.messageRoomId}?spaceName=${encodeURIComponent(data.spaceName)}`,
+                )
+              }
               className="border border-stroke rounded-lg p-[14px]"
             >
               <SendIcon />

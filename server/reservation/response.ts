@@ -3,14 +3,14 @@ import { PagenationDTO } from '@/types/page';
 export interface CreateReservationResponse {
   id: number;
   name: string;
-  email: string;
   startDate: string;
   endDate: string;
-  message: string;
+  totalPrice: number;
 }
 
 export interface ReservationItem {
   reservationId: number;
+  messageRoomId: number;
   spaceName: string;
   startDate: string;
   endDate: string;

@@ -1,5 +1,6 @@
 export interface ReservationData {
   reservationId: number;
+  messageRoomId: number;
   spaceName: string;
   startDate: string;
   endDate: string;
