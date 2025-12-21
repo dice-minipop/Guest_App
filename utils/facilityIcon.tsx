@@ -1,5 +1,3 @@
-import { Image } from 'expo-image';
-
 import CCTVIcon from '@/assets/icons/spaceDetail/facility/cctv.svg';
 import ChairIcon from '@/assets/icons/spaceDetail/facility/chair.svg';
 import CircleTableIcon from '@/assets/icons/spaceDetail/facility/circle-table.svg';
@@ -27,7 +25,7 @@ export default function renderFacilityIcon(name: string) {
       return <CCTVIcon />;
     case 'chair':
       return <ChairIcon />;
-    case 'circle-table':
+    case 'circleTable':
       return <CircleTableIcon />;
     case 'couch':
       return <CouchIcon />;
@@ -35,11 +33,11 @@ export default function renderFacilityIcon(name: string) {
       return <DesktopIcon />;
     case 'drink':
       return <DrinkIcon />;
-    case 'fire-extinguisher':
+    case 'fireExtinguisher':
       return <FireExtinguisherIcon />;
-    case 'firealarm':
+    case 'fire_alarm':
       return <FirealarmIcon />;
-    case 'first-aid-kit':
+    case 'firstAidKit':
       return <FirstAidKitIcon />;
     case 'light':
       return <LightIcon />;
@@ -53,13 +51,13 @@ export default function renderFacilityIcon(name: string) {
       return <ShelfIcon />;
     case 'speaker':
       return <SpeakerIcon />;
-    case 'square-table':
+    case 'squareTable':
       return <SquareTableIcon />;
-    case 'standing-table':
+    case 'standingTable':
       return <StandingTableIcon />;
     case 'tv':
       return <TvIcon />;
-    case 'water-purifier':
+    case 'waterPurifier':
       return <WaterPurifierIcon />;
     case 'wifi':
       return <WifiIcon />;

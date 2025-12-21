@@ -55,24 +55,34 @@ export default function BackHeaderComponent({
       <StatusBar style="dark" />
 
       {hasSafeArea && <View style={{ height: top }} />}
-      <View className="flex flex-row w-full items-center justify-between px-[3px]">
-        <OpacityPressable onPress={() => router.back()} className="p-[12px]">
-          <BlackBackArrowIcon />
-        </OpacityPressable>
+      <View className="relative flex flex-row w-full items-center px-[3px]">
+        {/* 왼쪽: 뒤로가기 아이콘 영역 */}
+        <View className="w-[48px]">
+          <OpacityPressable onPress={() => router.back()} className="p-[12px]">
+            <BlackBackArrowIcon />
+          </OpacityPressable>
+        </View>
 
-        {title !== undefined && (
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            className="BODY1 text-black max-w-[240px] absolute left-1/2 -translate-x-1/2 py-[12px] text-center"
-          >
-            {title}
-          </Text>
-        )}
+        {/* 가운데: 타이틀 영역 (양옆 아이콘 사이의 중앙) */}
+        <View className="flex-1 items-center">
+          {title !== undefined && (
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              className="BODY1 text-black max-w-[240px] text-center py-[12px]"
+            >
+              {title}
+            </Text>
+          )}
+        </View>
 
+        {/* 오른쪽: rightIcon 영역 (기본 폭은 맞추되, 내용에 따라 더 넓어질 수 있게) */}
+        <View className="min-w-[48px] items-end">
+          {rightIcon !== undefined && <View>{rightIcon}</View>}
+        </View>
+
+        {/* 기존 children 이 absolute 로 쓰이던 용도 유지 */}
         {children !== undefined && <View className="absolute">{children}</View>}
-
-        {rightIcon !== undefined && <View>{rightIcon}</View>}
       </View>
     </View>
   );

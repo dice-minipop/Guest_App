@@ -37,8 +37,6 @@ export const uploadImage = async (imageList: ImagePickerAsset[]): Promise<Upload
     } as any);
   });
 
-  console.log(formData);
-
   const response = await PostAxiosInstance<UploadImageResponse>(`/v1/s3/upload`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',

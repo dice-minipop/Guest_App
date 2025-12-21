@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import React from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface KeyBoardAwareProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
   isCenter?: boolean;
   rowGap?: string | number;
 }
@@ -15,7 +15,7 @@ export default function KeyBoardAwareProvider({
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
-        flexGrow: 1,
+        flex: 1,
         justifyContent: isCenter ? 'center' : 'flex-start',
         paddingHorizontal: 20,
         rowGap: rowGap,

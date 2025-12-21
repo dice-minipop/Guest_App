@@ -46,7 +46,7 @@ export default function CustomTextInput({
         placeholderTextColor="#CCCCCC"
         autoCapitalize="none"
         secureTextEntry={isPassword}
-        className={`p-4 border ${isFocused ? 'border-black' : 'border-light_gray'} rounded-lg ${height}`}
+        className={`p-4 border ${isFocused ? 'border-black' : 'border-light_gray'} rounded-lg ${height ?? ''}`}
       />
     </View>
   );
