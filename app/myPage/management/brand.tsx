@@ -1,6 +1,6 @@
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { Image, ImageBackground } from 'expo-image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,6 +9,8 @@ import CameraIcon from '@/assets/icons/myPage/camera.svg';
 import PlusIcon from '@/assets/icons/myPage/plus.svg';
 import RoundXIcon from '@/assets/icons/roundX.svg';
 import BackHeaderComponent from '@/components/common/backHeader';
+import CustomSelect from '@/components/common/customSelect';
+import { ageRangeItems, genderItems } from '@/constants/filtering';
 import { useCreateBrand, useGetMyBrandInfo, useUpdateBrand } from '@/hooks/brand/brand';
 import { cameraImagePicker, galleryImagePicker, galleryImagesPicker } from '@/hooks/useImage';
 import { showCustomActionSheetWithMap } from '@/utils/actionSheetUtil';
@@ -21,11 +23,31 @@ export default function BrandManagement() {
   const { mutate: createBrand } = useCreateBrand();
   const { mutate: updateBrand } = useUpdateBrand();
 
-  const [brandId] = useState<number>(data[0].id ?? 0);
-  const [name, setName] = useState<string>(data[0].name ?? '');
-  const [description, setDescription] = useState<string>(data[0].description ?? '');
-  const [logoUrl, setLogoUrl] = useState<string>(data[0].logoUrl ?? '');
-  const [imageUrls, setImageUrls] = useState<string[]>(data[0].imageUrls ?? []);
+  // 초기 렌더 시에는 서버 데이터가 아직 없을 수 있으므로 안전한 기본값으로 초기화
+  const [brandId, setBrandId] = useState<number>(0);
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [logoUrl, setLogoUrl] = useState<string>('');
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [targetGender, setTargetGender] = useState<string[]>([]);
+  const [targetAgeGroup, setTargetAgeGroup] = useState<string[]>([]);
+
+  useEffect(() => {
+    // data가 undefined가 아니고, 최소 1개 이상 있을 때만 setState 수행
+    if (!data || data.length === 0) return;
+
+    const brand = data[0];
+
+    if (!brand) return;
+
+    setBrandId(brand.id ?? 0);
+    setName(brand.name ?? '');
+    setDescription(brand.description ?? '');
+    setLogoUrl(brand.logoUrl ?? '');
+    setImageUrls(brand.imageUrls ?? []);
+    setTargetGender(brand.targetGender ?? []);
+    setTargetAgeGroup(brand.targetAgeGroup ?? []);
+  }, [data]);
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -98,9 +120,28 @@ export default function BrandManagement() {
 
   const handleBrand = () => {
     if (brandId === 0) {
-      createBrand({ name, description, logoUrl, imageUrls, homepageUrl: '' });
+      createBrand({
+        name,
+        description,
+        logoUrl,
+        imageUrls,
+        homepageUrl: '',
+        targetGender,
+        targetAgeGroup,
+      });
     } else {
-      updateBrand({ brandId, data: { name, description, logoUrl, imageUrls, homepageUrl: '' } });
+      updateBrand({
+        brandId,
+        data: {
+          name,
+          description,
+          logoUrl,
+          imageUrls,
+          homepageUrl: '',
+          targetGender,
+          targetAgeGroup,
+        },
+      });
     }
   };
 
@@ -145,6 +186,28 @@ export default function BrandManagement() {
         )}
 
         <View className="px-[20px] gap-y-[24px]">
+          <CustomSelect<string>
+            label="브랜드 타겟 성별"
+            subLabel=" (중복 선택 가능)"
+            required={true}
+            value={targetGender}
+            setValue={setTargetGender}
+            options={genderItems}
+            wrapGap="gap-1.5"
+            padding="px-3 py-1"
+            rounded="rounded-full"
+          />
+
+          <CustomSelect<string>
+            label="브랜드 타겟 연령대"
+            subLabel=" (중복 선택 가능)"
+            required={true}
+            value={targetAgeGroup}
+            setValue={setTargetAgeGroup}
+            options={ageRangeItems}
+            textStyle="BTN2"
+          />
+
           <View className="gap-y-[8px]">
             <Text className="CAP1 text-dark_gray">내 브랜드 이름</Text>
             <TextInput

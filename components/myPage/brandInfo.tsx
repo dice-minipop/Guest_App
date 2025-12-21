@@ -5,11 +5,13 @@ import { Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native
 
 import EditIcon from '@/assets/icons/myPage/edit.svg';
 import { useGetMyBrandInfo } from '@/hooks/brand/brand';
+import { useGetGuestInfo } from '@/hooks/guest/guest';
 
 export default function BrandInfoComponent() {
   const router = useRouter();
 
   const { data, isFetching } = useGetMyBrandInfo();
+  const { data: guestInfo } = useGetGuestInfo();
 
   return isFetching ? (
     <BrandInfoSkeleton />
@@ -24,10 +26,14 @@ export default function BrandInfoComponent() {
 
       <View className="gap-y-[16px]">
         <Text numberOfLines={2} ellipsizeMode="tail" className="H1 text-white mr-[20px]">
-          {data && data.length !== 0 ? data[0].name : '브랜드 프로필을 작성해주세요'}
+          {data && data.length !== 0 && data[0].name
+            ? data[0].name
+            : guestInfo
+              ? `${guestInfo.name}의 브랜드`
+              : '브랜드 프로필을 작성해주세요'}
         </Text>
         <Text numberOfLines={2} ellipsizeMode="tail" className="BODY2 text-light_gray mr-[20px]">
-          {data && data.length !== 0
+          {data && data.length !== 0 && data[0].description
             ? data[0].description
             : '팝업 공간을 대여해주는 호스트와 신뢰할 수 있는 거래를 위해 브랜드를 1~2문장으로 짧게 설명해주세요'}
         </Text>
