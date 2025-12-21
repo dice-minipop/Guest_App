@@ -128,8 +128,3 @@ export default function ReportModal({ bottomSheetRef, onReport }: ReportModalPro
     </BottomSheet>
   );
 }
-
-
-
-
-
