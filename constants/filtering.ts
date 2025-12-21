@@ -14,13 +14,13 @@ export const genderItems = [
   { title: '남성', value: 'male', icon: MaleIcon },
 ];
 
-export const ageRangeItems = [
-  { title: '10대이하', value: 10 },
-  { title: '20대', value: 20 },
-  { title: '30대', value: 30 },
-  { title: '40대', value: 40 },
-  { title: '50대', value: 50 },
-  { title: '60대이상', value: 60 },
+export const ageRangeItems: Items<string>[] = [
+  { title: '10대이하', value: '10' },
+  { title: '20대', value: '20' },
+  { title: '30대', value: '30' },
+  { title: '40대', value: '40' },
+  { title: '50대', value: '50' },
+  { title: '60대이상', value: '60' },
 ];
 
 export const dayOfWeekItems = [

@@ -4,7 +4,7 @@ import { spaceSortByItems } from '@/constants/filtering';
 import { useSpaceFilterStore } from '@/zustands/filter/space';
 
 interface SortByFilteringProps {
-  viewRef: React.RefObject<View>;
+  viewRef: React.RefObject<View | null>;
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
@@ -15,7 +15,7 @@ const SortByFiltering: React.FC<SortByFilteringProps> = ({ viewRef, handleLayout
     <View
       className="gap-y-[24px] mt-[24px]"
       ref={viewRef}
-      onLayout={(event) => handleLayout(event, 4)}
+      onLayout={(event) => handleLayout(event, 3)} // 유동인구 제거로 인덱스 변경: 4 → 3
     >
       <View className="h-[8px] bg-back_gray" />
 

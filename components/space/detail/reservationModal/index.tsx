@@ -1,4 +1,4 @@
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ import CalendarListComponent from './calendarList';
 
 interface ReservationModalComponentProps extends SpaceDetailComponentProps {
   spaceId: number;
-  bottomSheetRef: React.RefObject<BottomSheetMethods>;
+  bottomSheetRef: React.RefObject<BottomSheetMethods | null>;
 }
 
 export default function ReservationModalComponent({
@@ -124,56 +124,58 @@ export default function ReservationModalComponent({
         <BottomSheetBackdrop {...props} opacity={0.7} disappearsOnIndex={-1} appearsOnIndex={0} />
       )}
     >
-      <View className="h-[700px]">
-        <View className="flex flex-row items-center justify-between pl-[20px] pr-[3px]">
-          <Text className="H2 text-black py-[8.5px]">예약 일정 선택</Text>
+      <BottomSheetView className="h-[700px]">
+        <View className="h-[700px]">
+          <View className="flex flex-row items-center justify-between pl-[20px] pr-[3px]">
+            <Text className="H2 text-black py-[8.5px]">예약 일정 선택</Text>
 
-          <OpacityPressable onPress={() => bottomSheetRef.current?.close()}>
-            <View className="p-[12px]">
-              <XIcon />
-            </View>
-          </OpacityPressable>
-        </View>
-
-        <View className="h-[1px] bg-stroke mx-[20px]" />
-
-        <View className="flex-1 pb-[64px]">
-          <CalendarListComponent
-            startDate={startDate}
-            endDate={endDate}
-            handleDate={handleDate}
-            impossibleDateLists={dateLists.reservedDates}
-          />
-        </View>
-
-        <View className="bg-white">
-          {startDate !== '' && endDate !== '' && (
-            <View className="bg-purple p-[20px]">
-              <Text className="SUB1 text-white text-center">
-                {formatDate(startDate)} ~ {formatDate(endDate)} /{' '}
-                {(getTotalDays(startDate, endDate) * data.discountPrice).toLocaleString()}원
-              </Text>
-            </View>
-          )}
-
-          <View className="flex flex-row gap-x-[8px] px-[20px] pt-[16px] pb-[56px]">
-            <OpacityPressable
-              onPress={clearDate}
-              className="rounded-lg border border-stroke px-4 py-[15.5px]"
-            >
-              <Text className="BTN1 text-black text-center">날짜 초기화</Text>
-            </OpacityPressable>
-
-            <OpacityPressable
-              onPress={handleReservation}
-              disabled={startDate === '' && endDate === ''}
-              className={`flex-1 rounded-lg ${startDate !== '' && endDate !== '' ? 'bg-black' : 'bg-light_gray'} px-[16px] py-[15.5px]`}
-            >
-              <Text className="BTN1 text-white text-center">예약 신청</Text>
+            <OpacityPressable onPress={() => bottomSheetRef.current?.close()}>
+              <View className="p-[12px]">
+                <XIcon />
+              </View>
             </OpacityPressable>
           </View>
+
+          <View className="h-[1px] bg-stroke mx-[20px]" />
+
+          <View className="flex-1 pb-[64px]">
+            <CalendarListComponent
+              startDate={startDate}
+              endDate={endDate}
+              handleDate={handleDate}
+              impossibleDateLists={dateLists.reservedDates}
+            />
+          </View>
+
+          <View className="bg-white">
+            {startDate !== '' && endDate !== '' && (
+              <View className="bg-purple p-[20px]">
+                <Text className="SUB1 text-white text-center">
+                  {formatDate(startDate)} ~ {formatDate(endDate)} /{' '}
+                  {(getTotalDays(startDate, endDate) * data.discountPrice).toLocaleString()}원
+                </Text>
+              </View>
+            )}
+
+            <View className="flex flex-row gap-x-[8px] px-[20px] pt-[16px] pb-[56px]">
+              <OpacityPressable
+                onPress={clearDate}
+                className="rounded-lg border border-stroke px-4 py-[15.5px]"
+              >
+                <Text className="BTN1 text-black text-center">날짜 초기화</Text>
+              </OpacityPressable>
+
+              <OpacityPressable
+                onPress={handleReservation}
+                disabled={startDate === '' && endDate === ''}
+                className={`flex-1 rounded-lg ${startDate !== '' && endDate !== '' ? 'bg-black' : 'bg-light_gray'} px-[16px] py-[15.5px]`}
+              >
+                <Text className="BTN1 text-white text-center">예약 신청</Text>
+              </OpacityPressable>
+            </View>
+          </View>
         </View>
-      </View>
+      </BottomSheetView>
     </BottomSheet>
   );
 }

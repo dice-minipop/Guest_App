@@ -5,16 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackHeaderComponent from '@/components/common/backHeader';
 import { useGetGuestInfo } from '@/hooks/guest/guest';
-import { useCreateReservationStore } from '@/zustands/reservation/store';
 
 export default function ReservationCheckProfile() {
   const router = useRouter();
 
   const { data } = useGetGuestInfo();
-
-  const { reservationData } = useCreateReservationStore();
-
-  console.log(reservationData);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

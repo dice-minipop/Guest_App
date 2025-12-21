@@ -4,7 +4,7 @@ import { regionItems } from '@/constants/regionData';
 import { useSpaceFilterStore } from '@/zustands/filter/space';
 
 interface RegionFilteringProps {
-  viewRef: React.RefObject<View>;
+  viewRef: React.RefObject<View | null>;
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
@@ -14,14 +14,20 @@ const RegionFiltering: React.FC<RegionFilteringProps> = ({ viewRef, handleLayout
   const handleCity = (city: string) => {
     if (spaceFilter.city === city) {
       setSpaceFilter({ city: undefined, district: undefined });
-    } else if (city === '전국') {
-      setSpaceFilter({ city: '전국', district: undefined });
     } else {
-      setSpaceFilter({ city, district: '전체' });
+      // "전국"을 포함한 모든 city를 그대로 저장 (API 호출 시 변환)
+      // district는 자동으로 undefined (UI에서 "전체"로 표시됨)
+      setSpaceFilter({ city, district: undefined });
     }
   };
 
   const handleDistrict = (district: string) => {
+    if (district === '전체') {
+      // '전체' should be represented as undefined in API params
+      setSpaceFilter({ district: undefined });
+      return;
+    }
+
     if (spaceFilter.district === district) {
       setSpaceFilter({ district: undefined });
     } else {
@@ -71,21 +77,26 @@ const RegionFiltering: React.FC<RegionFilteringProps> = ({ viewRef, handleLayout
 
       {selectedRegion?.item && (
         <View className="flex flex-row flex-wrap bg-back_gray p-[16px] gap-x-[6px] gap-y-[8px] rounded-lg mx-[20px]">
-          {selectedRegion.item.map((item) => (
-            <Pressable
-              key={item}
-              onPress={() => handleDistrict(item)}
-              className={`bg-white border px-[10px] py-[9px] rounded ${
-                spaceFilter.district === item ? 'border-purple' : 'border-stroke'
-              }`}
-            >
-              <Text
-                className={`BTN2 ${spaceFilter.district === item ? 'text-purple' : 'text-deep_gray'}`}
+          {selectedRegion.item.map((item) => {
+            const isAll = item === '전체';
+            const isSelected = isAll
+              ? spaceFilter.district === undefined
+              : spaceFilter.district === item;
+
+            return (
+              <Pressable
+                key={item}
+                onPress={() => handleDistrict(item)}
+                className={`bg-white border px-[10px] py-[9px] rounded ${
+                  isSelected ? 'border-purple' : 'border-stroke'
+                }`}
               >
-                {item}
-              </Text>
-            </Pressable>
-          ))}
+                <Text className={`BTN2 ${isSelected ? 'text-purple' : 'text-deep_gray'}`}>
+                  {item}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
       )}
     </View>

@@ -5,7 +5,7 @@ import { sizeItems } from '@/constants/filtering';
 import { useSpaceFilterStore } from '@/zustands/filter/space';
 
 interface SizeFilteringProps {
-  viewRef: React.RefObject<View>;
+  viewRef: React.RefObject<View | null>;
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
@@ -18,7 +18,7 @@ const SizeFiltering: React.FC<SizeFilteringProps> = ({ viewRef, handleLayout }) 
     <View
       className="gap-y-[24px] mt-[24px]"
       ref={viewRef}
-      onLayout={(event) => handleLayout(event, 3)}
+      onLayout={(event) => handleLayout(event, 2)} // 유동인구 제거로 인덱스 변경: 3 → 2
     >
       <View className="h-[8px] bg-back_gray" />
 

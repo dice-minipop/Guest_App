@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { View, SectionList, RefreshControl } from 'react-native';
+import { View, SectionList, RefreshControl, Text } from 'react-native';
 
 import CoverViewComponent from '@/components/common/coverView';
 import FilteringContainer from '@/components/space/filteringContainer';
@@ -15,7 +15,13 @@ export default function Space() {
 
   const { spaceFilter } = useSpaceFilterStore();
 
-  const { data, isFetching, fetchNextPage, hasNextPage } = useGetFilteredSpaceLists(spaceFilter);
+  // API 호출용 필터: "전국"은 undefined로 변환
+  const apiFilter = {
+    ...spaceFilter,
+    city: spaceFilter.city === '전국' ? undefined : spaceFilter.city,
+  };
+
+  const { data, isLoading, fetchNextPage, hasNextPage } = useGetFilteredSpaceLists(apiFilter);
   const spaceData = data?.pages.flatMap((page) => page.content.map((item) => ({ ...item }))) || [
     {
       id: 1,
@@ -72,7 +78,7 @@ export default function Space() {
           setScrollY(e.nativeEvent.contentOffset.y);
         }}
         scrollEventThrottle={16}
-        contentContainerStyle={{ paddingBottom: 64, backgroundColor: '#FFFFFF' }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 64, backgroundColor: '#FFFFFF' }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -86,7 +92,7 @@ export default function Space() {
         sections={[
           {
             title: 'CHIP',
-            data: isFetching
+            data: isLoading
               ? Array.from({ length: 3 }).map(() => null) // Skeleton용
               : spaceData,
           },
@@ -94,7 +100,8 @@ export default function Space() {
         ListHeaderComponent={<HeaderComponent />}
         renderSectionHeader={({ section }) =>
           section.title === 'CHIP' ? (
-            <FilteringContainer items={['지역', '유동인구', '가격', '공간크기', '정렬']} />
+            // <FilteringContainer items={['지역', '유동인구', '가격', '공간크기', '정렬']} />
+            <FilteringContainer items={['지역', '가격', '공간크기', '정렬']} />
           ) : null
         }
         stickySectionHeadersEnabled={true}
@@ -105,6 +112,7 @@ export default function Space() {
             <SpaceSkeletonItem key={index} />
           )
         }
+        ListEmptyComponent={() => <Text className="BODY1 text-black">검색 결과가 없어요</Text>}
         keyExtractor={(item, index) => (item ? `${item.id}` : `skeleton-${index}`)}
         ItemSeparatorComponent={() => <View className="h-[16px]" />}
         onEndReachedThreshold={0.5}

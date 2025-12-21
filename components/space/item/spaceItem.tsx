@@ -32,7 +32,7 @@ export default function SpaceItemComponent({ data }: SpaceItemComponentProps) {
         source={data.imageUrl}
         style={{ width: '100%', aspectRatio: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8 }}
       />
-      <SpaceBadge badgeString={data.badge} />
+      {/* <SpaceBadge badgeString={data.badge} /> */}
 
       <View className={`pl-[16px] pb-[16px] pr-[6px] gap-y-[8px] ${isPressed && 'opacity-50'}`}>
         <View className="flex flex-row justify-between">

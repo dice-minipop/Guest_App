@@ -8,7 +8,7 @@ import Purpose from './purpose';
 import Weekend from './weekend';
 
 interface FootTrafficFilteringProps {
-  viewRef: React.RefObject<View>;
+  viewRef: React.RefObject<View | null>;
   handleLayout: (event: any, index: number) => void;
 }
 
@@ -35,21 +35,18 @@ const FootTrafficFiltering: React.FC<FootTrafficFilteringProps> = ({ viewRef, ha
       <View className="gap-y-[32px] px-[20px]">
         <Text className="CAP1 text-dark_gray">유동인구</Text>
 
-        <Gender
-          value={spaceFilter.targetGender}
-          handleValue={(e: string) => toggleValue('targetGender', e)}
-        />
+        <Gender value={spaceFilter.gender} handleValue={(e: string) => toggleValue('gender', e)} />
         <AgeRange
-          value={spaceFilter.targetAgeGroup}
-          handleValue={(e: number) => toggleValue('targetAgeGroup', e)}
+          value={spaceFilter.ageGroup}
+          handleValue={(e: string) => toggleValue('ageGroup', e)}
         />
         <Weekend
-          value={spaceFilter.targetDayofWeek}
-          handleValue={(e: string) => toggleValue('targetDayofWeek', e)}
+          value={spaceFilter.dayOfWeek}
+          handleValue={(e: string) => toggleValue('dayOfWeek', e)}
         />
         <Purpose
-          value={spaceFilter.targetPurpose}
-          handleValue={(e: string) => toggleValue('targetPurpose', e)}
+          value={spaceFilter.purpose}
+          handleValue={(e: string) => toggleValue('purpose', e)}
         />
       </View>
     </View>

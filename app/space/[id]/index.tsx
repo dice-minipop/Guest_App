@@ -116,7 +116,7 @@ export default function SpaceDetail() {
 
       <View className="absolute -bottom-[100px] w-full bg-white h-[500px] -z-10" />
 
-      <BottomButtonContainer spaceId={Number(id)} />
+      <BottomButtonContainer spaceId={Number(id)} data={spaceDetailData} />
     </SafeAreaView>
   );
 }

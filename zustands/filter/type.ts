@@ -1,10 +1,10 @@
 export type SpaceFilter = {
   city?: string;
   district?: string;
-  targetGender?: string[];
-  targetAgeGroup?: number[];
-  targetDayofWeek?: string[];
-  targetPurpose?: string[];
+  gender?: string[];
+  ageGroup?: string[];
+  dayOfWeek?: string[];
+  purpose?: string[];
   minPrice?: number;
   maxPrice?: number;
   minSize?: number;

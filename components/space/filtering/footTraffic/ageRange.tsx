@@ -3,8 +3,8 @@ import { Pressable, Text, View } from 'react-native';
 import { ageRangeItems } from '@/constants/filtering';
 
 interface AgeRangeProps {
-  value: number[] | undefined;
-  handleValue: (e: number) => void;
+  value: string[] | undefined;
+  handleValue: (e: string) => void;
 }
 
 const AgeRange: React.FC<AgeRangeProps> = ({ value, handleValue }) => {

@@ -1,7 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
 import { useRouter } from 'expo-router';
 import { useRef } from 'react';
-import { Alert, Pressable, Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import WebView from 'react-native-webview';
 
 import MarkerIcon from '@/assets/icons/spaceDetail/marker.svg';
@@ -41,7 +41,7 @@ export default function SpaceLocationInfoComponent({ data }: SpaceDetailComponen
             </OpacityPressable>
           </View>
 
-          <Pressable
+          <OpacityPressable
             onPress={() => router.push(`/space/${data.id}/map`)}
             className="w-full h-[160px] rounded-xl"
           >
@@ -51,7 +51,7 @@ export default function SpaceLocationInfoComponent({ data }: SpaceDetailComponen
               source={{ html: generateHtmlContent(data.latitude, data.longitude, false) }}
               javaScriptEnabled={true}
             />
-          </Pressable>
+          </OpacityPressable>
         </View>
       </View>
 

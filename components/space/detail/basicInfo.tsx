@@ -4,9 +4,9 @@ import { Pressable, Text, View } from 'react-native';
 import FilledLikeIcon from '@/assets/icons/filled-like.svg';
 import LikeIcon from '@/assets/icons/like.svg';
 import MapIcon from '@/assets/icons/spaceDetail/map.svg';
-import PeopleIcon from '@/assets/icons/spaceDetail/people.svg';
+// import PeopleIcon from '@/assets/icons/spaceDetail/people.svg';
 import PlaceIcon from '@/assets/icons/spaceDetail/place.svg';
-import RightArrowIcon from '@/assets/icons/spaceDetail/right-arrow.svg';
+// import RightArrowIcon from '@/assets/icons/spaceDetail/right-arrow.svg';
 import { useToggleSpaceLike } from '@/hooks/like/like';
 import { SpaceDetailComponentProps } from '@/types/space';
 import getSubwayColor from '@/utils/subwayColor';
@@ -77,7 +77,7 @@ export default function SpaceBasicInfoComponent({ data }: SpaceDetailComponentPr
           </View>
         </View>
 
-        <Pressable
+        {/* <Pressable
           onPress={() => router.push(`/space/${data.id}/analysis`)}
           className="flex flex-col gap-y-[16px] rounded-lg border border-stroke p-[16px] mr-[20px]"
         >
@@ -102,7 +102,7 @@ export default function SpaceBasicInfoComponent({ data }: SpaceDetailComponentPr
             </Text>
             <RightArrowIcon />
           </View>
-        </Pressable>
+        </Pressable> */}
 
         <View className="flex flex-col gap-y-[20px] pr-[20px]">
           <View className="flex flex-col gap-y-[8px]">

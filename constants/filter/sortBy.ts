@@ -3,7 +3,7 @@ export const genderItemsMap: Record<string, string> = {
   female: '여성',
 };
 
-export const ageGroupItemsMap: Record<number, string> = {
+export const ageGroupItemsMap: Record<string, string> = {
   10: '10대 이하',
   20: '20대',
   30: '30대',

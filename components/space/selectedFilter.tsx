@@ -42,17 +42,23 @@ const SelectedFilterList = () => {
     Object.keys(spaceFilter).length !== 0 && (
       <ScrollView>
         <View className="min-h-[80px] flex flex-row flex-wrap gap-[6px] px-[20px] py-[16px]">
-          {spaceFilter.city !== undefined && spaceFilter.district !== undefined && (
+          {spaceFilter.city !== undefined && (
             <View className="flex flex-row items-center gap-x-[2px] px-[10px] py-[4px] border border-black rounded-full">
-              <Text className="CAP1 text-deep_gray">{`${spaceFilter.city} ${spaceFilter.district}`}</Text>
+              <Text className="CAP1 text-deep_gray">
+                {spaceFilter.city === '전국'
+                  ? '전국'
+                  : spaceFilter.district !== undefined
+                    ? `${spaceFilter.city} ${spaceFilter.district}`
+                    : `${spaceFilter.city} 전체`}
+              </Text>
               <Pressable onPress={() => setSpaceFilter({ city: undefined, district: undefined })}>
                 <RoundXIcon />
               </Pressable>
             </View>
           )}
 
-          {spaceFilter.targetGender !== undefined &&
-            spaceFilter.targetGender.map((item) => (
+          {spaceFilter.gender !== undefined &&
+            spaceFilter.gender.map((item) => (
               <View
                 key={item}
                 className="flex flex-row items-center gap-x-[2px] px-[10px] py-[4px] border border-black rounded-full"
@@ -61,7 +67,7 @@ const SelectedFilterList = () => {
                 <Pressable
                   onPress={() =>
                     setSpaceFilter({
-                      targetGender: spaceFilter.targetGender?.filter((gender) => gender !== item),
+                      gender: spaceFilter.gender?.filter((gender) => gender !== item),
                     })
                   }
                 >
@@ -70,8 +76,8 @@ const SelectedFilterList = () => {
               </View>
             ))}
 
-          {spaceFilter.targetAgeGroup !== undefined &&
-            spaceFilter.targetAgeGroup.map((item) => (
+          {spaceFilter.ageGroup !== undefined &&
+            spaceFilter.ageGroup.map((item) => (
               <View
                 key={item}
                 className="flex flex-row items-center gap-x-[2px] px-[10px] py-[4px] border border-black rounded-full"
@@ -80,7 +86,7 @@ const SelectedFilterList = () => {
                 <Pressable
                   onPress={() =>
                     setSpaceFilter({
-                      targetAgeGroup: spaceFilter.targetAgeGroup?.filter((age) => age !== item),
+                      ageGroup: spaceFilter.ageGroup?.filter((age) => age !== item),
                     })
                   }
                 >
@@ -89,8 +95,8 @@ const SelectedFilterList = () => {
               </View>
             ))}
 
-          {spaceFilter.targetDayofWeek !== undefined &&
-            spaceFilter.targetDayofWeek.map((item) => (
+          {spaceFilter.dayOfWeek !== undefined &&
+            spaceFilter.dayOfWeek.map((item) => (
               <View
                 key={item}
                 className="flex flex-row items-center gap-x-[2px] px-[10px] py-[4px] border border-black rounded-full"
@@ -99,7 +105,7 @@ const SelectedFilterList = () => {
                 <Pressable
                   onPress={() =>
                     setSpaceFilter({
-                      targetDayofWeek: spaceFilter.targetDayofWeek?.filter((day) => day !== item),
+                      dayOfWeek: spaceFilter.dayOfWeek?.filter((day) => day !== item),
                     })
                   }
                 >
@@ -108,8 +114,8 @@ const SelectedFilterList = () => {
               </View>
             ))}
 
-          {spaceFilter.targetPurpose !== undefined &&
-            spaceFilter.targetPurpose.map((item) => (
+          {spaceFilter.purpose !== undefined &&
+            spaceFilter.purpose.map((item) => (
               <View
                 key={item}
                 className="flex flex-row items-center gap-x-[2px] px-[10px] py-[4px] border border-black rounded-full"
@@ -118,9 +124,7 @@ const SelectedFilterList = () => {
                 <Pressable
                   onPress={() =>
                     setSpaceFilter({
-                      targetPurpose: spaceFilter.targetPurpose?.filter(
-                        (purpose) => purpose !== item,
-                      ),
+                      purpose: spaceFilter.purpose?.filter((purpose) => purpose !== item),
                     })
                   }
                 >

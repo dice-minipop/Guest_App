@@ -28,39 +28,51 @@ export default function ReservationInputInformation() {
         </View>
 
         <View className="gap-y-[8px]">
-          <Text className="CAP1 text-dark_gray">팝업스토어 행사 이름</Text>
+          <Text className="CAP1 text-dark_gray">
+            팝업스토어 행사 이름<Text className="text-red">*</Text>
+          </Text>
           <TextInput
-            className="border"
+            className="border border-light_gray rounded-lg h-14 p-4 INPUT text-dark_gray"
             value={reservationData.eventName}
+            placeholder="팝업스토어 행사 이름을 입력해주세요"
+            placeholderTextColor={'#CCCCCC'}
             onChangeText={(e) => setReservationData('eventName', e)}
           />
         </View>
 
         <View className="gap-y-[8px]">
-          <Text className="CAP1 text-dark_gray">행사 내용</Text>
+          <Text className="CAP1 text-dark_gray">
+            행사 내용<Text className="text-red">*</Text>
+          </Text>
           <TextInput
-            className="border"
+            className="border border-light_gray rounded-lg h-24 p-4 INPUT text-dark_gray"
+            multiline={true}
             value={reservationData.eventContent}
+            placeholder="팝업 공간을 대여해주는 호스트와 신뢰할 수 있는 거래를 위해 행사 내용을 1~2문장으로 짧게 설명해주세요"
+            placeholderTextColor={'#CCCCCC'}
             onChangeText={(e) => setReservationData('eventContent', e)}
           />
         </View>
 
-        <View className="gap-y-[8px]">
+        {/* <View className="gap-y-[8px]">
           <View className="flex flex-row justify-between">
             <Text className="CAP1 text-dark_gray">행사 내용 관련 첨부 파일</Text>
             <TouchableOpacity>
               <Text className="CAP1 text-dark_gray">+ 추가</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View className="gap-y-[8px]">
           <Text className="CAP1 text-dark_gray">
             기타 요청사항 <Text className="text-light_gray">(선택)</Text>
           </Text>
           <TextInput
-            className="border"
+            className="border border-light_gray rounded-lg h-24 p-4 INPUT text-dark_gray"
+            multiline={true}
             value={reservationData.etcRequest}
+            placeholder="협의가 필요한 사항이나 문의하실 내용이 있으시면 작성해주세요"
+            placeholderTextColor={'#CCCCCC'}
             onChangeText={(e) => setReservationData('etcRequest', e)}
           />
         </View>
