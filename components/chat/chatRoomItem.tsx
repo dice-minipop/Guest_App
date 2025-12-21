@@ -3,12 +3,13 @@ import { useRouter } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import { ChatRoomItem } from '@/types/chat';
+import { formatChatRoomDate } from '@/utils/time';
 
 interface ChatRoomItemComponentProps {
   data: ChatRoomItem;
 }
 
-const ChatRoomItemComponent: React.FC<ChatRoomItemComponentProps> = ({ data }) => {
+export default function ChatRoomItemComponent({ data }: ChatRoomItemComponentProps) {
   const router = useRouter();
 
   return (
@@ -30,12 +31,14 @@ const ChatRoomItemComponent: React.FC<ChatRoomItemComponentProps> = ({ data }) =
             {data.spaceName}
           </Text>
           <Text numberOfLines={1} ellipsizeMode="tail" className="BODY2 text-medium_gray">
-            {data.lastMessage}
+            {data.lastMessage && data.lastMessage.length > 0
+              ? data.lastMessage
+              : '아직 메시지가 없어요'}
           </Text>
         </View>
 
         <View className="flex flex-col items-end justify-between">
-          <Text className="CAP2 text-light_gray">{data.lastMessageAt}</Text>
+          <Text className="CAP2 text-light_gray">{formatChatRoomDate(data.lastMessageAt)}</Text>
           {data.unreadCount !== 0 && (
             <View className="bg-red px-[6px] rounded-full h-[18px]">
               <Text className="CAP2 text-white">{data.unreadCount}</Text>
@@ -45,6 +48,4 @@ const ChatRoomItemComponent: React.FC<ChatRoomItemComponentProps> = ({ data }) =
       </View>
     </Pressable>
   );
-};
-
-export default ChatRoomItemComponent;
+}

@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { Alert } from 'react-native';
 
@@ -15,7 +15,6 @@ import {
   SendMessageRequest,
 } from '@/server/message/request';
 import { MessageRoom } from '@/server/message/response';
-import { useSpaceDataStore } from '@/zustands/space/store';
 
 export const useGetMessageDetailData = (roomId: number) => {
   return useInfiniteQuery({
@@ -30,11 +29,13 @@ export const useGetMessageDetailData = (roomId: number) => {
   });
 };
 
-export const useSendMessage = (roomId: number, refetch: () => void) => {
+export const useSendMessage = (roomId: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (data: SendMessageRequest) => sendMessage(roomId, data),
     onSuccess: () => {
-      refetch();
+      queryClient.invalidateQueries({ queryKey: [`/message/${roomId}`] });
     },
   });
 };
@@ -46,16 +47,19 @@ export const useReportChatRoom = () => {
   });
 };
 
-export const useCreateChatRoom = (refetch: () => void) => {
+export const useCreateChatRoom = () => {
   const router = useRouter();
-  const { setSpaceName } = useSpaceDataStore();
 
   return useMutation({
     mutationFn: (data: CreateChatRoomRequest) => createChatRoom(data),
     onSuccess: (response: MessageRoom) => {
-      setSpaceName(response.spaceName);
-      router.push(`/chat/${response.id}`);
-      refetch();
+      router.push({
+        pathname: '/chat/[id]',
+        params: {
+          id: String(response.id),
+          spaceName: response.spaceName,
+        },
+      });
     },
   });
 };
