@@ -8,6 +8,9 @@ import { useAutoLogin } from '@/hooks/useAutoLogin';
 import { AppProvider } from '@/providers/appProvider';
 import { useAuthStore } from '@/zustands/auth/auth';
 
+// React Native Firebase deprecation warnings 억제 (공식 방법)
+(globalThis as any).RNFB_SILENCE_MODULAR_DEPRECATION_WARNINGS = true;
+
 export default function RootLayout() {
   const { isLoggedIn } = useAuthStore();
   const { loading } = useAutoLogin();
