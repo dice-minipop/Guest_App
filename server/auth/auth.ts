@@ -88,7 +88,7 @@ export const resetPassword = async (data: ResetPasswordRequest): Promise<ResetPa
 
 // 로그아웃
 export const logout = async () => {
-  const response = await PostAxiosInstance(`/auth/logout`);
+  const response = await PostAxiosInstance(`/v1/auth/logout`);
 
   return response.data;
 };
