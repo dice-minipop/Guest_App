@@ -8,7 +8,7 @@ interface StatusFilteringProps {
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
-const StatusFiltering: React.FC<StatusFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function StatusFiltering({ viewRef, handleLayout }: StatusFilteringProps) {
   const { announcementFilter, setAnnouncementFilter } = useAnnouncementFilterStore();
 
   return (
@@ -42,6 +42,4 @@ const StatusFiltering: React.FC<StatusFilteringProps> = ({ viewRef, handleLayout
       </View>
     </View>
   );
-};
-
-export default StatusFiltering;
+}

@@ -9,7 +9,7 @@ import { LottieItems } from '@/constants/lottieItems';
 
 import CarouselItemComponent from './carouselItem';
 
-const CarouselComponent: React.FC = () => {
+export default function CarouselComponent() {
   const screenWidth = Dimensions.get('screen').width;
 
   const lottieWidth = Math.min(screenWidth, 500);
@@ -55,6 +55,4 @@ const CarouselComponent: React.FC = () => {
       </View>
     </View>
   );
-};
-
-export default CarouselComponent;
+}

@@ -8,11 +8,11 @@ interface RegionFilteringComponentProps {
   handleRegion: (region: [string | undefined, string | undefined]) => void;
 }
 
-const RegionFilteringComponent: React.FC<RegionFilteringComponentProps> = ({
+export default function RegionFilteringComponent({
   city,
   district,
   handleRegion,
-}) => {
+}: RegionFilteringComponentProps) {
   const handleCity = (newCity: string) => {
     if (newCity === city) {
       handleRegion([undefined, undefined]);
@@ -84,6 +84,4 @@ const RegionFilteringComponent: React.FC<RegionFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default RegionFilteringComponent;
+}

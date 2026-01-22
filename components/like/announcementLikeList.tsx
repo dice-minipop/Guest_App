@@ -45,7 +45,7 @@ export default function AnnouncementLikeList() {
   );
 }
 
-const AnnouncementSkeletonItem = () => {
+function AnnouncementSkeletonItem() {
   return (
     <View className="border border-stroke rounded-lg mx-[20px] bg-white">
       <ContentLoader
@@ -64,4 +64,4 @@ const AnnouncementSkeletonItem = () => {
       </ContentLoader>
     </View>
   );
-};
+}

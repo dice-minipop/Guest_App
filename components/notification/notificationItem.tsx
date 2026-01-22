@@ -8,7 +8,7 @@ interface NotificationItemComponentProps {
   data: NotificationItem;
 }
 
-const NotificationItemComponent: React.FC<NotificationItemComponentProps> = ({ data }) => {
+export default function NotificationItemComponent({ data }: NotificationItemComponentProps) {
   return (
     <Pressable className={`flex flex-row gap-x-2 px-5 py-4 ${!data.isRead && 'bg-back_gray'}`}>
       <View>
@@ -27,6 +27,4 @@ const NotificationItemComponent: React.FC<NotificationItemComponentProps> = ({ d
       </View>
     </Pressable>
   );
-};
-
-export default NotificationItemComponent;
+}

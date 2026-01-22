@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 
 import SmallCheckPolygonIcon from '@/assets/icons/spaceDetail/small-check-polygon.svg';
 
-const AverageBarChartComponent: React.FC = () => {
+export default function AverageBarChartComponent() {
   const data = [
     { title: '성수2가 1동\n평균', value: 120000 },
     { title: '성수동 4개 구역\n평균', value: 97000 },
@@ -75,6 +75,4 @@ const AverageBarChartComponent: React.FC = () => {
       </View>
     </View>
   );
-};
-
-export default AverageBarChartComponent;
+}

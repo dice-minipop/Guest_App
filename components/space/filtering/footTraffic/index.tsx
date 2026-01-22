@@ -12,7 +12,7 @@ interface FootTrafficFilteringProps {
   handleLayout: (event: any, index: number) => void;
 }
 
-const FootTrafficFiltering: React.FC<FootTrafficFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function FootTrafficFiltering({ viewRef, handleLayout }: FootTrafficFilteringProps) {
   const { spaceFilter, setSpaceFilter } = useSpaceFilterStore();
 
   const toggleValue = <T, K extends keyof typeof spaceFilter>(key: K, value: T) => {
@@ -51,6 +51,4 @@ const FootTrafficFiltering: React.FC<FootTrafficFilteringProps> = ({ viewRef, ha
       </View>
     </View>
   );
-};
-
-export default FootTrafficFiltering;
+}

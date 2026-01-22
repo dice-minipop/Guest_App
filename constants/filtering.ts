@@ -6,7 +6,7 @@ import MaleIcon from '@/assets/icons/filtering/male.svg';
 export type Items<T> = {
   title: string;
   value: T;
-  icon?: React.FC<SvgProps>;
+  icon?: (props: SvgProps) => React.ReactElement;
 };
 
 export const genderItems = [

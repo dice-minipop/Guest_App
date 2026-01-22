@@ -9,11 +9,11 @@ interface CapacityFilteringComponentProps {
   handlePriceRange: (range: [number, number]) => void;
 }
 
-const CapacityFilteringComponent: React.FC<CapacityFilteringComponentProps> = ({
+export default function CapacityFilteringComponent({
   minCapacity,
   maxCapacity,
   handlePriceRange,
-}) => {
+}: CapacityFilteringComponentProps) {
   return (
     <View className="px-[20px] gap-y-[24px]">
       <Text className="CAP1 text-dark_gray">수용인원</Text>
@@ -37,6 +37,4 @@ const CapacityFilteringComponent: React.FC<CapacityFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default CapacityFilteringComponent;
+}

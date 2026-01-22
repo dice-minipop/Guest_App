@@ -15,13 +15,13 @@ interface BackHeaderComponentProps {
   rightIcon?: React.ReactNode;
 }
 
-const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
+export default function BackHeaderComponent({
   style = 'BLACK',
   hasSafeArea = true,
   title,
   children,
   rightIcon,
-}) => {
+}: BackHeaderComponentProps) {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
@@ -74,6 +74,4 @@ const BackHeaderComponent: React.FC<BackHeaderComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default BackHeaderComponent;
+}

@@ -5,7 +5,7 @@ import { SpaceDetailComponentProps } from '@/types/space';
 
 import CustomPressableComponent from '../../common/customPressable';
 
-const SpaceIntroduceComponent: React.FC<SpaceDetailComponentProps> = ({ data }) => {
+export default function SpaceIntroduceComponent({ data }: SpaceDetailComponentProps) {
   const [isSeeMore, setIsSeeMore] = useState<boolean>(false);
 
   return (
@@ -26,6 +26,4 @@ const SpaceIntroduceComponent: React.FC<SpaceDetailComponentProps> = ({ data }) 
       />
     </View>
   );
-};
-
-export default SpaceIntroduceComponent;
+}

@@ -8,7 +8,7 @@ interface SortByFilteringProps {
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
-const SortByFiltering: React.FC<SortByFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function SortByFiltering({ viewRef, handleLayout }: SortByFilteringProps) {
   const { announcementFilter, setAnnouncementFilter } = useAnnouncementFilterStore();
 
   return (
@@ -43,6 +43,4 @@ const SortByFiltering: React.FC<SortByFilteringProps> = ({ viewRef, handleLayout
       </View>
     </View>
   );
-};
-
-export default SortByFiltering;
+}

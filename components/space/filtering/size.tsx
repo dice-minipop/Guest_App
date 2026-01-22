@@ -9,7 +9,7 @@ interface SizeFilteringProps {
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
-const SizeFiltering: React.FC<SizeFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function SizeFiltering({ viewRef, handleLayout }: SizeFilteringProps) {
   const { spaceFilter, setSpaceFilter } = useSpaceFilterStore();
 
   const trackMarks = [0, 75, 150];
@@ -97,6 +97,4 @@ const SizeFiltering: React.FC<SizeFilteringProps> = ({ viewRef, handleLayout }) 
       </View>
     </View>
   );
-};
-
-export default SizeFiltering;
+}

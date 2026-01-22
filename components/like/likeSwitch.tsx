@@ -6,7 +6,7 @@ interface LikeSwitchComponentProps {
   handleType: () => void;
 }
 
-const LikeSwitchComponent: React.FC<LikeSwitchComponentProps> = ({ currentType, handleType }) => {
+export default function LikeSwitchComponent({ currentType, handleType }: LikeSwitchComponentProps) {
   const width = Dimensions.get('screen').width;
   const translateX = useRef(new Animated.Value(0)).current;
 
@@ -54,6 +54,4 @@ const LikeSwitchComponent: React.FC<LikeSwitchComponentProps> = ({ currentType, 
       </Text>
     </Pressable>
   );
-};
-
-export default LikeSwitchComponent;
+}

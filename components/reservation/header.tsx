@@ -5,7 +5,7 @@ interface HeaderComponentProps {
   setCurrentType: React.Dispatch<React.SetStateAction<'PENDING' | 'ACCEPT' | 'CANCEL'>>;
 }
 
-const HeaderComponent: React.FC<HeaderComponentProps> = ({ currentType, setCurrentType }) => {
+export default function HeaderComponent({ currentType, setCurrentType }: HeaderComponentProps) {
   const typeList = [
     { title: '대기중', value: 'PENDING' },
     { title: '예약 완료', value: 'ACCEPT' },
@@ -29,6 +29,4 @@ const HeaderComponent: React.FC<HeaderComponentProps> = ({ currentType, setCurre
       ))}
     </View>
   );
-};
-
-export default HeaderComponent;
+}

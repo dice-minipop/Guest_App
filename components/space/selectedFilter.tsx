@@ -11,7 +11,7 @@ import {
 import { priceItems, sizeItems } from '@/constants/filtering';
 import { useSpaceFilterStore } from '@/zustands/filter/space';
 
-const SelectedFilterList = () => {
+export default function SelectedFilterList() {
   const { spaceFilter, setSpaceFilter } = useSpaceFilterStore();
 
   const getPriceLabel = (min: number, max: number): string => {
@@ -169,6 +169,4 @@ const SelectedFilterList = () => {
       </ScrollView>
     )
   );
-};
-
-export default SelectedFilterList;
+}

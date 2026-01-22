@@ -9,11 +9,11 @@ interface SortByFilteringComponentProps {
   handleValue: (item: string) => void;
 }
 
-const SortByFilteringComponent: React.FC<SortByFilteringComponentProps> = ({
+export default function SortByFilteringComponent({
   items,
   value,
   handleValue,
-}) => {
+}: SortByFilteringComponentProps) {
   return (
     <View className="px-[20px] gap-y-[24px]">
       <Text className="CAP1 text-dark_gray">정렬</Text>
@@ -32,6 +32,4 @@ const SortByFilteringComponent: React.FC<SortByFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default SortByFilteringComponent;
+}

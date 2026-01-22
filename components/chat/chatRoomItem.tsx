@@ -8,7 +8,7 @@ interface ChatRoomItemComponentProps {
   data: ChatRoomItem;
 }
 
-const ChatRoomItemComponent: React.FC<ChatRoomItemComponentProps> = ({ data }) => {
+export default function ChatRoomItemComponent({ data }: ChatRoomItemComponentProps) {
   const router = useRouter();
 
   return (
@@ -45,6 +45,4 @@ const ChatRoomItemComponent: React.FC<ChatRoomItemComponentProps> = ({ data }) =
       </View>
     </Pressable>
   );
-};
-
-export default ChatRoomItemComponent;
+}

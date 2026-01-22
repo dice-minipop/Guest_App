@@ -2,7 +2,7 @@ import { Dimensions, Text, View } from 'react-native';
 // import { BarChart } from 'react-native-chart-kit';
 import { BarChart } from 'react-native-gifted-charts';
 
-const BarChartComponent: React.FC = () => {
+export default function BarChartComponent() {
   //   const values = [120000, 97000, 32000, 27000];
   //   const maxValue = Math.max(...values);
 
@@ -94,6 +94,4 @@ const BarChartComponent: React.FC = () => {
       </View>
     </View>
   );
-};
-
-export default BarChartComponent;
+}

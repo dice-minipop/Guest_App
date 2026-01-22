@@ -1,10 +1,15 @@
 import {
   useInfiniteQuery,
+  useQuery,
   useSuspenseInfiniteQuery,
   useSuspenseQuery,
 } from '@tanstack/react-query';
 
-import { getSpaceDetailData, getFilteredSpaceLists } from '@/server/space/space';
+import {
+  getSpaceDetailData,
+  getFilteredSpaceLists,
+  getSpacePopulationAnalysis,
+} from '@/server/space/space';
 import { SpaceFilterDTO } from '@/types/space';
 
 // 공간 상세 조회
@@ -59,5 +64,12 @@ export const useGetSearchedSpaceLists = (keyword: string) => {
       }
     },
     enabled: keyword !== '',
+  });
+};
+
+export const useGetSpacePopulationAnalysis = (id: number) => {
+  return useQuery({
+    queryKey: [`/space/${id}/analysis`, id],
+    queryFn: () => getSpacePopulationAnalysis(id),
   });
 };

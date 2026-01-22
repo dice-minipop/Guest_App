@@ -8,13 +8,13 @@ interface StringInputComponentProps {
   canEdit?: boolean;
 }
 
-const StringInputComponent: React.FC<StringInputComponentProps> = ({
+export default function StringInputComponent({
   title,
   value,
   onChangeText,
   placeholder,
   canEdit = true,
-}) => {
+}: StringInputComponentProps) {
   return (
     <View className="gap-y-[8px]">
       <Text className="CAP1 text-dark_gray">{title}</Text>
@@ -33,6 +33,4 @@ const StringInputComponent: React.FC<StringInputComponentProps> = ({
       )}
     </View>
   );
-};
-
-export default StringInputComponent;
+}

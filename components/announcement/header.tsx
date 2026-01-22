@@ -4,7 +4,7 @@ import { Dimensions, Pressable, Text, View } from 'react-native';
 
 import MagnifierIcon from '@/assets/icons/magnifier.svg';
 
-const HeaderComponent: React.FC = () => {
+export default function HeaderComponent() {
   const router = useRouter();
 
   const width = Dimensions.get('screen').width;
@@ -27,6 +27,4 @@ const HeaderComponent: React.FC = () => {
       </Pressable>
     </View>
   );
-};
-
-export default HeaderComponent;
+}

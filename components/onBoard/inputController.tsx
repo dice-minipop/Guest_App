@@ -23,13 +23,13 @@ interface InputControllerComponentProps {
   shouldValidate?: boolean;
 }
 
-const InputControllerComponent: React.FC<InputControllerComponentProps> = ({
+export default function InputControllerComponent({
   control,
   title,
   name,
   placeholder,
   shouldValidate = true,
-}) => {
+}: InputControllerComponentProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const [message, setMessage] = useState<string>('');
@@ -202,6 +202,4 @@ const InputControllerComponent: React.FC<InputControllerComponentProps> = ({
       />
     </>
   );
-};
-
-export default InputControllerComponent;
+}

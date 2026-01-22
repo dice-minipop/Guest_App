@@ -7,7 +7,7 @@ interface AgeRangeProps {
   handleValue: (e: string) => void;
 }
 
-const AgeRange: React.FC<AgeRangeProps> = ({ value, handleValue }) => {
+export default function AgeRange({ value, handleValue }: AgeRangeProps) {
   return (
     <View className="gap-y-[12px]">
       <Text className="SUB2 text-black">브랜드 타겟 연령대</Text>
@@ -28,6 +28,4 @@ const AgeRange: React.FC<AgeRangeProps> = ({ value, handleValue }) => {
       </View>
     </View>
   );
-};
-
-export default AgeRange;
+}

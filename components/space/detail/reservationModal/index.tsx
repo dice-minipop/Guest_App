@@ -16,11 +16,11 @@ interface ReservationModalComponentProps {
   onRoute: any;
 }
 
-const ReservationModalComponent: React.FC<ReservationModalComponentProps> = ({
+export default function ReservationModalComponent({
   spaceId,
   bottomSheetRef,
   onRoute,
-}) => {
+}: ReservationModalComponentProps) {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 
@@ -149,6 +149,4 @@ const ReservationModalComponent: React.FC<ReservationModalComponentProps> = ({
       </BottomSheetView>
     </BottomSheet>
   );
-};
-
-export default ReservationModalComponent;
+}

@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 
 import ChatIcon from '@/assets/icons/chat/chat.svg';
 
-const ChatListHeaderComponent: React.FC = () => {
+export default function ChatListHeaderComponent() {
   return (
     <View className="bg-white flex flex-col gap-y-[24px] pt-[32px] pb-[24px]">
       <View className="flex flex-row items-center gap-x-[8px] px-[20px]">
@@ -13,6 +13,4 @@ const ChatListHeaderComponent: React.FC = () => {
       <View className="bg-stroke h-[1px]" />
     </View>
   );
-};
-
-export default ChatListHeaderComponent;
+}

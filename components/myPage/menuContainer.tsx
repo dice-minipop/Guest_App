@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { useLogout } from '@/hooks/auth/auth';
 
-const MenuContainer: React.FC = () => {
+export default function MenuContainer() {
   const router = useRouter();
 
   const { mutateAsync: logout } = useLogout();
@@ -48,6 +48,4 @@ const MenuContainer: React.FC = () => {
       </Pressable>
     </View>
   );
-};
-
-export default MenuContainer;
+}

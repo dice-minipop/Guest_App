@@ -10,7 +10,7 @@ interface CarouselItemComponentProps {
   };
 }
 
-const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) => {
+export default function CarouselItemComponent({ item }: CarouselItemComponentProps) {
   const screenWidth = Dimensions.get('screen').width;
   const calculatedHeight = (screenWidth * 378) / 375;
 
@@ -38,6 +38,4 @@ const CarouselItemComponent: React.FC<CarouselItemComponentProps> = ({ item }) =
       </View>
     </View>
   );
-};
-
-export default CarouselItemComponent;
+}

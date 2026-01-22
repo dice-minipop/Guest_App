@@ -15,14 +15,14 @@ interface CustomPressableComponentProps {
   arrow?: 'DOWN' | 'UP';
 }
 
-const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
+export default function CustomPressableComponent({
   buttonText,
   onPress,
   disabled,
   color = 'BLACK',
   icon,
   arrow,
-}) => {
+}: CustomPressableComponentProps) {
   const [isPressed, setIsPressed] = useState<boolean>(false);
 
   const buttonColorStyles = {
@@ -85,6 +85,4 @@ const CustomPressableComponent: React.FC<CustomPressableComponentProps> = ({
       </View>
     </Pressable>
   );
-};
-
-export default CustomPressableComponent;
+}

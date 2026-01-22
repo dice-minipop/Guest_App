@@ -9,11 +9,11 @@ interface StatusFilteringComponentProps {
   handleValue: (item: string) => void;
 }
 
-const StatusFilteringComponent: React.FC<StatusFilteringComponentProps> = ({
+export default function StatusFilteringComponent({
   items,
   value,
   handleValue,
-}) => {
+}: StatusFilteringComponentProps) {
   return (
     <View className="px-[20px] gap-y-[24px]">
       <Text className="CAP1 text-dark_gray">모집상태</Text>
@@ -32,6 +32,4 @@ const StatusFilteringComponent: React.FC<StatusFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default StatusFilteringComponent;
+}

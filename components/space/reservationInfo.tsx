@@ -7,7 +7,7 @@ interface ReservationInfoComponentProps {
   data: ReservationData;
 }
 
-const ReservationInfoComponent: React.FC<ReservationInfoComponentProps> = ({ data }) => {
+export default function ReservationInfoComponent({ data }: ReservationInfoComponentProps) {
   return (
     <View className="mt-[120px] flex flex-col px-[20px] gap-y-[48px]">
       <View className="flex flex-col items-center gap-y-[40px]">
@@ -40,6 +40,4 @@ const ReservationInfoComponent: React.FC<ReservationInfoComponentProps> = ({ dat
       </View>
     </View>
   );
-};
-
-export default ReservationInfoComponent;
+}

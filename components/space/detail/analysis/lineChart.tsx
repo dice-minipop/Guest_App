@@ -1,7 +1,7 @@
 import { Dimensions, Text, View } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 
-const LineChartComponent: React.FC = () => {
+export default function LineChartComponent() {
   const data = {
     labels: ['', '10대 이하', '20대', '30대', '40대', '50대', '60대'],
     datasets: [
@@ -60,6 +60,4 @@ const LineChartComponent: React.FC = () => {
       </View>
     </View>
   );
-};
-
-export default LineChartComponent;
+}
