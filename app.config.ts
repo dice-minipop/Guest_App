@@ -42,6 +42,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
       NSUserNotificationUsageDescription: '푸시 알림을 통해 중요한 알림을 받을 수 있습니다.',
       NSPhotoLibraryUsageDescription:
         'The app accesses the photo library to upload your profile when you are signing up or updating profile image.',
+      NSUserTrackingUsageDescription: '더 나은 서비스 제공을 위해 사용자 활동을 추적합니다.',
       NSAppTransportSecurity: {
         NSAllowsArbitraryLoads: true,
       },
@@ -71,6 +72,7 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     'expo-router',
+    'expo-tracking-transparency',
     '@react-native-firebase/app',
     '@react-native-firebase/messaging',
     [
@@ -91,7 +93,6 @@ const defineConfig = (_: ConfigContext): ExpoConfig => ({
         },
       },
     ],
-    '@react-native-firebase/analytics',
     [
       'expo-notifications',
       {
