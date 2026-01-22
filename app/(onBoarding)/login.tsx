@@ -63,7 +63,7 @@ export default function Login() {
             </View>
           </View>
 
-          <View className="gap-y-[11px]">
+          <View className="gap-y-[11px] px-[20px]">
             <CustomPressable
               buttonText="로그인"
               onPress={handleSubmit(onSubmit)}

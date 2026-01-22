@@ -1,7 +1,8 @@
 import BottomSheet from '@gorhom/bottom-sheet';
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useRef } from 'react';
-import { Dimensions, ScrollView, View } from 'react-native';
+import { RefObject, useRef } from 'react';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import CoverViewComponent from '@/components/common/coverView';
@@ -14,8 +15,7 @@ import SpaceIntroduceComponent from '@/components/space/detail/introduce';
 import SpaceLocationInfoComponent from '@/components/space/detail/locationInfo';
 import SpaceNoticeComponent from '@/components/space/detail/notice';
 import ReservationModalComponent from '@/components/space/detail/reservationModal';
-import { spaceDetailDummyData } from '@/constants/dummyData/spaceDetail';
-// import { useGetSpaceDetailData } from '@/hooks/space/space';
+import { useGetSpaceDetailData } from '@/hooks/space/space';
 
 export default function SpaceDetail() {
   const { id } = useLocalSearchParams();
@@ -24,9 +24,7 @@ export default function SpaceDetail() {
 
   const { top } = useSafeAreaInsets();
 
-  // TODO : 서버 데이터로 변경
-  // const { data } = useGetSpaceDetailData(Number(id));
-  const data = spaceDetailDummyData;
+  const { data } = useGetSpaceDetailData(Number(id));
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -43,17 +41,17 @@ export default function SpaceDetail() {
         <SpaceIntroduceComponent data={data} />
         <View className="h-[8px] bg-back_gray my-[24px]" />
         <SpaceFacilityInfoComponent data={data} />
-        {/* <View className="h-[8px] bg-back_gray my-[24px]" /> */}
-        {/* <SpaceLocationInfoComponent data={data} /> */}
+        <View className="h-[8px] bg-back_gray my-[24px]" />
+        <SpaceLocationInfoComponent data={data} />
         <View className="h-[8px] bg-back_gray my-[24px]" />
         <SpaceNoticeComponent data={data} />
       </ScrollView>
 
-      <BottomButtonContainer bottomSheetRef={bottomSheetRef} />
+      <BottomButtonContainer bottomSheetRef={bottomSheetRef as RefObject<BottomSheetMethods>} />
 
       <ReservationModalComponent
         spaceId={Number(id)}
-        bottomSheetRef={bottomSheetRef}
+        bottomSheetRef={bottomSheetRef as RefObject<BottomSheetMethods>}
         onRoute={() => router.push('/space/1/complete')}
       />
     </View>
