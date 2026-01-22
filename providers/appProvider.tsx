@@ -59,7 +59,7 @@ SplashScreen.setOptions({
   fade: false,
 });
 
-export const AppProvider: React.FC<AppProvidersProps> = ({ children }) => {
+export default function AppProvider({ children }: AppProvidersProps) {
   const [fontsLoaded] = useFonts({
     'Pretendard-Bold': require('../assets/fonts/Pretendard-Bold.otf'),
     'Pretendard-SemiBold': require('../assets/fonts/Pretendard-SemiBold.otf'),
@@ -107,4 +107,4 @@ export const AppProvider: React.FC<AppProvidersProps> = ({ children }) => {
       </SafeAreaProvider>
     </Host>
   );
-};
+}
