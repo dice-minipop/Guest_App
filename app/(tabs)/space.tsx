@@ -6,19 +6,20 @@ import SpaceItemComponent from '@/components/common/spaceItem';
 import FilteringContainer from '@/components/space/filteringContainer';
 import HeaderComponent from '@/components/space/header';
 import TopNavigationComponent from '@/components/tabs/topNavigation';
-import { SpacedummyData } from '@/constants/dummyData/spaceList';
 import { useGetFilteredSpaceLists } from '@/hooks/space/space';
+import { useSpaceFilterStore } from '@/zustands/filter/space';
 
 export default function Space() {
-  // const { data, fetchNextPage, hasNextPage, refetch } = useGetFilteredSpaceLists(filtering);
-  const data = SpacedummyData;
+  const filtering = useSpaceFilterStore((state) => state.spaceFilter);
+  const { data, fetchNextPage, hasNextPage, refetch } = useGetFilteredSpaceLists(filtering);
+  // const data = SpacedummyData;
 
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const [selectedFilter, setSelectedFilter] = useState<string>('');
 
   const onRefresh = useCallback(() => {
-    // refetch();
+    refetch();
     setTimeout(() => {
       setRefreshing(false);
     }, 1500);
@@ -41,8 +42,8 @@ export default function Space() {
             titleColor={'#FFFFFF'}
           />
         }
-        // sections={[{ title: 'CHIP', data: data.pages.flatMap((page) => page.content) }]}
-        sections={[{ title: 'CHIP', data: data }]}
+        sections={[{ title: 'CHIP', data: data.pages.flatMap((page) => page.content) }]}
+        // sections={[{ title: 'CHIP', data: data }]}
         ListHeaderComponent={<HeaderComponent />}
         renderSectionHeader={({ section }) =>
           section.title === 'CHIP' ? (
@@ -56,11 +57,11 @@ export default function Space() {
         renderItem={({ item }) => <SpaceItemComponent key={item.id} data={item} />}
         ItemSeparatorComponent={() => <View className="h-[16px]" />}
         onEndReachedThreshold={0.5}
-        // onEndReached={() => {
-        //   if (hasNextPage) {
-        //     fetchNextPage();
-        //   }
-        // }}
+        onEndReached={() => {
+          if (hasNextPage) {
+            fetchNextPage();
+          }
+        }}
       />
     </View>
   );

@@ -51,12 +51,12 @@ interface CalendarListComponentProps {
   }[];
 }
 
-const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
+export default function CalendarListComponent({
   startDate,
   endDate,
   handleDate,
   impossibleDateLists,
-}) => {
+}: CalendarListComponentProps) {
   const today = dayjs().format('YYYY-MM-DD');
 
   return (
@@ -71,15 +71,16 @@ const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
         const isPast = dayjs(dateString).isBefore(today, 'day');
         const isStartDate = dateString === startDate;
         const isEndDate = dateString === endDate;
-        const isInPeriod = dateString > startDate && dateString < endDate;
+        const isInPeriod = dateString && dateString > startDate && dateString < endDate;
 
         const isImpossibleDate = impossibleDateLists.some(
-          ({ startDate, endDate }) => dateString >= startDate && dateString <= endDate,
+          ({ startDate, endDate }) =>
+            dateString && dateString >= startDate && dateString <= endDate,
         );
 
         return (
           <Pressable
-            onPress={() => handleDate(date)}
+            onPress={() => handleDate(date as DateData)}
             className={`relative h-12 w-full flex items-center justify-center ${isPast ? 'opacity-40' : ''} ${isInPeriod && 'bg-back_gray'}`}
             disabled={isPast}
           >
@@ -118,6 +119,4 @@ const CalendarListComponent: React.FC<CalendarListComponentProps> = ({
       }}
     />
   );
-};
-
-export default CalendarListComponent;
+}

@@ -5,7 +5,7 @@ interface CoverViewComponentProps {
   top: number;
 }
 
-const CoverViewComponent: React.FC<CoverViewComponentProps> = ({ height, top }) => {
+export default function CoverViewComponent({ height, top }: CoverViewComponentProps) {
   return (
     <View
       style={{
@@ -19,6 +19,4 @@ const CoverViewComponent: React.FC<CoverViewComponentProps> = ({ height, top }) 
       }}
     />
   );
-};
-
-export default CoverViewComponent;
+}

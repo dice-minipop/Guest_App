@@ -41,7 +41,7 @@ export const saveFcmTokenAfterAuth = async () => {
       return;
     }
 
-    await saveFCMToken({ fcmToken: fcmToken });
+    await saveFCMToken({ fcmToken });
     console.log('✅ FCM 토큰 서버 저장 완료');
   } catch (error) {
     console.error('❌ FCM 토큰 서버 저장 실패:', error);
@@ -166,6 +166,7 @@ export const useLogout = () => {
 
 // 이메일 로그인
 export const useLogin = (isGuestMode: boolean) => {
+  const router = useRouter();
   const { setIsLoggedIn } = useAuthStore();
 
   return useMutation({
@@ -183,6 +184,7 @@ export const useLogin = (isGuestMode: boolean) => {
         await saveFcmTokenAfterAuth();
         setIsLoggedIn();
         console.log('✅ 로그인 완료');
+        router.replace('/(tabs)/space');
       }
     },
     onError: (error: any) => {

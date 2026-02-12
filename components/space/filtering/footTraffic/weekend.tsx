@@ -9,7 +9,7 @@ interface WeekendProps {
   handleValue: (e: string) => void;
 }
 
-const Weekend: React.FC<WeekendProps> = ({ value, handleValue }) => {
+export default function Weekend({ value, handleValue }: WeekendProps) {
   return (
     <View className="gap-y-[12px]">
       <Text className="SUB2 text-black">유동인구가 많은 요일</Text>
@@ -31,6 +31,4 @@ const Weekend: React.FC<WeekendProps> = ({ value, handleValue }) => {
       </View>
     </View>
   );
-};
-
-export default Weekend;
+}

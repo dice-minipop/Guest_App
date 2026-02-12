@@ -1,3 +1,3 @@
 export interface SaveFCMTokenRequest {
-  token: string;
+  fcmToken: string;
 }

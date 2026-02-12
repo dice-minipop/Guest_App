@@ -13,7 +13,7 @@ export default function Home() {
     <SafeAreaView className="flex-1 bg-white relative">
       <CarouselComponent />
 
-      <View className="pb-[20px] pt-[16px] absolute bottom-[40px] w-full z-10">
+      <View className="pb-[20px] pt-[16px] absolute bottom-[40px] w-full z-10 px-[20px]">
         <CustomPressable
           buttonText="다이스 아이디로 로그인"
           onPress={() => router.push('/(onBoarding)/login')}

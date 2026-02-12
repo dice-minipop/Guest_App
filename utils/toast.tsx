@@ -1,13 +1,13 @@
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 
-const ToastContainer = ({ children }: { children: React.ReactNode }) => {
+function ToastContainer({ children }: { children: React.ReactNode }) {
   return (
     <View className="mx-[20px] mb-[20px] flex flex-row items-center justify-start rounded-xl bg-black px-[20px] py-[16px] z-50">
       {children}
     </View>
   );
-};
+}
 
 export const showToast = (success: boolean, text1: string) => {
   Toast.show({

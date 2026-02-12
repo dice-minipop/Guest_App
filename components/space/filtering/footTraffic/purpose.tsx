@@ -7,7 +7,7 @@ interface PurposeProps {
   handleValue: (e: string) => void;
 }
 
-const Purpose: React.FC<PurposeProps> = ({ value, handleValue }) => {
+export default function Purpose({ value, handleValue }: PurposeProps) {
   return (
     <View className="gap-y-[12px]">
       <Text className="SUB2 text-black">인기 방문 목적</Text>
@@ -28,6 +28,4 @@ const Purpose: React.FC<PurposeProps> = ({ value, handleValue }) => {
       </View>
     </View>
   );
-};
-
-export default Purpose;
+}

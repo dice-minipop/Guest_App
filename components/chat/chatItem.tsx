@@ -6,7 +6,7 @@ interface ChatItemComponentProps {
   data: ChatRoomDetailItem;
 }
 
-const ChatItemComponent: React.FC<ChatItemComponentProps> = ({ data }) => {
+export default function ChatItemComponent({ data }: ChatItemComponentProps) {
   if (data.type === 'NOTICE') {
     return (
       <View className="bg-white mt-[24px] rounded-lg p-[16px] mx-[20px]">
@@ -29,6 +29,4 @@ const ChatItemComponent: React.FC<ChatItemComponentProps> = ({ data }) => {
       </View>
     );
   }
-};
-
-export default ChatItemComponent;
+}

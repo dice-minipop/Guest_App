@@ -26,7 +26,7 @@ interface FilteringContainerProps {
   items: string[];
 }
 
-const FilteringContainer: React.FC<FilteringContainerProps> = ({ items }) => {
+export default function FilteringContainer({ items }: FilteringContainerProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const { announcementFilter, clearAnnouncementFilter } = useAnnouncementFilterStore();
@@ -216,6 +216,4 @@ const FilteringContainer: React.FC<FilteringContainerProps> = ({ items }) => {
       </Portal>
     </View>
   );
-};
-
-export default FilteringContainer;
+}

@@ -11,7 +11,7 @@ interface ReservationItemComponentProps {
   data: ReservationItem;
 }
 
-const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ type, data }) => {
+export default function ReservationItemComponent({ type, data }: ReservationItemComponentProps) {
   const { mutateAsync: cancelReservation } = useCancelReservation(type);
 
   const handleCancel = () => {
@@ -103,6 +103,4 @@ const ReservationItemComponent: React.FC<ReservationItemComponentProps> = ({ typ
       </View>
     </Pressable>
   );
-};
-
-export default ReservationItemComponent;
+}

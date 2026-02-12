@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
-import { Pressable, Text, TouchableWithoutFeedback } from 'react-native';
+import { Pressable, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -75,7 +75,9 @@ export default function Register() {
         </KeyboardAwareScrollView>
       </TouchableWithoutFeedback>
 
-      <CustomPressable buttonText="회원가입" onPress={handleSubmit(onSubmit)} disabled={false} />
+      <View className="px-[20px]">
+        <CustomPressable buttonText="회원가입" onPress={handleSubmit(onSubmit)} disabled={false} />
+      </View>
     </SafeAreaView>
   );
 }

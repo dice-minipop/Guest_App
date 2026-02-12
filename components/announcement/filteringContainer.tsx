@@ -1,5 +1,6 @@
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { useRef, useState } from 'react';
+import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types';
+import { RefObject, useRef, useState } from 'react';
 import { Dimensions, Pressable, ScrollView, View } from 'react-native';
 
 import { statusItems, targetsItems } from '@/constants/filtering';
@@ -18,11 +19,11 @@ interface FilteringContainerProps {
   handleFilter: (e: string) => void;
 }
 
-const FilteringContainer: React.FC<FilteringContainerProps> = ({
+export default function FilteringContainer({
   items,
   selectedFilter,
   handleFilter,
-}) => {
+}: FilteringContainerProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const [filter, setFilter] = useState<AnnouncementFiltering>({
@@ -111,7 +112,7 @@ const FilteringContainer: React.FC<FilteringContainerProps> = ({
       </ScrollView>
 
       <FilteringBottomSheetComponent
-        bottomSheetRef={bottomSheetRef}
+        bottomSheetRef={bottomSheetRef as RefObject<BottomSheetMethods>}
         items={items}
         selectedFilter={selectedFilter}
         handleFilter={handleFilter}
@@ -165,6 +166,4 @@ const FilteringContainer: React.FC<FilteringContainerProps> = ({
       </FilteringBottomSheetComponent>
     </View>
   );
-};
-
-export default FilteringContainer;
+}

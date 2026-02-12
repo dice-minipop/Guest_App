@@ -9,7 +9,7 @@ interface BrandInfoComponentProps {
   data: BrandInfo[];
 }
 
-const BrandInfoComponent: React.FC<BrandInfoComponentProps> = ({ data }) => {
+export default function BrandInfoComponent({ data }: BrandInfoComponentProps) {
   const router = useRouter();
 
   return (
@@ -55,6 +55,4 @@ const BrandInfoComponent: React.FC<BrandInfoComponentProps> = ({ data }) => {
       />
     </Pressable>
   );
-};
-
-export default BrandInfoComponent;
+}

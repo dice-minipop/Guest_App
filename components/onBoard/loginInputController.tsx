@@ -12,11 +12,11 @@ interface LoginInputControllerComponentProps {
   placeholder: string;
 }
 
-const LoginInputControllerComponent: React.FC<LoginInputControllerComponentProps> = ({
+export default function LoginInputControllerComponent({
   control,
   name,
   placeholder,
-}) => {
+}: LoginInputControllerComponentProps) {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
@@ -64,6 +64,4 @@ const LoginInputControllerComponent: React.FC<LoginInputControllerComponentProps
       name={name}
     />
   );
-};
-
-export default LoginInputControllerComponent;
+}

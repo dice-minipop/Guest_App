@@ -9,11 +9,11 @@ interface PriceFilteringComponentProps {
   handlePriceRange: (range: [number, number]) => void;
 }
 
-const PriceFilteringComponent: React.FC<PriceFilteringComponentProps> = ({
+export default function PriceFilteringComponent({
   minPrice,
   maxPrice,
   handlePriceRange,
-}) => {
+}: PriceFilteringComponentProps) {
   const priceText = (price: number) => (price === 0 ? 0 : price / 10000);
 
   return (
@@ -52,6 +52,4 @@ const PriceFilteringComponent: React.FC<PriceFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default PriceFilteringComponent;
+}

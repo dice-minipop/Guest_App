@@ -9,7 +9,7 @@ interface GenderProps {
   handleValue: (e: string) => void;
 }
 
-const Gender: React.FC<GenderProps> = ({ value, handleValue }) => {
+export default function Gender({ value, handleValue }: GenderProps) {
   return (
     <View className="gap-y-[12px]">
       <Text className="SUB2 text-black">브랜드 타겟 성별</Text>
@@ -31,6 +31,4 @@ const Gender: React.FC<GenderProps> = ({ value, handleValue }) => {
       </View>
     </View>
   );
-};
-
-export default Gender;
+}

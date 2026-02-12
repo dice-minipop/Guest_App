@@ -12,7 +12,7 @@ interface AnnouncementItemComponentProps {
   data: AnnouncementItem;
 }
 
-const AnnouncementItemComponent: React.FC<AnnouncementItemComponentProps> = ({ data }) => {
+export default function AnnouncementItemComponent({ data }: AnnouncementItemComponentProps) {
   const router = useRouter();
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
@@ -68,6 +68,4 @@ const AnnouncementItemComponent: React.FC<AnnouncementItemComponentProps> = ({ d
       </Pressable>
     </Fragment>
   );
-};
-
-export default AnnouncementItemComponent;
+}

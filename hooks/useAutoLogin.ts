@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import { saveFcmTokenAfterAuth } from '@/hooks/auth/auth';
@@ -6,6 +7,7 @@ import { deleteToken, getRefreshToken, setAccessToken, setRefreshToken } from '@
 import { useAuthStore } from '@/zustands/auth/auth';
 
 export const useAutoLogin = () => {
+  const router = useRouter();
   const { setIsLoggedIn } = useAuthStore();
 
   const [loading, setLoading] = useState(true);
@@ -31,6 +33,7 @@ export const useAutoLogin = () => {
         await saveFcmTokenAfterAuth();
         setIsLoggedIn();
         console.log('✅ 자동 로그인 완료');
+        router.replace('/(tabs)/space');
       } catch (error) {
         console.error('❌ 자동 로그인 실패:', error);
         await deleteToken();
@@ -40,7 +43,7 @@ export const useAutoLogin = () => {
     };
 
     checkLoggedIn();
-  }, [setIsLoggedIn]);
+  }, [setIsLoggedIn, router]);
 
   return { loading };
 };

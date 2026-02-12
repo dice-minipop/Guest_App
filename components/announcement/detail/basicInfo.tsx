@@ -7,7 +7,7 @@ import LikeIcon from '@/assets/icons/like.svg';
 import { AnnouncementDetailComponentProps } from '@/types/announcement';
 import { formatDate } from '@/utils/dateUtils';
 
-const AnnouncementBasicInfoComponent: React.FC<AnnouncementDetailComponentProps> = ({ data }) => {
+export default function AnnouncementBasicInfoComponent({ data }: AnnouncementDetailComponentProps) {
   return (
     <View className="pl-[20px] pt-[26px]">
       <View className="flex flex-col gap-y-[24px]">
@@ -71,6 +71,4 @@ const AnnouncementBasicInfoComponent: React.FC<AnnouncementDetailComponentProps>
       </View>
     </View>
   );
-};
-
-export default AnnouncementBasicInfoComponent;
+}

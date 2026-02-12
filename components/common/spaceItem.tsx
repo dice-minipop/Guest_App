@@ -12,7 +12,7 @@ interface SpaceItemComponentProps {
   data: SpaceItem;
 }
 
-const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
+export default function SpaceItemComponent({ data }: SpaceItemComponentProps) {
   const router = useRouter();
 
   const [isPressed, setIsPressed] = useState<boolean>(false);
@@ -74,6 +74,4 @@ const SpaceItemComponent: React.FC<SpaceItemComponentProps> = ({ data }) => {
       </View>
     </Pressable>
   );
-};
-
-export default SpaceItemComponent;
+}

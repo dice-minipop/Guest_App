@@ -8,7 +8,7 @@ interface RegionFilteringProps {
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
-const RegionFiltering: React.FC<RegionFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function RegionFiltering({ viewRef, handleLayout }: RegionFilteringProps) {
   const { announcementFilter, setAnnouncementFilter } = useAnnouncementFilterStore();
 
   const handleCity = (city: string) => {
@@ -101,6 +101,4 @@ const RegionFiltering: React.FC<RegionFilteringProps> = ({ viewRef, handleLayout
       )}
     </View>
   );
-};
-
-export default RegionFiltering;
+}

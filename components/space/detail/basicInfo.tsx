@@ -10,7 +10,7 @@ import { useKakaoSubway } from '@/hooks/useKakaoSubway';
 import { SpaceDetailComponentProps } from '@/types/space';
 import getSubwayColor from '@/utils/subwayColor';
 
-const SpaceBasicInfoComponent: React.FC<SpaceDetailComponentProps> = ({ data }) => {
+export default function SpaceBasicInfoComponent({ data }: SpaceDetailComponentProps) {
   const router = useRouter();
 
   // const { data: SubwayData } = useKakaoSubway(data.latitude, data.longitude);
@@ -102,7 +102,7 @@ const SpaceBasicInfoComponent: React.FC<SpaceDetailComponentProps> = ({ data }) 
           <View className="flex flex-row items-start gap-x-[20px]">
             <Text className="CAP1 text-deep_gray">공간 크기</Text>
             <Text className="CAP1 text-deep_gray">
-              {data.capacity}㎡ ({data.capacity * 0.3025}평)
+              {data.size}㎡ ({data.size * 0.3025}평)
             </Text>
           </View>
         </View>
@@ -121,6 +121,4 @@ const SpaceBasicInfoComponent: React.FC<SpaceDetailComponentProps> = ({ data }) 
       </View>
     </View>
   );
-};
-
-export default SpaceBasicInfoComponent;
+}

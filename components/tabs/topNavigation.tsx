@@ -11,7 +11,7 @@ interface TopNavigationComponentProps {
   title: string;
 }
 
-const TopNavigationComponent: React.FC<TopNavigationComponentProps> = ({ title }) => {
+export default function TopNavigationComponent({ title }: TopNavigationComponentProps) {
   const router = useRouter();
 
   const { top } = useSafeAreaInsets();
@@ -40,6 +40,4 @@ const TopNavigationComponent: React.FC<TopNavigationComponentProps> = ({ title }
       </View>
     </View>
   );
-};
-
-export default TopNavigationComponent;
+}

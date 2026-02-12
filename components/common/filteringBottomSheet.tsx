@@ -15,7 +15,7 @@ interface FilteringBottomSheetComponentProps {
   handleResult: () => void;
 }
 
-const FilteringBottomSheetComponent: React.FC<FilteringBottomSheetComponentProps> = ({
+export default function FilteringBottomSheetComponent({
   bottomSheetRef,
   items,
   selectedFilter,
@@ -23,7 +23,7 @@ const FilteringBottomSheetComponent: React.FC<FilteringBottomSheetComponentProps
   children,
   clearFilter,
   handleResult,
-}) => {
+}: FilteringBottomSheetComponentProps) {
   return (
     <Portal>
       <BottomSheet
@@ -79,6 +79,4 @@ const FilteringBottomSheetComponent: React.FC<FilteringBottomSheetComponentProps
       </BottomSheet>
     </Portal>
   );
-};
-
-export default FilteringBottomSheetComponent;
+}

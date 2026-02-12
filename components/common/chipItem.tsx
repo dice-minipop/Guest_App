@@ -7,7 +7,7 @@ interface ChipItemComponentProps {
   isActive?: boolean;
 }
 
-const ChipItemComponent: React.FC<ChipItemComponentProps> = ({ label, isActive }) => {
+export default function ChipItemComponent({ label, isActive }: ChipItemComponentProps) {
   return (
     <View
       className={`flex flex-row items-center gap-x-[2px] pl-[12px] py-[5.5px] pr-[8px] border border-stroke rounded-full ${isActive ? 'bg-black' : 'bg-back_gray'}`}
@@ -16,6 +16,4 @@ const ChipItemComponent: React.FC<ChipItemComponentProps> = ({ label, isActive }
       <SmallGrayDownArrowIcon />
     </View>
   );
-};
-
-export default ChipItemComponent;
+}

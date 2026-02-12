@@ -9,11 +9,11 @@ interface TargetsFilteringComponentProps {
   handleValue: (item: string) => void;
 }
 
-const TargetsFilteringComponent: React.FC<TargetsFilteringComponentProps> = ({
+export default function TargetsFilteringComponent({
   items,
   value,
   handleValue,
-}) => {
+}: TargetsFilteringComponentProps) {
   return (
     <View className="px-[20px] gap-y-[24px]">
       <Text className="CAP1 text-dark_gray">지원대상</Text>
@@ -34,6 +34,4 @@ const TargetsFilteringComponent: React.FC<TargetsFilteringComponentProps> = ({
       </View>
     </View>
   );
-};
-
-export default TargetsFilteringComponent;
+}

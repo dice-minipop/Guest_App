@@ -8,7 +8,7 @@ import MarkerIcon from '@/assets/icons/spaceDetail/marker.svg';
 import { SpaceDetailComponentProps } from '@/types/space';
 import { generateHtmlContent } from '@/utils/mapWebView';
 
-const SpaceLocationInfoComponent: React.FC<SpaceDetailComponentProps> = ({ data }) => {
+export default function SpaceLocationInfoComponent({ data }: SpaceDetailComponentProps) {
   const router = useRouter();
 
   const smallMapRef = useRef<WebView>(null);
@@ -53,6 +53,4 @@ const SpaceLocationInfoComponent: React.FC<SpaceDetailComponentProps> = ({ data 
       </View>
     </View>
   );
-};
-
-export default SpaceLocationInfoComponent;
+}

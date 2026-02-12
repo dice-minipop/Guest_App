@@ -9,7 +9,7 @@ interface SpaceBadgeProps {
   badgeString: string;
 }
 
-const SpaceBadge: React.FC<SpaceBadgeProps> = ({ badgeString }) => {
+export default function SpaceBadge({ badgeString }: SpaceBadgeProps) {
   const colors = badgeColorMap[badgeString] ?? {
     bg: '',
     text: 'text-white',
@@ -24,6 +24,4 @@ const SpaceBadge: React.FC<SpaceBadgeProps> = ({ badgeString }) => {
       <Text className={`CAP2 ${colors.text}`}>{badgeString}</Text>
     </View>
   );
-};
-
-export default SpaceBadge;
+}

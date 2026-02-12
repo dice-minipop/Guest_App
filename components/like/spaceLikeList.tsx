@@ -40,7 +40,7 @@ export default function SpaceLikeList() {
   );
 }
 
-const SpaceSkeletonItem = () => {
+function SpaceSkeletonItem() {
   return (
     <View className="border border-stroke rounded-lg mx-[20px] bg-white">
       <ContentLoader
@@ -80,4 +80,4 @@ const SpaceSkeletonItem = () => {
       </ContentLoader>
     </View>
   );
-};
+}

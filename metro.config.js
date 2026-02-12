@@ -5,6 +5,9 @@ const { withNativeWind } = require('nativewind/metro');
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
 
+// ES Module 해결 비활성화 (Firebase 패키지 호환성 문제 해결)
+config.resolver.unstable_enablePackageExports = false;
+
 // SVG transformer 설정
 config.transformer.babelTransformerPath = require.resolve('react-native-svg-transformer/expo');
 

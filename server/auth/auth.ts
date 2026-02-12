@@ -64,7 +64,7 @@ export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
 
 // 토큰 재발급
 export const reissueToken = async (data: ReissueTokenRequest): Promise<ReissueTokenResponse> => {
-  const response = await PostAxiosInstance<ReissueTokenResponse>(`/auth/reissue`, data);
+  const response = await PostAxiosInstance<ReissueTokenResponse>(`/v1/auth/reissue`, data);
 
   return response.data;
 };
@@ -88,14 +88,14 @@ export const resetPassword = async (data: ResetPasswordRequest): Promise<ResetPa
 
 // 로그아웃
 export const logout = async () => {
-  const response = await PostAxiosInstance(`/auth/logout`);
+  const response = await PostAxiosInstance(`/v1/auth/logout`);
 
   return response.data;
 };
 
 // 이메일 로그인
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await GuestPostAxiosInstance<LoginResponse>(`/auth/login`, data);
+  const response = await GuestPostAxiosInstance<LoginResponse>(`/v1/auth/login`, data);
 
   return response.data;
 };

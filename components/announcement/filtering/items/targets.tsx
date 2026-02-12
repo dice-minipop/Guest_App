@@ -8,7 +8,7 @@ interface TargetsFilteringProps {
   handleLayout: (event: LayoutChangeEvent, index: number) => void;
 }
 
-const TargetsFiltering: React.FC<TargetsFilteringProps> = ({ viewRef, handleLayout }) => {
+export default function TargetsFiltering({ viewRef, handleLayout }: TargetsFilteringProps) {
   const { announcementFilter, setAnnouncementFilter } = useAnnouncementFilterStore();
 
   const toggleValue = <T, K extends keyof typeof announcementFilter>(key: K, value: T) => {
@@ -48,6 +48,4 @@ const TargetsFiltering: React.FC<TargetsFilteringProps> = ({ viewRef, handleLayo
       </View>
     </View>
   );
-};
-
-export default TargetsFiltering;
+}
